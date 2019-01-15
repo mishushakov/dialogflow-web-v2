@@ -30,8 +30,8 @@
                             <Card :title="component.content.title" :subtitle="component.content.subtitle" :image="component.content.image" :text="component.content.formattedText" :button="component.content.buttons[0]" v-if="component.name == 'CARD'" />
                             
                             <!-- Carousel layout and cards -->
-                            <div class="carousel">
-                                <Card v-for="card in component.content" @click.native="send(card.info.key)" :key="card.info.key" v-if="component.name == 'CAROUSEL_CARD'" :title="card.title" :image="card.image" :subtitle="card.subtitle" :text="card.description" />
+                            <div class="carousel" v-if="component.name == 'CAROUSEL_CARD'">
+                                <Card v-for="card in component.content" @click.native="send(card.info.key)" :key="card.info.key" :title="card.title" :image="card.image" :subtitle="card.subtitle" :text="card.description" />
                             </div>
 
                             <!-- List -->

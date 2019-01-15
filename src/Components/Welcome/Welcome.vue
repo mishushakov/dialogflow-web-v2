@@ -19,7 +19,7 @@
         </div>
 
         <br>
-        <p class="notice">Sponsored by <a href="https://ushakov.co">Company</a>. Built by <a href="https://ushakov.co">Ushakov</a>. Powered by <a href="https://dialogflow.com">Dialogflow</a></p>
+        <p class="notice">Sponsored by <a href="http://springlabs.net">SpringLabs</a>. Built by <a href="https://ushakov.co">Ushakov</a>. Powered by <a href="https://dialogflow.com">Dialogflow</a></p>
         
         <div class="button" @click="start()">{{config.i18n[sel_lang].startTitle}}</div>
     </div>
