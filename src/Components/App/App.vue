@@ -99,7 +99,7 @@ body
     font-style: normal
     font-weight: 400
     font-display: swap
-    src: url(/assets/fonts/material-icons/material-icons.woff2) format('woff2')
+    src: url(https://fonts.gstatic.com/s/materialicons/v42/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2')
 
 .material-icons
     font-family: 'Material Icons'
