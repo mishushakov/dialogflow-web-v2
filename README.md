@@ -57,7 +57,7 @@ This product is licensed under GNU GPLv3 Public License and it comes dual-licens
 
 **If your project is free and open-source**: You are good to go
 
-**If your project, is proprietary and running on single domain**: You should get a private license. For private license Pay-What-You-Want applies. The recommended amount is 20 EUR 
+**If your project, is proprietary and running on single domain**: You should get a private license. For private license Pay-What-You-Want applies. The minimal amount is 20 EUR. Recommended amount is 100 EUR
 
 **If your project is used for commercial purposes, is proprietary and running on one or more domains**: You should get a commercial license. The costs are calculated individually. As a commercial client, you also get additional benefits:
 
@@ -67,7 +67,7 @@ This product is licensed under GNU GPLv3 Public License and it comes dual-licens
 
 ![](https://www.gatesfoundation.org/philanthropypartners/static/images/gpp_logo.png)
 
-For more information about the licensing options, go to the [homepage](https://i.ushakov.co/dialogflow-web-v2/) and ask more about the licenses. If you are boring, you could also send me a mail to: hello (at) ushakov (dot) co
+For more information about the licensing options and additional wishes, send me a mail to: hello (at) ushakov (dot) co
 
 # Getting started
 
