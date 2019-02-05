@@ -1,6 +1,7 @@
 <template>
     <div class="bottomchat">
         <div class="chat-container">
+
             <!-- Here are the suggestions -->
 
             <div class="suggestions">
@@ -8,6 +9,7 @@
                 <Suggestion v-if="suggestions.link_suggestion" :title="suggestions.link_suggestion.destinationName" :url="suggestions.link_suggestion.uri" />
             </div>
             <div class="flexible">
+                
                 <!-- Text input -->
 
                 <div class="input-container">

@@ -10,22 +10,22 @@ What is dialogflow by the way?
 
 This is a unofficial Web client for Dialogflow, that was built, to support rich responses and to make the most out of the Platform available to the Web
 
-This development of this project was sponsored by [SpringLabs](http://springlabs.net). Make sure to give some love to them!
+The development of this project was made possible by [me](https://linkedin.com/in/mishushakov). You can hire me or [send me some snacks](https://paypal.me/mishushakov)
 
 ## Features and Benefits
 
 - Progressive Web App (100/100 Lighthouse score)
-- Accessibility Feautures
-- Wide Browser Support
+- Accessibility Features
+- Wide Browser Support (IE8+)
 - Onboarding, Branding, UX
 - Hands-free interaction using Voice Input and Voice Feedback
-- Language Indenendent (polyglot). Runs multiple languages at the same time
+- Language Independent (polyglot). Runs multiple languages at the same time
 - Rich-component and Webhook Support (for the list of supported components see [Dialogflow Gateway docs](https://github.com/MishUshakov/dialogflow-gateway))
 - Based on Vue, Webpack 4, Babel 7
-- Integrated Component API (means, you can build the UI from different sources, not only Dialogflow)
-- Lightweight (the build without polyfills and fonts is around 100 KB)
-- Free and Well-documented
-- Made in Germany (if it makes some sense to you)
+- Integrated Component API (means, you can build the UI from different sources, not only Dialogflow Gateway, but your own APIs)
+- Lightweight (without polyfills and fonts the build shrinks around 100 KB)
+- Free and Documented (documentation coverage at least 60%)
+- Made in Germany (if it makes any sense to you)
 
 For more features and benefits see [this spreadsheet](https://docs.google.com/spreadsheets/d/1Pfpt1JxwlqIxD646p4LVX4okKKVtfvYMBJmPvsUhfgM/edit?usp=sharing)
 
@@ -37,24 +37,35 @@ Dialogflow Web Demo
 
 Dialogflow For Web v1
 
-- The v2 supports Dialogflow V2 API
-- It works on IE8+ now
-- The whole project was written from scratch
-- No more external dependencies
-- The Project's source code is split into Components, which means, that it adds overall complexity to the code, but makes it easier to maintain and make changes
-- Every bug/feature/issue was carefully reviewed by me and anything you have asked for is now implemented
-- Multi-lingual support
-- More components
-- Better documentation coverage
-- Upgraded UI (Material Design 2, fine-tuned)
+- It doesn't work with Dialogflow V2 API
+- It doesn't work on Internet Explorer
+- It was using external dependencies
+- The Project's source code was not split into Components
+- Not every bug/feature/issue you have asked me was implemented
+- It didn't had a language support
+- It doesn't support Messenger responses
+- It doesn't feature great documentation
+- The design is outdated
 
 No more words, [IT'S A DEMO-TIME NOW](http://dialogflow-web-v2.firebaseapp.com)
 
 ## About The License
 
-This product is licensed under GNU GPLv3 Public License.
+This product is licensed under GNU GPLv3 Public License and it comes dual-licensed for private/commercial usage.
 
-Long story short: if your project is free and open-source, you are good to go. If you want to use this repo for private/commercial purposes, you should pay. It's certainly not my responsibility of doing this project for the second year one more time again. It should not have turned out that way. I thought, that Google would make their own implementation, but that didn't happened, so there was only one human being in the world, who knew how to do it right (me). I would go crazy, if we will see Dialogflow V3 API without a nice UI. Google should definetely [hire me]() to let me do the UI well, from a customer perspective. I know what the people want and i also know how to build it.
+### What does it mean?
+
+**If your project is free and open-source**: You are good to go
+
+**If your project, is proprietary and running on single domain**: You should get a private license. For private license Pay-What-You-Want applies. The recommended amount is 20 EUR 
+
+**If your project is used for commercial purposes, is proprietary and running on one or more domains**: You should get a commercial license. The costs are calculated individually. As a commercial client, you also get additional benefits:
+
+- E-Mail support
+- Help and Troubleshooting with Installation
+- Good Karma, because some amount of your payment will be transfered to Gates Philantropy partners (part of Bill & Melinda Gates foundation), which aims globally, to enhance healthcare and reduce extreme poverty, expand educational opportunities and access to information technology
+
+![](https://www.gatesfoundation.org/philanthropypartners/static/images/gpp_logo.png)
 
 For more information about the licensing options, go to the [homepage](http://dialogflow-web-v2.firebaseapp.com) and ask more about the licenses. If you are boring, you could also send me a mail to: hello (at) ushakov (dot) co
 
@@ -128,11 +139,12 @@ Example using yarn
 
 `yarn dev --port 9090`
 
-**PLEASE DO NOT USE THE DEVELOPMENT SERVER FOR SERVING YOUR APP, DEVELOPMENT SERVER IS MEANT FOR THE DEVELOPMENT. INSTEAD PLEASE UPLOAD BUILD ARTIFACTS TO A STATIC WEB-SERVER**
+**PLEASE DO NOT USE THE DEVELOPMENT SERVER FOR SERVING YOUR APP IN PRODUCTION, DEVELOPMENT SERVER IS MEANT FOR THE DEVELOPMENT. INSTEAD PLEASE UPLOAD BUILD ARTIFACTS TO A STATIC WEB-SERVER**
 
 ## Building for production
 
 Your app will be bundled to `dist/build.js`
+
 To build it you can use npm or yarn
 
 Example using npm
@@ -145,7 +157,7 @@ Example using yarn
 
 ## Frequently Asked Questions
 
-- Q: I changed the token and the responses are the same as with previous token
+- Q: I changed the gateway url and the responses are the same as with yours
 - A: Make sure you have **cleaned your cache** and **rebuilt your app**. In Safari go to "Develop" > "Empty Caches". In Chrome: "Developer Tools" > "Application" > "Clear storage" > "Clear site data"
 
-# Have fun using the app!
+# Have fun using the product!

@@ -24,6 +24,6 @@ export default {
             inputTitle: "Введите свое сообщение сюда",
             sendTitle: "Отправить",
             microphoneTitle: "Голосовой ввод"
-        },
+        }
     }
 }

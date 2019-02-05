@@ -41,6 +41,3 @@ jspm_packages
 .firebase
 .firebaserc
 firebase.json
-
-# Build
-dist

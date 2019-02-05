@@ -2,42 +2,55 @@
     <main id="app">
 
         <!-- TopHead is the header with the information about the app -->
+
         <TopHead v-if="app" :app="app"></TopHead>
 
         <section class="container">
 
             <!-- Welcome component is for onboarding experience and language picker -->
+
             <Welcome v-if="messages.length == 0" :app="app" @start="send(config.i18n[lang()].startPhrase)"></Welcome>
 
             <!-- Messages Table -->
+
             <section class="messages" v-if="messages.length > 0">
                 <table v-for="m in messages" class="chat-window">
                     <tr>
+
                         <!-- My message -->
+
                         <td><Bubble :text="m.query" from="me" /></td>
                     </tr>
                     
                     <!-- Component iterator (Dialogflow Gateway Feature) -->
+
                     <tr v-for="component in m.components">
                         <td>
+
                             <!-- Default / Webhook bubble -->
+
                             <Bubble :text="component.content" v-if="component.name == 'DEFAULT'" />
 
                             <!-- Simple Response -->
+
                             <Bubble :text="component.content.displayText || component.content.textToSpeech" v-if="component.name == 'SIMPLE_RESPONSE'" />
                             
                             <!-- Card -->
+
                             <Card :title="component.content.title" :subtitle="component.content.subtitle" :image="component.content.image" :text="component.content.formattedText" :button="component.content.buttons[0]" v-if="component.name == 'CARD'" />
                             
                             <!-- Carousel layout and cards -->
+
                             <div class="carousel" v-if="component.name == 'CAROUSEL_CARD'">
                                 <Card v-for="card in component.content" @click.native="send(card.info.key)" :key="card.info.key" :title="card.title" :image="card.image" :subtitle="card.subtitle" :text="card.description" />
                             </div>
 
                             <!-- List -->
+
                             <List @select="send" :items="component.content.items" :title="component.content.title" v-if="component.name == 'LIST'" />
 
                             <!-- Webhook Image -->
+
                             <Picture v-if="component.name == 'IMAGE'" :image="component.content" />
                         </td>
                     </tr>
@@ -46,12 +59,15 @@
         </section>
 
         <!-- #bottom is the anchor, we need, when new messages arrive, to scroll down -->
+
         <div id="bottom"></div>
 
         <!-- ChatInput is made for submitting queres and displaying suggestions -->
+
         <ChatInput v-if="messages.length > 0" @submit="send" :suggestions="suggestions"></ChatInput>
 
         <!-- Audio toggle (on the top right corner), used to toggle the audio output, default mode is defined in the settings -->
+
         <div :aria-label="config.i18n[lang()].muteTitle" :title="config.i18n[lang()].muteTitle" class="audio-toggle" @click="config.app.muted = !config.app.muted">
             <i aria-hidden="true" class="material-icons" v-if="!config.app.muted">volume_up</i>
             <i aria-hidden="true" class="material-icons" v-else>volume_off</i>
@@ -168,10 +184,11 @@ export default {
             this.messages = JSON.parse(localStorage.getItem('message_history'))
         }
         
-        /* Cache Agent (this will save you money on functions executions) */
+        /* Cache Agent (this will save bandwith) */
         if(localStorage.getItem('agent') !== null){
             this.app = JSON.parse(localStorage.getItem('agent'))
         }
+
         else {
             fetch(this.config.app.gateway)
             .then((response) => {
@@ -194,7 +211,7 @@ export default {
             }
 
             return suggestions // <- the code above is used to extract suggestions from last message, to be able to display it on ChatInput
-        },
+        }
     },
     watch: {
         /* This function is triggered, when new messages arrive */

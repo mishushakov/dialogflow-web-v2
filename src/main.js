@@ -1,11 +1,11 @@
-import '@babel/polyfill'
-import 'whatwg-fetch'
+import '@babel/polyfill' // <- babel Polyfills
+import 'whatwg-fetch' // <- Fetch API Polyfill
 
 import Vue from 'vue'
 import App from './Components/App/App.vue'
 
 import config from './../config'
-//import worker from './registerServiceWorker' // <- register service worker, disable it, when running in development mode
+import worker from './registerServiceWorker' // <- register service worker, disable it, when running in development mode
 
 Vue.prototype.config = config // <- set config to global scope
 Vue.prototype.lang = () => {
