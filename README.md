@@ -47,7 +47,7 @@ Dialogflow For Web v1
 - It doesn't feature great documentation
 - The design is outdated
 
-No more words, [IT'S A DEMO-TIME NOW](http://dialogflow-web-v2.firebaseapp.com)
+No more words, [IT'S A DEMO-TIME NOW](https://i.ushakov.co/dialogflow-web-v2)
 
 ## About The License
 
@@ -67,7 +67,7 @@ This product is licensed under GNU GPLv3 Public License and it comes dual-licens
 
 ![](https://www.gatesfoundation.org/philanthropypartners/static/images/gpp_logo.png)
 
-For more information about the licensing options, go to the [homepage](http://dialogflow-web-v2.firebaseapp.com) and ask more about the licenses. If you are boring, you could also send me a mail to: hello (at) ushakov (dot) co
+For more information about the licensing options, go to the [homepage](https://i.ushakov.co/dialogflow-web-v2/) and ask more about the licenses. If you are boring, you could also send me a mail to: hello (at) ushakov (dot) co
 
 # Getting started
 
