@@ -157,7 +157,6 @@ import List from './../RichComponents/List.vue'
 import Picture from './../RichComponents/Picture.vue'
 
 import * as uuidv1 from 'uuid/v1'
-const session = uuidv1() // <- We need to set our session, to identify a conversation by dialogflow (for context etc.)
 
 export default {
     name: 'app',
@@ -175,6 +174,7 @@ export default {
             app: null,
             messages: [],
             language: '',
+            session: '',
             config: this.config
         }
     },
@@ -183,9 +183,19 @@ export default {
         if(localStorage.getItem('message_history') !== null && this.config.app.history == true){
             this.messages = JSON.parse(localStorage.getItem('message_history'))
         }
+
+        /* Session should be persistent (in case of page reload, the context should stay) */
+        if(localStorage.getItem('session') !== null && this.config.app.history == true){
+            console.log("hellow")
+            this.session = localStorage.getItem('session')
+        }
+        else {
+            this.session = uuidv1()
+            if(this.config.app.history == true) localStorage.setItem('session', this.session)
+        }
         
         /* Cache Agent (this will save bandwith) */
-        if(localStorage.getItem('agent') !== null){
+        if(localStorage.getItem('agent') !== null && this.config.app.history == true){
             this.app = JSON.parse(localStorage.getItem('agent'))
         }
 
@@ -196,7 +206,7 @@ export default {
             })
             .then((agent) => {
                 this.app = agent
-                localStorage.setItem('agent', JSON.stringify(agent))
+                if(this.config.app.history == true) localStorage.setItem('agent', JSON.stringify(agent))
             })
         }
     },
@@ -230,7 +240,7 @@ export default {
         send(q){
             let request = {
                 "q": q,
-                "session_id": session,
+                "session_id": this.session,
                 "lang": this.lang() // <- the request language is being set on the Welcome screen, make sure to inspect that as well.
             } // <- this is how a Dialogflow Gateway request looks like, by the way
 
