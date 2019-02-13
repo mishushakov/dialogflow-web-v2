@@ -186,7 +186,6 @@ export default {
 
         /* Session should be persistent (in case of page reload, the context should stay) */
         if(localStorage.getItem('session') !== null && this.config.app.history == true){
-            console.log("hellow")
             this.session = localStorage.getItem('session')
         }
         else {

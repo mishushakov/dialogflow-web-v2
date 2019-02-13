@@ -115,14 +115,11 @@ export default {
         }
     },
     created(){
-        let recognition
-        if(window.webkitSpeechRecognition){
-            recognition = new webkitSpeechRecognition()
-            recognition.interimResults = true
-            recognition.lang = this.lang()
+        if(window.webkitSpeechRecognition || window.SpeechRecognition){
+            this.recognition = new webkitSpeechRecognition() || new SpeechRecognition()
+            this.recognition.interimResults = true
+            this.recognition.lang = this.lang()
         }
-
-        this.recognition = recognition
     },
     watch: {
         /* This function triggers when user clicks on the microphone button */
@@ -139,9 +136,9 @@ export default {
                 }
                 
                 this.recognition.onend = () => {
-                    self.recognition.stop()
-                    self.micro = false
-                    self.submit(self.query) // <- submit the result
+                    this.recognition.stop()
+                    this.micro = false
+                    this.submit(this.query) // <- submit the result
                 }
             }
 

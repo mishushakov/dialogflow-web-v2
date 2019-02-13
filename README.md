@@ -8,7 +8,7 @@ What is dialogflow by the way?
 
 > Dialogflow lets you build conversational interfaces on top of your products and services by providing a powerful natural language understanding (NLU) engine to process and understand natural language input
 
-This is a unofficial Web client for Dialogflow, that was built, to support rich responses and to make the most out of the Platform available to the Web
+This is a unofficial Web client for Dialogflow, that was built to support rich responses and to make the most out of the Platform available to the Web
 
 The development of this project was made possible by [me](https://linkedin.com/in/mishushakov). You can hire me or [send me some snacks](https://paypal.me/mishushakov)
 
@@ -63,7 +63,7 @@ With the managed plan you get following features:
 - Subscription-Based, cost calculated per usage (monthly Billing)
 - Managed Dialogflow for Web v2 and Dialogflow Gateway Product lifecycle (installation, maintenance and updates) by a professional team, so you can focus on providing great value to your customers, without spending extra time and money for deploying, managing and updating your Web Interface
 - Cloud-Based with 99.95% SLA Uptime
-- One subdomain from us (if you prefer, you can also connect your custom domain), to embed it in iframe, websites etc.
+- One subdomain from us (if you prefer, you can also connect your custom domain) to embed it in iframe, websites etc.
 - As drawback, there is no direct modification allowed  from your side and the software ships as-is, if you want to have your modification applied, you can ask us to do it (at extra cost)
 
 ![](https://www.gatesfoundation.org/philanthropypartners/static/images/gpp_logo.png)
