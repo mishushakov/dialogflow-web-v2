@@ -1,6 +1,6 @@
 {
   "short_name": "Dialogflow",
-  "name": "Dialogflow Progressive Web App",
+  "name": "Dialogflow For Web v2",
   "icons": [
     {
       "src": "assets/manifest_icons/res/mipmap-mdpi/ic_launcher.png",

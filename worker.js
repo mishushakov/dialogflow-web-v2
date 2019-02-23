@@ -1,6 +1,6 @@
 importScripts('/worker-polyfill.js')
 self.addEventListener('install', function(event) {
-    event.waitUntil(caches.open('mue').then(function(cache) {
+    event.waitUntil(caches.open('dialogflow-web-v2').then(function(cache) {
         return cache.addAll([
             '/',
             '/index.html',

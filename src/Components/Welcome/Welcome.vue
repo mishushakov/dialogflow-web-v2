@@ -30,7 +30,7 @@
 
         <br>
 
-        <!-- Notice: Please do not remove -->
+        <!-- Please do not remove my copyright notice, i will sue you for 150.000 EUR in damages. I know who you are, when you clone the repo -->
 
         <p class="notice">Built by <a href="https://ushakov.co">Ushakov</a>. Powered by <a href="https://dialogflow.com">Dialogflow</a></p>
         

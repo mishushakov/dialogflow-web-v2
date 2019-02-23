@@ -20,7 +20,7 @@ The development of this project was made possible by [me](https://linkedin.com/i
 - Onboarding, Branding, UX
 - Hands-free interaction using Voice Input and Voice Feedback
 - Language Independent (polyglot). Runs multiple languages at the same time
-- Rich-component and Webhook Support (for the list of supported components see [Dialogflow Gateway docs](https://github.com/MishUshakov/dialogflow-gateway))
+- Rich-component and Webhook Support (for the list of supported components see [Dialogflow Gateway](https://i.ushakov.co/dialogflow-gateway))
 - Based on Vue, Webpack 4, Babel 7
 - Integrated Component API (means, you can build the UI from different sources, not only Dialogflow Gateway, but your own APIs)
 - Lightweight (without polyfills and fonts the build shrinks down to 100 KB)
@@ -37,46 +37,13 @@ Dialogflow Web Demo
 
 No more words, [IT'S A DEMO-TIME NOW](https://i.ushakov.co/dialogflow-web-v2)
 
-## About The License
-
-This product is licensed under GNU GPLv3 Public License and it comes dual-licensed for private/commercial usage.
-
-### What does it mean?
-
-**If your project is free and open-source**: You are good to go
-
-**If your project, is proprietary and using single agent**: You should get a private license. For private license Pay-What-You-Want applies. The minimal amount is 20 EUR. Recommended amount is 100 EUR
-
-**If your project is used for commercial purposes, is proprietary and using one or more agents**: You should get a commercial license. The costs are calculated individually. As a commercial client, you also get additional benefits:
-
-- One-Time-Payment, pricing calculated per maximum amount of monthly sessions
-- Unlimited Agents, domains, copies etc. (as long as you purchased the sessions)
-- Self-hosted
-- E-Mail support
-- Help and Troubleshooting with Installation
-- Good Karma, because some amount of your payment will be transfered to Gates Philantropy partners (part of Bill & Melinda Gates foundation), which aims globally, to enhance healthcare and reduce extreme poverty, expand educational opportunities and access to information technology
-
-**if you want it to just work**: You should try out our new managed plan
-
-With the managed plan you get following features:
-
-- Subscription-Based, cost calculated per usage (monthly Billing)
-- Managed Dialogflow for Web v2 and Dialogflow Gateway Product lifecycle (installation, maintenance and updates) by a professional team, so you can focus on providing great value to your customers, without spending extra time and money for deploying, managing and updating your Web Interface
-- Cloud-Based with 99.95% SLA Uptime
-- One subdomain from us (if you prefer, you can also connect your custom domain) to embed it in iframe, websites etc.
-- As drawback, there is no direct modification allowed  from your side and the software ships as-is, if you want to have your modification applied, you can ask us to do it (at extra cost)
-
-![](https://www.gatesfoundation.org/philanthropypartners/static/images/gpp_logo.png)
-
-For more information about the licensing options and additional wishes, [contact me](https://i.ushakov.co/#/contact)
-
 # Getting started
 
 ## Requirements
 - NodeJS
 - NPM or Yarn
 - Basic knowledge in ES6 (JavaScript)
-- Dialogflow Gateway must be installed. For instructions see the [repo](https://github.com/MishUshakov/dialogflow-gateway)
+- [Dialogflow Gateway](https://i.ushakov.co/dialogflow-gateway)
 
 ## Cloning the repository to your machine
 
@@ -95,7 +62,7 @@ Example using yarn
 
 `yarn`
 
-## [Installing Dialogflow Gateway](https://github.com/MishUshakov/dialogflow-gateway)
+## [Installing Dialogflow Gateway](https://i.ushakov.co/dialogflow-gateway)
 
 ## Customizing App & Connecting your agent
 

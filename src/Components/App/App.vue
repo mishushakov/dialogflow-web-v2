@@ -188,6 +188,7 @@ export default {
         if(localStorage.getItem('session') !== null && this.config.app.history == true){
             this.session = localStorage.getItem('session')
         }
+        
         else {
             this.session = uuidv1()
             if(this.config.app.history == true) localStorage.setItem('session', this.session)
