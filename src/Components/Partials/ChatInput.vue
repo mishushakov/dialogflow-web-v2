@@ -3,7 +3,6 @@
         <div class="chat-container">
 
             <!-- Here are the suggestions -->
-
             <div class="suggestions">
                 <Suggestion v-if="suggestions.text_suggestions" v-for="(suggestion, index) in suggestions.text_suggestions" :key="index" @click.native="$emit('submit', suggestion)" :title="suggestion" />
                 <Suggestion v-if="suggestions.link_suggestion" :title="suggestions.link_suggestion.destinationName" :url="suggestions.link_suggestion.uri" />
@@ -11,19 +10,16 @@
             <div class="flexible">
                 
                 <!-- Text input -->
-
                 <div class="input-container">
                     <input :aria-label="config.i18n[lang()].inputTitle" class="input" type="text" :placeholder="config.i18n[lang()].inputTitle" v-model="query" @keypress.enter="submit()" />
                 </div>
 
                 <!-- Send message button (arrow button) -->
-
                 <div :aria-label="config.i18n[lang()].sendTitle" :title="config.i18n[lang()].sendTitle" class="button-container" v-if="micro == false && query.length > 0" @click="submit()">
                     <i class="material-icons" aria-hidden="true">arrow_upward</i>
                 </div>
 
                 <!-- Microphone Button -->
-
                 <div :aria-label="config.i18n[lang()].microphoneTitle" :title="config.i18n[lang()].microphoneTitle" class="button-container mic_button" :class="{'mic_active': micro}" @click="micro = !micro" v-else>
                     <i class="material-icons" aria-hidden="true">mic</i>
                 </div>

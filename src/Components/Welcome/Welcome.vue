@@ -2,19 +2,15 @@
     <div class="overlay">
 
         <!-- Welcome Emoji (optional) -->
-
         <span class="app-welcome-emoji">🖖</span>
         
         <!-- Agent Title -->
-
         <h1 class="app-title" v-if="app">{{config.i18n[sel_lang].welcomeTitle}} {{app.displayName}}</h1>
 
         <!-- Agent Description -->
-
         <p class="app-description" v-if="app">{{app.description}}</p>
         
         <!-- Language picker, when your Agent supports more than one Language -->
-
         <div v-if="app && app.supportedLanguageCodes.length > 0">
             <span>{{config.i18n[sel_lang].selectLang}}</span>
 
@@ -30,12 +26,10 @@
 
         <br>
 
-        <!-- Please do not remove my copyright notice, i will sue you for 150.000 EUR in damages. I know who you are, when you clone the repo -->
-
+        <!-- Please do not remove my copyright notice -->
         <p class="notice">Built by <a href="https://ushakov.co">Ushakov</a>. Powered by <a href="https://dialogflow.com">Dialogflow</a></p>
         
         <!-- Start Button -->
-
         <div class="button" @click="start()">{{config.i18n[sel_lang].startTitle}}</div>
     </div>
 </template>

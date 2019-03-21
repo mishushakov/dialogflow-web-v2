@@ -20,7 +20,7 @@ The development of this project was made possible by [me](https://linkedin.com/i
 - Onboarding, Branding, UX
 - Hands-free interaction using Voice Input and Voice Feedback
 - Language Independent (polyglot). Runs multiple languages at the same time
-- Rich-component and Webhook Support (for the list of supported components see [Dialogflow Gateway](https://i.ushakov.co/dialogflow-gateway))
+- Rich-component and Webhook Support
 - Based on Vue, Webpack 4, Babel 7
 - Integrated Component API (means, you can build the UI from different sources, not only Dialogflow Gateway, but your own APIs)
 - Lightweight (without polyfills and fonts the build shrinks down to 100 KB)
@@ -43,7 +43,7 @@ No more words, [IT'S A DEMO-TIME NOW](https://i.ushakov.co/dialogflow-web-v2)
 - NodeJS
 - NPM or Yarn
 - Basic knowledge in ES6 (JavaScript)
-- [Dialogflow Gateway](https://i.ushakov.co/dialogflow-gateway)
+- [Dialogflow Gateway](https://dialogflow-gateway.ushakov.co) connected App
 
 ## Cloning the repository to your machine
 
@@ -62,13 +62,9 @@ Example using yarn
 
 `yarn`
 
-## [Installing Dialogflow Gateway](https://i.ushakov.co/dialogflow-gateway)
-
 ## Customizing App & Connecting your agent
 
-After you have setup your gateway and it has indicated, that it works, you can now add this UI to it
-
-Open `config.js` and change the `gateway` variable, to connect your bot. You can use my gateway URL as reference, by the way.
+Open `config.js` and change the `gateway` variable, to connect to your Dialogflow Gateway. You can use my gateway URL as reference, by the way.
 
 Example
 

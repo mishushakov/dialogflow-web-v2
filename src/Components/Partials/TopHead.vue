@@ -2,7 +2,6 @@
     <header class="app-head" :class="{'shrink': shrinked}">
         <img :alt="app.displayName" class="app-icon" :src="app.avatarUri" v-if="app.avatarUri" />
         <img :alt="app.displayName" class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" v-else />
-            
         <span class="app-name">{{app.displayName}}</span>
     </header>
 </template>
