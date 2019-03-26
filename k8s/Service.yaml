@@ -7,5 +7,5 @@ spec:
     app: dialogflow-ui
   ports:
   - name: http
-    targetPort: 8090
+    targetPort: 80
     port: 80

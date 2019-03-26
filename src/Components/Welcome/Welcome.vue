@@ -11,7 +11,7 @@
         <p class="app-description" v-if="app">{{app.description}}</p>
         
         <!-- Language picker, when your Agent supports more than one Language -->
-        <div v-if="app && app.supportedLanguageCodes.length > 0">
+        <div v-if="app && app.supportedLanguageCodes !== undefined && app.supportedLanguageCodes.length > 0">
             <span>{{config.i18n[sel_lang].selectLang}}</span>
 
             <br>
