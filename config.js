@@ -1,6 +1,17 @@
+let get_gateway_url = () => {
+    if(window.location.host.includes("cloud.ushakov.co")){
+        let appid = window.location.host.split('.')[0]
+        return "https://" + appid + ".gateway.dialogflow.cloud.ushakov.co"
+    }
+
+    else {
+        return "https://us-central1-dialogflow-web-v2.cloudfunctions.net/gateway"
+    }
+}
+
 export default {
     app: {
-        gateway: "https://us-central1-dialogflow-web-v2.cloudfunctions.net/gateway", // <- enter your gateway URL here
+        gateway: get_gateway_url(), // <- enter your gateway URL here, the function is just a helper function for my cloud integration. You don't normally need it
         muted: false, // <- mute microphone at start
         history: true // <- save message history
     },

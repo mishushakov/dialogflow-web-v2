@@ -8,7 +8,7 @@ What is dialogflow by the way?
 
 > Dialogflow lets you build conversational interfaces on top of your products and services by providing a powerful natural language understanding (NLU) engine to process and understand natural language input
 
-This is a unofficial Web client for Dialogflow, that was built to support rich responses and to make the most out of the Platform available to the Web
+This is a unofficial Web client for Dialogflow, built to support rich responses and to make the most out of the Platform available to the Web
 
 The development of this project was made possible by [me](https://linkedin.com/in/mishushakov). You can hire me or [send me some snacks](https://paypal.me/mishushakov)
 
@@ -22,9 +22,9 @@ The development of this project was made possible by [me](https://linkedin.com/i
 - Language Independent (polyglot). Runs multiple languages at the same time
 - Rich-component and Webhook Support
 - Based on Vue, Webpack 4, Babel 7
-- Integrated Component API (means, you can build the UI from different sources, not only Dialogflow Gateway, but your own APIs)
+- Integrated Component API (means, you can build the UI from different sources, not only Dialogflow Gateway, but your own APIs as well)
 - Lightweight (without polyfills and fonts the build shrinks down to 100 KB)
-- Free and Documented (documentation coverage at least 60%)
+- Free and Documented (documentation coverage at least 80%)
 - Made in Germany (if it makes any sense to you)
 
 For more features and benefits see [this spreadsheet](https://docs.google.com/spreadsheets/d/1Pfpt1JxwlqIxD646p4LVX4okKKVtfvYMBJmPvsUhfgM/edit?usp=sharing)
@@ -43,7 +43,82 @@ No more words, [IT'S A DEMO-TIME NOW](https://i.ushakov.co/dialogflow-web-v2)
 - NodeJS
 - NPM or Yarn
 - Basic knowledge in ES6 (JavaScript)
-- [Dialogflow Gateway](https://dialogflow-gateway.ushakov.co) connected App
+- Google Account and Dialogflow V2-Enabled App (if you look for V1, please use my [old repo](https://github.com/mishushakov/dialogflow-web))
+
+## Setting Up Dialogflow Gateway
+
+Dialogflow Gateway is a cloud-based service, which connects Dialogflow V2 Agents to the World Wide Web.
+Dialogflow for Web v2 requires Dialogflow Gateway for its formatting option and to make secure and authenthicated requests to Dialogflow V2 API
+
+Go to the [Dialogflow Gateway Console](https://dialogflow-gateway.ushakov.co/console)
+
+And you will see the following Sign In screen:
+
+![](https://i.imgur.com/bse2Akc.png)
+
+**Note**: for some adblocks, the Google Sign-In button is not being displayed. Please disable your adblock, if you have the issue
+
+Press on the "Sign in with Google" button and you will see similar account picker:
+
+![](https://i.imgur.com/6kjJPPR.png)
+
+Choose your account you used to create your Dialogflow Agent with
+
+**Note**: Some browsers (like Safari in my case) block popups. Please allow popups on the website and log in and out again in order to proceed
+
+And you will then see the next popup:
+
+![](https://i.imgur.com/KkfA3bn.png)
+
+This may happen, because Google need to verify my app (if it hasn't yet). You can still continue by pressing on "Advanced" and "Go to Dialogflow Gateway (unsafe)"
+
+Then you will see another popup once again:
+
+![](https://i.imgur.com/jHErXqd.png)
+
+Press on "Allow" in order to allow the application to access your Google Cloud. Google Cloud is needed for following reasons:
+
+- Listing your Google Cloud Projects
+- Listing IAM Policies for projects
+- Updating IAM Policies for projects
+- Managing Service Account Keys
+- (Overall) Connecting your Google Cloud Project to Dialogflow Gateway
+
+When you are ready with this, you will see the console:
+
+**Note**: it may take a second to load your Google Cloud Projects (or two)
+
+**Note**: because of high latency of Google's servers, sometimes linked projects are not displayed as linked. Please reload the page, if the issue occurs
+
+**Note**: Non-Dialogflow-V2 Projects will not link, doesn't matter how hard you will try
+
+![](https://i.imgur.com/AEFdvaH.png)
+
+In this list, you will see your Google Cloud Projects.
+
+In order to link your Dialogflow Agent to Dialogflow Gateway, press on "Link" button, on the associated Google Cloud project.
+
+The process may take a couple seconds to finish, so be patient. When its finished, the link icon will turn green and you will see the "Manage" button instead of "Link".
+
+Then, press on "Manage" Button and you will see this view:
+
+![](https://i.imgur.com/G8fHU4l.png)
+
+Save the Gateway URL, because we will need it for later
+
+The UI URL is for the managed version of Dialogflow for Web v2, it's used for thoose, who want it to just work (for example for iframe) without additional steps, described below
+
+Optionally, you can also change your Gateway Settings:
+
+![](https://i.imgur.com/Wp37Ycm.png)
+
+When you specify the Webhook URL, the Dialogflow Gateway will send a POST request to it, when it is being triggered. Please note: it doesn't have anything to do with the Dialogflow Webhooks.
+
+You can also specify the sources, which the formatting option will respect. The formatting option will then only return the components and messages for the specified Platforms (for example if you select Facebook, it will only return Facebook components for your Intents)
+
+You can also unlink the project from Dialogflow Gateway service
+
+**Note**: Unlinking your project, will not remove the service account keys and reset IAM Policies, you will have to do it yourself (if you want to). Also note, that unlinking your project will not reset the quota
 
 ## Cloning the repository to your machine
 
@@ -62,7 +137,7 @@ Example using yarn
 
 `yarn`
 
-## Customizing App & Connecting your agent
+## Customizing App & Connecting your Agent
 
 Open `config.js` and change the `gateway` variable, to connect to your Dialogflow Gateway. You can use my gateway URL as reference, by the way.
 
@@ -79,7 +154,7 @@ export default {
 [...]
 ```
 
-The logo, application name, description and the available languages are fetched from your Dialogflow Agent directly. If you want to change them, then you should do it in the Dialogflow Settings and it would be synced to the UI. Please note, when adding new languages, you need to translate some of the UI as well (`i18n` field in `config.js`)
+The logo, application name, description and the available languages are fetched from your Dialogflow Agent directly. If you want to change them, then you should do it in the Dialogflow Console and it will be synced to the UI. Please note, when adding new languages, you need to translate some of the UI as well (`i18n` field in `config.js`). Also don't forget to clean your cache, if you make some changes to the Agent
 
 ## Start development server & build
 
@@ -121,7 +196,7 @@ Example using yarn
 
 ## Frequently Asked Questions
 
-- Q: I changed the gateway url, but the responses are the same as with yours
+- Q: I changed the gateway url, but the responses are the same as with the previous one
 - A: Make sure you have **cleaned your cache** and **rebuilt your app**. In Safari go to "Develop" > "Empty Caches". In Chrome: "Developer Tools" > "Application" > "Clear storage" > "Clear site data"
 
 # Have fun using the product!

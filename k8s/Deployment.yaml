@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dialogflow-ui-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dialogflow-ui
+  template:
+    metadata:
+      labels:
+        app: dialogflow-ui
+    spec:
+      containers:
+      - name: dialogflow-ui
+        image: registry.gitlab.com/ushakov-inc/dialogflow/dialogflow-web-v2:latest
+        imagePullPolicy: Always
+      imagePullSecrets:
+        - name: regcred
