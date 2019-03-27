@@ -219,6 +219,26 @@ export default {
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to #bottom selector, used as anchor
 
             if(this.config.app.history == true) localStorage.setItem('message_history', JSON.stringify(messages)) // <- Save history if the feature is enabled
+        },
+        /* You don't need the function below. It's only for my cloud, to manage the SEO */
+        app(agent){
+            if(window.location.host.includes("cloud.ushakov.co")){
+                document.querySelector("title").innerText = agent.displayName
+                document.querySelector("meta[name=description]").content = agent.description
+                document.querySelector("link[rel=canonical]").href = location.href
+                document.querySelector("meta[name=application-name]").content = agent.displayName
+                document.querySelector("link[rel=icon]").href = agent.avatarUri
+                document.querySelector("link[rel=apple-touch-icon]").href = agent.avatarUri
+                document.querySelector("meta[name=msapplication-TileImage]").content = agent.avatarUri
+                document.querySelector("meta[name=apple-mobile-web-app-title]").content = agent.displayName
+                document.querySelector("meta[property=og\\:title]").content = agent.displayName
+                document.querySelector("meta[property=og\\:image]").content = agent.avatarUri
+                document.querySelector("meta[property=og\\:description]").content = agent.description
+                document.querySelector("meta[property=og\\:url]").content = location.href
+                document.querySelector("meta[name=twitter\\:title]").content = agent.displayName
+                document.querySelector("meta[name=twitter\\:image]").content = agent.avatarUri
+                document.querySelector("meta[name=twitter\\:description]").content = agent.description
+            }
         }
     },
     methods: {
