@@ -16,11 +16,11 @@
 
             <br>
             <span @click="sel_lang = app.defaultLanguageCode" class="language-pick" :class="{'picked': sel_lang == app.defaultLanguageCode}">
-                {{app.defaultLanguageCode | toLang }}
+                {{ app.defaultLanguageCode | toLang }}
             </span>
 
             <span @click="sel_lang = language" class="language-pick" v-for="language in app.supportedLanguageCodes" :class="{'picked': sel_lang == language}">
-                {{ language | toLang }} 
+                {{ language | toLang }}
             </span>
         </div>
 
@@ -110,10 +110,19 @@ export default {
             sel_lang: 'en'
         }
     },
+    watch: {
+        /* Check, if we have a translation for the selected language, if not -> fallback to default language (en) */
+        sel_lang(value){
+            if(this.config.i18n[value] == undefined){
+                alert('No translation is currently available for this language')
+                this.sel_lang = 'en'
+            }
+        }
+    },
     filters: {
         /* This filter turns language code to the local language name using the langs dependency (example "en" -> "English") */
         toLang(code){
-            return langs.where("1", code).local
+            return langs.where('1', code).local
         }
     },
     methods: {

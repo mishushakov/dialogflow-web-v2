@@ -35,6 +35,16 @@ export default {
             inputTitle: "Введите свое сообщение сюда",
             sendTitle: "Отправить",
             microphoneTitle: "Голосовой ввод"
+        },
+        de: {
+            welcomeTitle: "Wilkommen bei",
+            selectLang: "Sprache auswählen zum fortfahren",
+            startTitle: "Starten",
+            startPhrase: "Hallo",
+            muteTitle: "Stumm Modus",
+            inputTitle: "Schreiben Sie ihre Nachricht hier",
+            sendTitle: "Senden",
+            microphoneTitle: "Spracheingabe"
         }
     }
 }

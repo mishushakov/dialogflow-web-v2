@@ -12,6 +12,8 @@ This is a unofficial Web client for Dialogflow, built to support rich responses 
 
 The development of this project was made possible by [me](https://linkedin.com/in/mishushakov). You can hire me or [send me some snacks](https://paypal.me/mishushakov)
 
+If you have any questions, feel free to send me a [message](https://i.ushakov.co/#contact)
+
 ## Features and Benefits
 
 - Progressive Web App (100/100 Lighthouse score)
@@ -29,6 +31,15 @@ The development of this project was made possible by [me](https://linkedin.com/i
 - Made in Germany (if it makes any sense to you)
 
 For more features and benefits see [this spreadsheet](https://docs.google.com/spreadsheets/d/1Pfpt1JxwlqIxD646p4LVX4okKKVtfvYMBJmPvsUhfgM/edit?usp=sharing)
+
+## Contributing
+
+There are many ways you can contribute to the project:
+
+- Add more translations
+- Fix bugs and contribute to the code base
+- Leave your feedback and suggest more features
+- Donate Kubernetes worker nodes or ressources to create them (money)
 
 # Getting started
 
@@ -59,29 +70,33 @@ Choose the account, you used to create your Dialogflow Agent with
 
 **Note**: Some browsers (like Safari in my case) block popups. Please allow popups on the website and log in and out again in order to proceed
 
-And you will then see the next popup:
+And you will then see this page:
 
 ![](https://i.imgur.com/KkfA3bn.png)
 
-This may happen, because Google need to verify my app (if it hasn't yet). You can still continue by pressing on "Advanced" and "Go to Dialogflow Gateway (unsafe)"
+This may happen, because Google needs to verify my app (if it hasn't done it yet). You can still continue by pressing on "Advanced" and "Go to Dialogflow Gateway (unsafe)"
 
-Then you will see another page:
+Then you will see this:
 
-![](https://i.imgur.com/jHErXqd.png)
+![](https://i.imgur.com/MvUNN7u.png)
 
 Press on "Allow" in order to allow the application to access your Google Cloud. Google Cloud is used for following reasons:
 
 - Listing your Google Cloud Projects
 - Listing IAM Policies for projects
 - Updating IAM Policies for projects
-- Managing Service Account Keys
+- Creating Service Account Keys
 - (Overall) Connecting your Google Cloud Project to Dialogflow Gateway
 
-When you are ready with this, you will see the console:
+You then may see an additional confirmation, like this:
+
+![](https://i.imgur.com/6ZED5Ur.png)
+
+Make sure, to press allow here as well
+
+When you are ready with all of that, you will see the console:
 
 **Note**: it may take a second to load your Google Cloud Projects (or two)
-
-**Note**: because of high latency of Google's servers, sometimes linked projects are not displayed as linked. Please reload the page, if the issue occurs
 
 **Note**: non-Dialogflow-V2 Projects will not link, no matter how hard you try
 
