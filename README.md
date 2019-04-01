@@ -40,6 +40,7 @@ There are many ways you can contribute to the project:
 - Fix bugs and contribute to the code base
 - Leave your feedback and suggest more features
 - Donate Kubernetes worker nodes or ressources to create them (money)
+- Share the Integration with the world
 
 # Getting started
 
@@ -54,7 +55,7 @@ There are many ways you can contribute to the project:
 Dialogflow Gateway is a cloud-based service, which connects Dialogflow V2 Agents to the World Wide Web.
 Dialogflow for Web v2 requires Dialogflow Gateway for its formatting option and to make secure and authenticated requests to Dialogflow V2 API
 
-Go to the [Dialogflow Gateway Console](https://dialogflow-gateway.ushakov.co/console)
+Go to the [Dialogflow Gateway Console](https://dialogflow.cloud.ushakov.co/console)
 
 And you will see the following Sign In screen:
 
