@@ -4,43 +4,44 @@
 
 # Dialogflow for Web *v2*
 
-What is dialogflow by the way?
+What is Dialogflow, by the way?
 
 > Dialogflow lets you build conversational interfaces on top of your products and services by providing a powerful natural language understanding (NLU) engine to process and understand natural language input
 
-This is a unofficial Web client for Dialogflow, built to support rich responses and to make the most out of the Platform available to the Web
+This is a unofficial Web Integration for Dialogflow V2, built to support rich responses and to make the most out of the Platform available to the Web
 
 The development of this project was made possible by [me](https://linkedin.com/in/mishushakov). You can hire me or [send me some snacks](https://paypal.me/mishushakov)
 
-If you have any questions, feel free to send me a [message](https://i.ushakov.co/#contact)
+If you have any questions, feel free to [contact me](https://i.ushakov.co/#contact)
 
-## Features and Benefits
+## Features
 
 - Progressive Web App (100/100 Lighthouse score)
 - Accessibility Features
-- Wide Browser Support (IE8+)
-- Onboarding, Branding, UX
-- Hands-free interaction using Voice Input and Voice Feedback
-- Language Independent (polyglot). Runs multiple languages at the same time
-- Rich-component and Webhook Support
+- Wide Browser Support (IE8+), offline capabilities (history) and great SEO
+- Familiar UI & UX, based on official Google Assistant Guidelines
+- Hands-free interaction with Voice Input and Speech Feedback
+- Language Independency
+- Docker and Kubernetes support
+- Rich-component, Webhook and Actions on Google Support ([demo](https://codepen.io/mishushakov/pen/YMwoEK))
+- Iframe Support ([demo](https://codepen.io/mishushakov/pen/ywWaRW))
 - Based on Vue, Webpack 4, Babel 7
-- Integrated Component API (means, you can build the UI from different sources, not only Dialogflow Gateway, but your own APIs as well)
-- Can run in iframe ([demo](https://codepen.io/mishushakov/pen/ywWaRW))
-- Lightweight (without polyfills and fonts the build shrinks down to 100 KB)
+- Lightweight (with ngx_pagespeed the build is <100KB)
 - Free and Documented (documentation coverage at least 80%)
+- Free hosted version on [Dialogflow Gateway](https://dialogflow.cloud.ushakov.co)
 - Made in Germany (if it makes any sense to you)
 
-For more features and benefits see [this spreadsheet](https://docs.google.com/spreadsheets/d/1Pfpt1JxwlqIxD646p4LVX4okKKVtfvYMBJmPvsUhfgM/edit?usp=sharing)
+![](https://i.imgur.com/0vYBGTq.png)
 
 ## Contributing
 
 There are many ways you can contribute to the project:
 
-- Add more translations
-- Fix bugs and contribute to the code base
-- Leave your feedback and suggest more features
-- Donate Kubernetes worker nodes or ressources to create them (money)
-- Share the Integration with the world
+- Adding more translations
+- Fixing bugs and contributing to the code base
+- Leaving your feedback and suggesting more features
+- Donating
+- Sharing
 
 # Getting started
 
@@ -69,7 +70,7 @@ Press on the "Sign in with Google" button and you will see similar account picke
 
 Choose the account, you used to create your Dialogflow Agent with
 
-**Note**: Some browsers (like Safari in my case) block popups. Please allow popups on the website and log in and out again in order to proceed
+**Note**: some browsers (like Safari in my case) block popups. Please allow popups on the website and log in and out again in order to proceed
 
 And you will then see this page:
 
@@ -93,7 +94,7 @@ You then may see an additional confirmation, like this:
 
 ![](https://i.imgur.com/6ZED5Ur.png)
 
-Make sure, to press allow here as well
+Make sure, to press "Allow" here as well
 
 When you are ready with all of that, you will see the console:
 
@@ -101,7 +102,7 @@ When you are ready with all of that, you will see the console:
 
 **Note**: non-Dialogflow-V2 Projects will not link, no matter how hard you try
 
-**Note**: you will not see your projects, if you have not allowed popups and finished the previous step
+**Note**: you may not see your projects, if you have not allowed popups and finished the previous step
 
 ![](https://i.imgur.com/AEFdvaH.png)
 

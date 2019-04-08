@@ -1,11 +1,12 @@
 <template>
     <div class="list">
         <div class="list-title" v-if="title.length > 0">{{title}}</div>
-        <div class="item" v-for="item in items" @click="$emit('select', item.info.key)">
-            <img class="item-image" v-if="item.image.imageUri.length > 0" :src="item.image.imageUri" :alt="item.image.accessibilityText" />
-            <div class="item-content">
-                <div class="item-title">{{item.title}}</div>
-                <span class="item-description">{{item.description}}</span>
+        <div class="list-subtitle">Subtitle</div>
+        <div class="list-item" v-for="item in items" @click="$emit('select', item.info.key)">
+            <img class="list-item-image" v-if="item.image.imageUri.length > 0" :src="item.image.imageUri" :alt="item.image.accessibilityText" />
+            <div class="list-item-content">
+                <div class="list-item-title">{{item.title}}</div>
+                <span class="list-item-description">{{item.description}}</span>
             </div>
         </div>
     </div>
@@ -13,44 +14,56 @@
 
 <style lang="sass" scoped>
 .list
-    border-radius: 12px
-    border: 1.5px solid rgba(0,0,0,.1)
     display: inline-block
     max-width: 300px
-    padding-bottom: 10px
-    padding-top: 10px
-
-.item
-    cursor: pointer
-    padding: 12px
-    overflow: hidden
-
-    &:hover
-        background-color: #F1F3F4
+    padding: 16px
+    margin-top: 10px
+    border-radius: 12px
+    background-color: white
+    box-shadow: 0 2px 6px 2px rgba(60,64,67,0.15)
 
 .list-title
     font-weight: 500
     font-size: 20px
-    padding: 12px
+    line-height: 30px
+    color: #202124
 
-.item-image
-    border-radius: 8px
+.list-subtitle
+    line-height: 24px
+    color: #70757A
+
+.list-item
+    cursor: pointer
+    overflow: hidden
+    padding-top: 16px
+    padding-bottom: 16px
+    border-bottom: 1px solid #E5E5E5
+
+    &:last-child
+        border-bottom: none
+        padding-bottom: 0px
+
+.list-item-image
+    border-radius: 12px
     height: 50px
     width: 50px
     object-fit: cover
-    margin-right: 12px
+    margin-left: 16px
+    float: right
 
-.item-content
+.list-item-content
     display: inline-block
     vertical-align: top
-    padding-right: 12px
-    margin-top: 5px
+    margin-top: 2.5px
 
-.item-title
+.list-item-title
     font-weight: 500
+    color: #202124
+    line-height: 24px
 
-.item-description
-    opacity: .8
+.list-item-description
+    color: #5F6368
+    line-height: 20px
     font-size: 14px
 </style>
 

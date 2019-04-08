@@ -4,10 +4,13 @@
         <div class="card-content">
             <div class="card-title" v-if="title">{{title}}</div>
             <div class="card-subtitle" v-if="subtitle">{{subtitle}}</div>
-
             <div class="card-text">{{text}}</div>
+
             <div class="card-buttons" v-if="button">
-                <a class="card-button" target="_blank" rel="noopener noreferrer" :href="button.openUriAction.uri">{{button.title}}</a>
+                <a class="card-button" target="_blank" rel="noopener noreferrer" :href="button.openUriAction.uri">
+                    <i aria-hidden="true" class="material-icons card-button-icon">arrow_forward</i>
+                    <span class="card-button-title">{{button.title}}</span>
+                </a>
             </div>
         </div>
     </div>
@@ -15,12 +18,13 @@
 
 <style lang="sass" scoped>
 .card
-    border: 1.5px solid rgba(0,0,0,.1)
+    background-color: white
+    box-shadow: 0 2px 6px 2px rgba(60,64,67,0.15)
     border-radius: 12px
     display: inline-block
     max-width: 300px
-    margin-top: 5px
-    margin-right: 5px
+    margin-top: 10px
+    margin-right: 10px
 
 .card-image
     width: 100%
@@ -30,32 +34,44 @@
     border-top-left-radius: 10px
 
 .card-content
-    padding: 12px
+    padding: 16px
 
 .card-title
     font-weight: 500
     font-size: 20px
+    color: #202124
+    line-height: 24px
 
 .card-subtitle
-    text-transform: uppercase
-    font-size: 14px
-    font-weight: 600
-    opacity: .7
-    margin-bottom: 12px
-    margin-top: 5px
+    font-size: 16px
+    line-height: 24px
+    color: #757575
 
 .card-text
-    opacity: .8
+    line-height: 24px
+    font-size: 14px
+    color: #5F6368
     white-space: normal
 
 .card-buttons
-    margin-top: 12px
+    padding-top: 16px
 
 .card-button
-    color: black
-    text-transform: uppercase
     text-decoration: none
+    line-height: 24px
+    color: #4285F4
+    border: 1px solid lighten(#4285F4, 25%)
+    border-radius: 40px
+    display: block
     font-weight: 500
+    padding: 8px 16px
+    text-align: center
+    position: relative
+
+.card-button-icon
+    left: 0
+    margin-left: 12px
+    position: absolute
 </style>
 
 <script>

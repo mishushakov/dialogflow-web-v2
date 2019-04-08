@@ -1,13 +1,14 @@
 <template>
-    <img class="img" :src="image.imageUri" :alt="image.accessibilityText" />
+    <img class="picture" :src="image.imageUri" :alt="image.accessibilityText" />
 </template>
 
 <style lang="sass" scoped>
-.img
+.picture
+    margin-top: 10px
     max-width: 300px
     height: auto
     border-radius: 12px
-    box-shadow: 0 1px 4px 0 rgba(32,33,36,0.28)
+    box-shadow: 0 2px 6px 2px rgba(60,64,67,0.15)
     object-fit: cover
 </style>
 

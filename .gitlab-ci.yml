@@ -1,5 +1,6 @@
 stages:
   - release
+  - deploy
 
 variables:
   CONTAINER_IMAGE: ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_BUILD_REF_NAME}-${CI_BUILD_REF}
@@ -19,3 +20,11 @@ release:
     - docker tag ${CONTAINER_IMAGE} ${CONTAINER_IMAGE_LATEST}
     - docker push ${CONTAINER_IMAGE}
     - docker push ${CONTAINER_IMAGE_LATEST}
+
+deploy:
+  stage: deploy
+  image: roffe/kubectl
+  script:
+    - mkdir ~/.kube
+    - echo ${KUBE_CONFIG} | base64 -d > ~/.kube/config
+    - kubectl -n dialogflow set image deployment/ui-deployment dialogflow-ui=${CONTAINER_IMAGE}

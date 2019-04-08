@@ -2,15 +2,15 @@
     <main id="app">
 
         <!-- TopHead is the header with the information about the app -->
-        <TopHead v-if="app" :app="app"></TopHead>
-        <section class="container">
+        <TopHead v-if="app && messages.length > 0" :app="app"></TopHead>
+        <section class="container chat-container">
 
             <!-- Welcome component is for onboarding experience and language picker -->
             <Welcome v-if="messages.length == 0" :app="app" @start="send(config.i18n[lang()].startPhrase)"></Welcome>
 
             <!-- Messages Table -->
-            <section class="messages" v-if="messages.length > 0">
-                <table v-for="m in messages" class="chat-window">
+            <section class="messages" v-else>
+                <table v-for="m in messages" class="message">
                     <tr>
 
                         <!-- My message -->
@@ -50,11 +50,11 @@
         <div id="bottom"></div>
 
         <!-- ChatInput is made for submitting queres and displaying suggestions -->
-        <ChatInput v-if="messages.length > 0" @submit="send" :suggestions="suggestions"></ChatInput>
+        <ChatInput @submit="send" :suggestions="suggestions"></ChatInput>
 
         <!-- Audio toggle (on the top right corner), used to toggle the audio output, default mode is defined in the settings -->
-        <div :aria-label="config.i18n[lang()].muteTitle" :title="config.i18n[lang()].muteTitle" class="audio-toggle" @click="config.app.muted = !config.app.muted">
-            <i aria-hidden="true" class="material-icons" v-if="!config.app.muted">volume_up</i>
+        <div :aria-label="config.i18n[lang()].muteTitle" :title="config.i18n[lang()].muteTitle" class="audio-toggle" @click="muted = !muted">
+            <i aria-hidden="true" class="material-icons" v-if="!muted">volume_up</i>
             <i aria-hidden="true" class="material-icons" v-else>volume_off</i>
         </div>
     </main>
@@ -74,9 +74,7 @@ body
     max-width: 500px
     margin-left: auto
     margin-right: auto
-    padding: 12px
-    padding-top: 80px
-    padding-bottom: 120px
+    padding: 16px
     position: relative
 
 @font-face
@@ -103,10 +101,11 @@ body
 </style>
 
 <style lang="sass" scoped>
-.chat-window
-    width: 100%
+.chat-container
+    padding-top: 40px
+    padding-bottom: 125px
 
-td
+.message
     width: 100%
 
 .audio-toggle
@@ -121,7 +120,7 @@ td
     width: 24px
     height: 24px
     cursor: pointer
-    color: rgba(0,0,0,.8)
+    color: #202124
 
 .carousel
     overflow-x: scroll
@@ -129,6 +128,7 @@ td
     white-space: nowrap
     -webkit-overflow-scrolling: touch
     padding-bottom: 20px
+    padding-left: 10px
 </style>
 
 <script>
@@ -160,52 +160,61 @@ export default {
             messages: [],
             language: '',
             session: '',
-            config: this.config
+            muted: this.config.app.muted
         }
     },
     created(){
         /* If history is enabled, the messages are retrieved from localStorage */
-        if(localStorage.getItem('message_history') !== null && this.config.app.history == true){
+        if(this.history() && localStorage.getItem('message_history') !== null){
             this.messages = JSON.parse(localStorage.getItem('message_history'))
         }
 
         /* Session should be persistent (in case of page reload, the context should stay) */
-        if(localStorage.getItem('session') !== null && this.config.app.history == true){
+        if(this.history() && localStorage.getItem('session') !== null){
             this.session = localStorage.getItem('session')
         }
-        
+
         else {
             this.session = uuidv1()
-            if(this.config.app.history == true) localStorage.setItem('session', this.session)
+            if(this.history()) localStorage.setItem('session', this.session)
         }
-        
+
         /* Cache Agent (this will save bandwith) */
-        if(localStorage.getItem('agent') !== null && this.config.app.history == true){
+        if(this.history() && localStorage.getItem('agent') !== null){
             this.app = JSON.parse(localStorage.getItem('agent'))
         }
 
         else {
             fetch(this.config.app.gateway)
-            .then((response) => {
+            .then(response => {
                 return response.json()
             })
-            .then((agent) => {
+            .then(agent => {
                 this.app = agent
-                if(this.config.app.history == true) localStorage.setItem('agent', JSON.stringify(agent))
+                if(this.history()) localStorage.setItem('agent', JSON.stringify(agent))
             })
         }
     },
     computed: {
+        /* The code below is used to extract suggestions from last message, to display it on ChatInput */
         suggestions(){
-            let last_message = this.messages[this.messages.length - 1].components
-            let suggestions = []
+            if(this.messages.length > 0){
+                let last_message = this.messages[this.messages.length - 1].components
+                let suggestions = []
 
-            for (let component in last_message){
-                if (last_message[component].name == 'SUGGESTIONS') suggestions.text_suggestions = last_message[component].content
-                if (last_message[component].name == 'LINK_OUT_SUGGESTION') suggestions.link_suggestion = last_message[component].content
+                for (let component in last_message){
+                    if (last_message[component].name == 'SUGGESTIONS') suggestions.text_suggestions = last_message[component].content
+                    if (last_message[component].name == 'LINK_OUT_SUGGESTION') suggestions.link_suggestion = last_message[component].content
+                }
+
+                return suggestions
             }
-
-            return suggestions // <- the code above is used to extract suggestions from last message, to be able to display it on ChatInput
+            
+            else {
+                return {
+                    text_suggestions: this.config.app.start_suggestions // <- if no messages are present, return start_suggestions, from config.js to help user figure out what he can do with your application
+                }
+            }
         }
     },
     watch: {
@@ -218,7 +227,7 @@ export default {
                 })
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to #bottom selector, used as anchor
 
-            if(this.config.app.history == true) localStorage.setItem('message_history', JSON.stringify(messages)) // <- Save history if the feature is enabled
+            if(this.history()) localStorage.setItem('message_history', JSON.stringify(messages)) // <- Save history if the feature is enabled
         },
         /* You don't need the function below. It's only for my cloud, to manage the SEO */
         app(agent){
@@ -249,12 +258,12 @@ export default {
                 "lang": this.lang() // <- the request language is being set on the Welcome screen, make sure to inspect that as well.
             } // <- this is how a Dialogflow Gateway request looks like, by the way
 
-            /* Make a request to gateway with formatting enabled */
+            /* Make the request to gateway with formatting enabled */
             fetch(this.config.app.gateway + '?format=true', {method: 'POST', body: JSON.stringify(request), headers: {'content-type': 'application/json'}})
-            .then((response) => {
+            .then(response => {
                 return response.json()
             })
-            .then((response) => {
+            .then(response => {
                 this.messages.push(response)
                 this.handle(response) // <- trigger the handle function (explanation below)
                 //console.log(response) // <- (optional) log responses

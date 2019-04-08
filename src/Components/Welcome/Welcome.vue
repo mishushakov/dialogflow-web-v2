@@ -1,102 +1,63 @@
 <template>
-    <div class="overlay">
+    <div class="overlay" v-if="app">
 
-        <!-- Welcome Emoji (optional) -->
-        <span class="app-welcome-emoji">🖖</span>
+        <!-- Agent Icon -->
+        <img :alt="app.displayName" class="app-icon" :src="app.avatarUri" v-if="app.avatarUri" />
+        <img :alt="app.displayName" class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" v-else />
         
         <!-- Agent Title -->
-        <h1 class="app-title" v-if="app">{{config.i18n[sel_lang].welcomeTitle}} {{app.displayName}}</h1>
+        <h1 class="app-title">{{config.i18n[sel_lang].welcomeTitle}} {{app.displayName}}</h1>
 
         <!-- Agent Description -->
-        <p class="app-description" v-if="app">{{app.description}}</p>
+        <p class="app-description">{{app.description}}</p>
         
         <!-- Language picker, when your Agent supports more than one Language -->
         <div v-if="app && app.supportedLanguageCodes !== undefined && app.supportedLanguageCodes.length > 0">
-            <span>{{config.i18n[sel_lang].selectLang}}</span>
-
-            <br>
-            <span @click="sel_lang = app.defaultLanguageCode" class="language-pick" :class="{'picked': sel_lang == app.defaultLanguageCode}">
+            <span @click="sel_lang = app.defaultLanguageCode" class="language-picker" :class="{'picked': sel_lang == app.defaultLanguageCode}">
                 {{ app.defaultLanguageCode | toLang }}
             </span>
 
-            <span @click="sel_lang = language" class="language-pick" v-for="language in app.supportedLanguageCodes" :class="{'picked': sel_lang == language}">
+            <span @click="sel_lang = language" class="language-picker" v-for="language in app.supportedLanguageCodes" :class="{'picked': sel_lang == language}">
                 {{ language | toLang }}
             </span>
         </div>
-
-        <br>
-
-        <!-- Please do not remove my copyright notice -->
-        <p class="notice">Built by <a href="https://ushakov.co">Ushakov</a>. Powered by <a href="https://dialogflow.com">Dialogflow</a></p>
-        
-        <!-- Start Button -->
-        <div class="button" @click="start()">{{config.i18n[sel_lang].startTitle}}</div>
     </div>
 </template>
 
 <style lang="sass" scoped>
 .overlay
-    z-index: 999
     text-align: center
-    padding-top: 20px
+    padding-top: 25px
 
-.app-welcome-emoji
-    font-size: 100px
-    border-radius: 50%
-    border: 1.5px solid rgba(0,0,0,.1)
+.app-icon
     width: 120px
     height: 120px
-    display: inline-block
-    padding: 20px
+    border-radius: 50%
+    object-fit: cover
 
 .app-title
-    font-weight: 600
-    font-size: 32px
+    font-weight: 500
+    font-size: 24px
     margin-top: 30px
+    color: #202124
+    line-height: 20px
 
 .app-description
-    font-size: 18px
-    opacity: .8
+    font-size: 16px
+    color: #5F6368
 
-.button
-    position: fixed
-    left: 0
-    bottom: 0
-    width: 100%
-    box-sizing: border-box
-    text-transform: uppercase
-    background-color: white
-    font-weight: 600
-    font-size: 20px
-    padding: 15px
-    transition: all .15s linear
-    cursor: pointer
-    box-shadow: 0 0px 8px 0 rgba(0,0,0,.08)
-    color: rgba(0,0,0,.8)
-
-.language-pick
+.language-picker
     display: inline-block
-    margin-top: 15px
-    text-decoration: none
-    border: 1.5px solid rgba(0,0,0,.1)
-    padding: 10px 15px
-    border-radius: 8px
-    transition: all .15s linear
+    border: 1px solid #E8EAED
+    padding: 8px 12px
+    border-radius: 40px
     cursor: pointer
     font-weight: 500
-    margin-right: 5px
+    margin-right: 2px
 
-.picked
-    background-color: #F1F3F4
-    border: 1.5px solid #F1F3F4
-
-.notice
-    opacity: .8
-    font-weight: 500
-    padding: 0px 20px
-
-    a
-        color: black
+    &.picked
+        background-color: #F1F3F4
+        border: 1px solid #F1F3F4
 </style>
 
 <script>
@@ -111,11 +72,19 @@ export default {
         }
     },
     watch: {
-        /* Check, if we have a translation for the selected language, if not -> fallback to default language (en) */
+        /* Check, if we have a translation for the selected language, if not -> fallback to default language */
         sel_lang(value){
-            if(this.config.i18n[value] == undefined){
+            if(!this.config.i18n[value]){
                 alert('No translation is currently available for this language')
-                this.sel_lang = 'en'
+                this.sel_lang = this.config.app.fallback_lang
+            }
+
+            else {
+                if(this.history()) localStorage.setItem('lang', this.sel_lang)
+
+                else {
+                    this.config.app.fallback_lang = this.sel_lang
+                }
             }
         }
     },
@@ -123,13 +92,6 @@ export default {
         /* This filter turns language code to the local language name using the langs dependency (example "en" -> "English") */
         toLang(code){
             return langs.where('1', code).local
-        }
-    },
-    methods: {
-        start(){
-            /* If pressed on start button, save the preferred language to localStorage */
-            localStorage.setItem('lang', this.sel_lang)
-            this.$emit('start')
         }
     }
 }

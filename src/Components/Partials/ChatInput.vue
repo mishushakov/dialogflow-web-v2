@@ -1,6 +1,6 @@
 <template>
     <div class="bottomchat">
-        <div class="chat-container">
+        <div class="container">
 
             <!-- Here are the suggestions -->
             <div class="suggestions">
@@ -8,7 +8,7 @@
                 <Suggestion v-if="suggestions.link_suggestion" :title="suggestions.link_suggestion.destinationName" :url="suggestions.link_suggestion.uri" />
             </div>
             <div class="flexible">
-                
+
                 <!-- Text input -->
                 <div class="input-container">
                     <input :aria-label="config.i18n[lang()].inputTitle" class="input" type="text" :placeholder="config.i18n[lang()].inputTitle" v-model="query" @keypress.enter="submit()" />
@@ -34,8 +34,8 @@
     bottom: 0
     left: 0
     width: 100%
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,.08)
     background-color: white
+    transition: box-shadow .15s linear
 
 .flexible
     display: flex
@@ -49,11 +49,13 @@
     &::-webkit-scrollbar
         display: none
 
-.chat-container
-    max-width: 500px
-    margin-left: auto
-    margin-right: auto
-    padding: 12px
+.input-container
+    width: 100%
+    padding: 8px
+    box-sizing: border-box
+    border-radius: 40px
+    flex: 1 0 0
+    background-color: #F1F3F4
 
 .input
     font-size: 16px
@@ -65,14 +67,7 @@
     outline: none
     padding-left: 8px
     padding-right: 8px
-
-.input-container
-    width: 100%
-    padding: 8px
-    box-sizing: border-box
-    border-radius: 40px
-    flex: 1 0 0
-    background-color: #F1F3F4
+    color: #202124
 
 .button-container
     padding: 8px
@@ -81,17 +76,17 @@
     margin-left: 6px
     border-radius: 50%
     cursor: pointer
-    background-color: black
+    background-color: #202124
     color: white
 
-.mic_button
-    background-color: #F1F3F4
-    color: rgba(0,0,0,.8)
-    font-size: 24px
+    &.mic_button
+        background-color: #F1F3F4
+        color: #202124
+        font-size: 24px
 
-.mic_active
-    background-color: #F44336
-    color: white
+        &.mic_active
+            background-color: #F44336
+            color: white
 </style>
 
 <script>
@@ -130,7 +125,7 @@ export default {
                         self.query = event.results[i][0].transcript // <- push results to the Text input
                     }
                 }
-                
+
                 this.recognition.onend = () => {
                     this.recognition.stop()
                     this.micro = false

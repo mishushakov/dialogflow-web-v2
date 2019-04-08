@@ -39,5 +39,3 @@ jspm_packages
 
 # Firebase
 .firebase
-.firebaserc
-firebase.json

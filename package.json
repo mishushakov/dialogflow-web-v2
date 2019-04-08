@@ -1,7 +1,7 @@
 {
   "name": "dialogflow-web-v2",
   "description": "Dialogflow unofficial Progressive Web App",
-  "version": "1.0.0",
+  "version": "2.2.0",
   "author": "MishUshakov",
   "private": true,
   "scripts": {
@@ -25,6 +25,7 @@
     "node-sass": "^4.11.0",
     "register-service-worker": "^1.5.2",
     "sass-loader": "^7.1.0",
+    "svg-inline-loader": "^0.8.0",
     "uglifyjs-webpack-plugin": "^2.1.0",
     "vue-loader": "^15.0.0-beta",
     "vue-template-compiler": "^2.5.21",

@@ -5,6 +5,9 @@ self.addEventListener('install', function(event) {
             '/',
             '/index.html',
             '/dist/build.js',
+            '/assets/manifest_icons/web_hi_res_512',
+            'https://fonts.gstatic.com/s/materialicons/v42/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
+            'https://fonts.googleapis.com/css?family=Roboto:400,500,700'
         ])
     }))
 })
