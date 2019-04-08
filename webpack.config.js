@@ -29,10 +29,6 @@ module.exports = {
         {
             test: /\.(css|sass|)$/i,
             loader: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
-        },
-        {
-            test: /\.svg$/,
-            loader: 'svg-inline-loader'
         }]
     },
     devServer: {
