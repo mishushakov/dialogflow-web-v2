@@ -2,7 +2,11 @@
     <header class="app-head">
         <img :alt="app.displayName" class="app-icon" :src="app.avatarUri" v-if="app.avatarUri" />
         <img :alt="app.displayName" class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" v-else />
-        <span class="app-name">{{app.displayName}}</span>
+        
+        <div class="app-info">
+            <div class="app-name">{{app.displayName}}</div>
+            <div class="app-poweredby">Built with <a href="https://dialogflow.cloud.ushakov.co">Dialogflow Gateway</a></div>
+        </div>
     </header>
 </template>
 
@@ -15,7 +19,6 @@
     position: fixed
     width: 100%
     background-color: white
-    transition: all .15s linear
 
     .app-icon
         border-radius: 50%
@@ -23,14 +26,22 @@
         height: 30px
         object-fit: cover
 
-    .app-name
+    .app-info
         display: inline-block
-        text-align: center
         margin-left: 10px
-        transform: translateY(-8px)
-        font-size: 18px
-        font-weight: 500
-        color: #202124
+
+        .app-name
+            font-size: 18px
+            font-weight: 500
+            color: #202124
+
+        .app-poweredby
+            font-size: 14px
+            opacity: .6
+
+            a[href]
+                color: black
+                text-decoration: none
 </style>
 
 <script>
