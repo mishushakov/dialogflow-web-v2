@@ -5,7 +5,7 @@ let get_gateway_url = () => {
     }
 
     else {
-        return "https://us-central1-dialogflow-web-v2.cloudfunctions.net/gateway"
+        return "https://dialogflow-web-v2.gateway.dialogflow.cloud.ushakov.co"
     }
 }
 

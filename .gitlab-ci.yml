@@ -23,6 +23,7 @@ release:
 
 deploy:
   stage: deploy
+  when: manual
   image: roffe/kubectl
   script:
     - mkdir ~/.kube

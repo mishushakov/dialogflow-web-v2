@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <img class="card-image" v-if="image.imageUri.length > 0" :src="image.imageUri" :alt="image.accessibilityText" />
+        <img class="card-image" v-if="image.imageUri" :src="image.imageUri" :alt="image.accessibilityText" />
         <div class="card-content">
             <div class="card-title" v-if="title">{{title}}</div>
             <div class="card-subtitle" v-if="subtitle">{{subtitle}}</div>

@@ -14,11 +14,11 @@
                     <tr>
 
                         <!-- My message -->
-                        <td><Bubble :text="m.query" from="me" /></td>
+                        <td><Bubble :text="m.queryResult.queryText" from="me" /></td>
                     </tr>
                     
                     <!-- Component iterator (Dialogflow Gateway Feature) -->
-                    <tr v-for="component in m.components">
+                    <tr v-for="component in m.queryResult.fulfillmentMessages">
                         <td>
 
                             <!-- Default / Webhook bubble -->
@@ -102,7 +102,7 @@ body
 
 <style lang="sass" scoped>
 .chat-container
-    padding-top: 40px
+    padding-top: 60px
     padding-bottom: 125px
 
 .message
@@ -199,7 +199,7 @@ export default {
         /* The code below is used to extract suggestions from last message, to display it on ChatInput */
         suggestions(){
             if(this.messages.length > 0){
-                let last_message = this.messages[this.messages.length - 1].components
+                let last_message = this.messages[this.messages.length - 1].queryResult.fulfillmentMessages
                 let suggestions = []
 
                 for (let component in last_message){
@@ -253,30 +253,33 @@ export default {
     methods: {
         send(q){
             let request = {
-                "q": q,
-                "session_id": this.session,
-                "lang": this.lang() // <- the request language is being set on the Welcome screen, make sure to inspect that as well.
-            } // <- this is how a Dialogflow Gateway request looks like, by the way
+                "queryInput": {
+                    "text": {
+                        "text": q,
+                        "languageCode": this.lang()
+                    }
+                }
+            } // <- this is how a Dialogflow request look like
 
             /* Make the request to gateway with formatting enabled */
-            fetch(this.config.app.gateway + '?format=true', {method: 'POST', body: JSON.stringify(request), headers: {'content-type': 'application/json'}})
+            fetch(this.config.app.gateway + '/' + this.session + '?format=true', {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(request)})
             .then(response => {
                 return response.json()
             })
             .then(response => {
                 this.messages.push(response)
                 this.handle(response) // <- trigger the handle function (explanation below)
-                //console.log(response) // <- (optional) log responses
+                console.log(response) // <- (optional) log responses
             })
         },
         handle(response){
             /* This function is used for speech output */
-            for (let component in response.components){
+            for (let component in response.queryResult.fulfillmentMessages){
                 let text // <- init a text variable
 
                 /* Set the text variable according to component name */
-                if(response.components[component].name == 'DEFAULT') text = response.components[component].content
-                if(response.components[component].name == 'SIMPLE_RESPONSE') text = response.components[component].content.textToSpeech
+                if(response.queryResult.fulfillmentMessages[component].name == 'DEFAULT') text = response.queryResult.fulfillmentMessages[component].content
+                if(response.queryResult.fulfillmentMessages[component].name == 'SIMPLE_RESPONSE') text = response.queryResult.fulfillmentMessages[component].content.textToSpeech
 
                 let speech = new SpeechSynthesisUtterance(text)
                 speech.voiceURI = 'native' // <- change this, to get a different voice
@@ -284,7 +287,7 @@ export default {
                 /* This "hack" is used to format our lang format, to some other lang format (example: en -> en_EN). Mainly for Safari, Firefox and Edge */
                 speech.lang = this.lang() + '-' + this.lang().toUpperCase()
 
-                if(this.config.app.muted == false) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
+                if(this.muted == false) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
             }
         }
     }

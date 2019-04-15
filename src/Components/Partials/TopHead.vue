@@ -5,7 +5,7 @@
         
         <div class="app-info">
             <div class="app-name">{{app.displayName}}</div>
-            <div class="app-poweredby">Built with <a href="https://dialogflow.cloud.ushakov.co">Dialogflow Gateway</a></div>
+            <div class="app-poweredby">Built with <a target="_blank" rel="noopener noreferrer" href="https://dialogflow.cloud.ushakov.co">Dialogflow Gateway</a></div>
         </div>
     </header>
 </template>
@@ -13,9 +13,7 @@
 <style lang="sass" scoped>
 .app-head
     z-index: 666
-    padding-left: 16px
-    padding-top: 16px
-    padding-bottom: 10px
+    padding: 16px
     position: fixed
     width: 100%
     background-color: white
