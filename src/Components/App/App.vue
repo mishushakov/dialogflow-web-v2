@@ -269,7 +269,7 @@ export default {
             .then(response => {
                 this.messages.push(response)
                 this.handle(response) // <- trigger the handle function (explanation below)
-                console.log(response) // <- (optional) log responses
+                //console.log(response) // <- (optional) log responses
             })
         },
         handle(response){
