@@ -41,6 +41,8 @@
     font-size: 20px
     color: #202124
     line-height: 24px
+    overflow: hidden
+    text-overflow: ellipsis
 
 .card-subtitle
     font-size: 16px

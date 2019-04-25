@@ -6,7 +6,7 @@
         <section class="container chat-container">
 
             <!-- Welcome component is for onboarding experience and language picker -->
-            <Welcome v-if="messages.length == 0" :app="app" @start="send(config.i18n[lang()].startPhrase)"></Welcome>
+            <Welcome v-if="messages.length == 0" :app="app"></Welcome>
 
             <!-- Messages Table -->
             <section class="messages" v-else>
@@ -41,6 +41,16 @@
                             <!-- Webhook Image -->
                             <Picture v-if="component.name == 'IMAGE'" :image="component.content" />
                         </td>
+                    </tr>
+                </table>
+                <table class="message" v-if="loading">
+                    <tr>
+                        <!-- My message (Loading) -->
+                        <td><Bubble text="..." from="me" /></td>
+                    </tr>
+                    <tr>
+                        <!-- Default / Webhook bubble (Loading) -->
+                        <td><Bubble text="..." /></td>
                     </tr>
                 </table>
             </section>
@@ -160,7 +170,8 @@ export default {
             messages: [],
             language: '',
             session: '',
-            muted: this.config.app.muted
+            muted: this.config.app.muted,
+            loading: false
         }
     },
     created(){
@@ -220,14 +231,16 @@ export default {
     watch: {
         /* This function is triggered, when new messages arrive */
         messages(messages){
+            if(this.history()) localStorage.setItem('message_history', JSON.stringify(messages)) // <- Save history if the feature is enabled
+        },
+        /* This function is triggered, when request is started or finished */
+        loading(){
             setTimeout(() => {
                 let app = document.querySelector('#app') // <- We need to scroll down #app, to prevent the whole page jumping to bottom, when using in iframe
                 app.querySelector('#bottom').scrollIntoView({ 
                     behavior: 'smooth' 
                 })
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to #bottom selector, used as anchor
-
-            if(this.history()) localStorage.setItem('message_history', JSON.stringify(messages)) // <- Save history if the feature is enabled
         },
         /* You don't need the function below. It's only for my cloud, to manage the SEO */
         app(agent){
@@ -261,6 +274,8 @@ export default {
                 }
             } // <- this is how a Dialogflow request look like
 
+            this.loading = true
+
             /* Make the request to gateway with formatting enabled */
             fetch(this.config.app.gateway + '/' + this.session + '?format=true', {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(request)})
             .then(response => {
@@ -269,6 +284,7 @@ export default {
             .then(response => {
                 this.messages.push(response)
                 this.handle(response) // <- trigger the handle function (explanation below)
+                this.loading = false
                 //console.log(response) // <- (optional) log responses
             })
         },
@@ -287,7 +303,7 @@ export default {
                 /* This "hack" is used to format our lang format, to some other lang format (example: en -> en_EN). Mainly for Safari, Firefox and Edge */
                 speech.lang = this.lang() + '-' + this.lang().toUpperCase()
 
-                if(this.muted == false) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
+                if(!this.muted) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
             }
         }
     }

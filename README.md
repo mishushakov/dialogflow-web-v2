@@ -96,6 +96,14 @@ export default {
 
 The logo, application name, description and the available languages are fetched from your Dialogflow Agent directly. If you want to change them, then you should do it in the Dialogflow Console and it will be synced to the UI. Please note, when adding new languages, you need to translate some of the UI as well (`i18n` field in `config.js`). Also don't forget to clean your cache, if you make some changes to the Agent
 
+## Cloud Artifacts
+
+Each Dialogflow Gateway customer gets hosted version of Dialogflow for Web v2 for free. The code, that is running on the Dialogflow Gateway Cloud is exactly the same as in this repository. You may want to remove some supporting code, that is meant to execute in cloud environment only. Here are some lines, you may want to remove on a self-hosted integration
+
+`config.js` - Line 1 to 10
+
+`src/Components/App.vue` - Line 246 to 265
+
 ## Start development server & build
 
 Open your cloned folder. Then, using your favorite package manager run `dev` command

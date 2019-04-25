@@ -32,7 +32,7 @@
 .app-icon
     width: 120px
     height: 120px
-    border-radius: 50%
+    border-radius: 16px
     object-fit: cover
 
 .app-title

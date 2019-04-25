@@ -11,7 +11,6 @@
     color: #202124
     border: 1px solid #E8EAED
     display: inline-block
-    margin-top: 24px
     position: relative
     background-color: white
 
@@ -28,6 +27,7 @@
         background-color: #F1F3F4
         border: 1px solid #F1F3F4
         color: #5F6368
+        margin-top: 24px
 
         &::before
             content: ''

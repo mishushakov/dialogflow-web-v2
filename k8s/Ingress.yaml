@@ -5,6 +5,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.frontend.rule.type: PathPrefixStrip
+    certmanager.k8s.io/cluster-issuer: do-issuer
+    certmanager.k8s.io/acme-challenge-type: dns01
+    certmanager.k8s.io/acme-dns01-provider: digitalocean
 spec:
   rules:
   - host: "*.ui.dialogflow.cloud.ushakov.co"

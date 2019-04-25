@@ -15,7 +15,7 @@
                 </div>
 
                 <!-- Send message button (arrow button) -->
-                <div :aria-label="config.i18n[lang()].sendTitle" :title="config.i18n[lang()].sendTitle" class="button-container" v-if="micro == false && query.length > 0" @click="submit()">
+                <div :aria-label="config.i18n[lang()].sendTitle" :title="config.i18n[lang()].sendTitle" class="button-container" v-if="!micro && query.length > 0" @click="submit()">
                     <i class="material-icons" aria-hidden="true">arrow_upward</i>
                 </div>
 
@@ -115,14 +115,12 @@ export default {
     watch: {
         /* This function triggers when user clicks on the microphone button */
         micro(bool){
-            let self = this // <- correct scope
-
-            if(bool == true){
+            if(bool){
                 /* When value is true, start voice recognition */
                 this.recognition.start()
                 this.recognition.onresult = (event) => {
                     for (let i = event.resultIndex; i < event.results.length; ++i){
-                        self.query = event.results[i][0].transcript // <- push results to the Text input
+                        this.query = event.results[i][0].transcript // <- push results to the Text input
                     }
                 }
 
