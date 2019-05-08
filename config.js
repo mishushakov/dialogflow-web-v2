@@ -1,7 +1,6 @@
 let get_gateway_url = () => {
     if(window.location.host.includes("cloud.ushakov.co")){
-        let appid = window.location.host.split('.')[0]
-        return "https://" + appid + ".gateway.dialogflow.cloud.ushakov.co"
+        return "https://" + window.location.host.split('.')[0] + ".gateway.dialogflow.cloud.ushakov.co"
     }
 
     else {
@@ -27,7 +26,7 @@ export default {
         ru: {
             welcomeTitle: "Добро пожаловать в",
             muteTitle: "Режим звука",
-            inputTitle: "Введите свое сообщение",
+            inputTitle: "Введите ваше сообщение",
             sendTitle: "Отправить",
             microphoneTitle: "Голосовой ввод"
         },
@@ -37,6 +36,13 @@ export default {
             inputTitle: "Schreiben Sie ihre Nachricht",
             sendTitle: "Senden",
             microphoneTitle: "Spracheingabe"
+        },
+        fr: {
+            welcomeTitle: "Bienvenue à",
+            muteTitle: "Sound Mode",
+            inputTitle: "Entrez votre message",
+            sendTitle: "Envoyer",
+            microphoneTitle: "Entrée vocale"
         }
     }
 }

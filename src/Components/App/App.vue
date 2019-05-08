@@ -6,7 +6,7 @@
         <section class="container chat-container">
 
             <!-- Welcome component is for onboarding experience and language picker -->
-            <Welcome v-if="messages.length == 0" :app="app"></Welcome>
+            <Welcome v-if="app && messages.length == 0" :app="app"></Welcome>
 
             <!-- Messages Table -->
             <section class="messages" v-else>
@@ -46,11 +46,11 @@
                 <table class="message" v-if="loading">
                     <tr>
                         <!-- My message (Loading) -->
-                        <td><Bubble text="..." from="me" /></td>
+                        <td><Bubble from="me" loading="true" /></td>
                     </tr>
                     <tr>
                         <!-- Default / Webhook bubble (Loading) -->
-                        <td><Bubble text="..." /></td>
+                        <td><Bubble loading="true" /></td>
                     </tr>
                 </table>
             </section>
@@ -63,7 +63,7 @@
         <ChatInput @submit="send" :suggestions="suggestions"></ChatInput>
 
         <!-- Audio toggle (on the top right corner), used to toggle the audio output, default mode is defined in the settings -->
-        <div :aria-label="config.i18n[lang()].muteTitle" :title="config.i18n[lang()].muteTitle" class="audio-toggle" @click="muted = !muted">
+        <div :aria-label="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].muteTitle" :title="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].muteTitle" class="audio-toggle" @click="muted = !muted">
             <i aria-hidden="true" class="material-icons" v-if="!muted">volume_up</i>
             <i aria-hidden="true" class="material-icons" v-else>volume_off</i>
         </div>

@@ -1,16 +1,14 @@
 ![](https://i.imgur.com/J8aTIwt.png)
 
-*The picture is worth thousands words*
-
 # Dialogflow for Web *v2*
 
-What is Dialogflow, by the way?
+What is [Dialogflow](https://dialogflow.com), by the way?
 
 > Dialogflow lets you build conversational interfaces on top of your products and services by providing a powerful natural language understanding (NLU) engine to process and understand natural language input
 
-This is a unofficial Web Integration for Dialogflow V2, built to support rich responses and to make the most out of the Platform available to the Web
+This is a unofficial Web Integration for Dialogflow V2, built to support rich responses and make the most out of the Platform available to the Web
 
-The development of this project was made possible by [me](https://linkedin.com/in/mishushakov). You can hire me or [send me some snacks](https://paypal.me/mishushakov)
+The development of this project was made possible by [me](https://i.ushakov.co). You can hire me or [send me some snacks](https://paypal.me/mishushakov)
 
 If you have any questions, feel free to [contact me](https://i.ushakov.co/#contact)
 
@@ -19,7 +17,7 @@ If you have any questions, feel free to [contact me](https://i.ushakov.co/#conta
 - Progressive Web App (100/100 Lighthouse score)
 - Accessibility Features
 - Wide Browser Support (IE8+), offline capabilities (history) and great SEO
-- Familiar UI & UX, based on official Google Assistant Guidelines
+- Familiar UI & UX, based on the official Google Assistant Design Specifications
 - Hands-free interaction with Voice Input and Speech Feedback
 - Language Independency
 - Docker and Kubernetes support
@@ -51,12 +49,11 @@ There are many ways you can contribute to the project:
 - Basic knowledge in ES6 (JavaScript)
 - Google Account and Dialogflow V2 Agent (if you look for V1, please use my [old repo](https://github.com/mishushakov/dialogflow-web) and the [instructions](https://github.com/mishushakov/dialogflow-web/blob/21ffc7017f1a4d51eabb1122c5aae119a7d73587/README.md))
 
-## Setting Up Dialogflow Gateway
+## Setting Up [Dialogflow Gateway](https://dialogflow.cloud.ushakov.co)
 
-Dialogflow Gateway is a cloud-based service, which connects Dialogflow V2 Agents to the World Wide Web.
-Dialogflow for Web v2 requires Dialogflow Gateway for its formatting option and to make secure and authenticated requests to Dialogflow V2 API
+Dialogflow Gateway is a cloud-based service, which makes third-party Dialogflow V2 Integrations, like this one possible.
 
-Follow a detailed guide, on how to connect your Agent to the Gateway [here](https://github.com/mishushakov/dialogflow-gateway-docs/blob/master/guide.md) and return to this guide, when you have connected the Gateway to your Agent
+Follow a detailed guide, on how to connect your Agent to the Gateway [here](https://github.com/mishushakov/dialogflow-gateway-docs/blob/master/guide.md) and return to this guide, when you are finished
 
 ## Cloning the repository to your machine
 
@@ -77,7 +74,7 @@ Example using yarn
 
 ## Customizing App & Connecting your Agent
 
-Open `config.js` and change the `gateway` variable to your Dialogflow Gateway URL
+Open `config.js` and change the `gateway` variable to your Dialogflow Gateway URL. If you don't know, what Dialogflow Gateway is, please read the docs one more time, because you have missed something out.
 
 Hint: the Dialogflow Gateway URL is always your google cloud project name + `.gateway.dialogflow.cloud.ushakov.co`. When you have troubles finding it, make sure you have connected your Agent to the Gateway, then visit the [console](https://dialogflow.cloud.ushakov.co/console/), click on "Manage" and copy the Gateway URL
 
@@ -94,15 +91,7 @@ export default {
 [...]
 ```
 
-The logo, application name, description and the available languages are fetched from your Dialogflow Agent directly. If you want to change them, then you should do it in the Dialogflow Console and it will be synced to the UI. Please note, when adding new languages, you need to translate some of the UI as well (`i18n` field in `config.js`). Also don't forget to clean your cache, if you make some changes to the Agent
-
-## Cloud Artifacts
-
-Each Dialogflow Gateway customer gets hosted version of Dialogflow for Web v2 for free. The code, that is running on the Dialogflow Gateway Cloud is exactly the same as in this repository. You may want to remove some supporting code, that is meant to execute in cloud environment only. Here are some lines, you may want to remove on a self-hosted integration
-
-`config.js` - Line 1 to 10
-
-`src/Components/App.vue` - Line 246 to 265
+The logo, agent name, description and the available languages are fetched from Dialogflow directly. If you want to change them, then you should do it in the Dialogflow Console and it will be synced to the UI. Please note, when adding new languages, you need to translate some of the UI as well (`i18n` field in `config.js`). Also don't forget to clean your cache, if you make some changes to the Agent
 
 ## Start development server & build
 

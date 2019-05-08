@@ -1,5 +1,5 @@
 <template>
-    <span class="bubble" :class="{'me': from == 'me'}">
+    <span class="bubble" :class="{'me': from == 'me', 'loading': loading}">
         {{text}}
     </span>
 </template>
@@ -39,11 +39,24 @@
             top: 0
             margin-top: -9px
             margin-right: -1px
+
+    &.loading
+        width: 20px
+        height: 16px
+        animation: loading .8s ease infinite
+
+@keyframes loading
+    0%
+        opacity: 0
+    50%
+        opacity: 1
+    100%
+        opacity: 0
 </style>
 
 <script>
 export default {
     name: 'Bubble',
-    props: ['text', 'from']
+    props: ['text', 'from', 'loading']
 }
 </script>

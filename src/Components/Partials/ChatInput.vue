@@ -11,16 +11,16 @@
 
                 <!-- Text input -->
                 <div class="input-container">
-                    <input :aria-label="config.i18n[lang()].inputTitle" class="input" type="text" :placeholder="config.i18n[lang()].inputTitle" v-model="query" @keypress.enter="submit()" />
+                    <input :aria-label="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle" class="input" type="text" :placeholder="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle" v-model="query" @keypress.enter="submit()" />
                 </div>
 
                 <!-- Send message button (arrow button) -->
-                <div :aria-label="config.i18n[lang()].sendTitle" :title="config.i18n[lang()].sendTitle" class="button-container" v-if="!micro && query.length > 0" @click="submit()">
+                <div :aria-label="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle" :title="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle" class="button-container" v-if="!micro && query.length > 0" @click="submit()">
                     <i class="material-icons" aria-hidden="true">arrow_upward</i>
                 </div>
 
                 <!-- Microphone Button -->
-                <div :aria-label="config.i18n[lang()].microphoneTitle" :title="config.i18n[lang()].microphoneTitle" class="button-container mic_button" :class="{'mic_active': micro}" @click="micro = !micro" v-else>
+                <div :aria-label="(config.i18n[lang()] && config.i18n[lang()].microphoneTitle) || config.i18n[config.app.fallback_lang].microphoneTitle" :title="(config.i18n[lang()] && config.i18n[lang()].microphoneTitle) || config.i18n[config.app.fallback_lang].microphoneTitle" class="button-container mic_button" :class="{'mic_active': micro}" @click="micro = !micro" v-else>
                     <i class="material-icons" aria-hidden="true">mic</i>
                 </div>
             </div>
@@ -35,7 +35,6 @@
     left: 0
     width: 100%
     background-color: white
-    transition: box-shadow .15s linear
 
 .flexible
     display: flex
