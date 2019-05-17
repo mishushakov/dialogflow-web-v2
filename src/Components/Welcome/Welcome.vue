@@ -68,17 +68,27 @@ export default {
     props: ['app'],
     data(){
         return {
-            sel_lang: this.app.defaultLanguageCode
+            sel_lang: ''
         }
     },
     watch: {
-        /* Select translations */
+        /* Save selected language */
         sel_lang(lang){
             if(this.history()) localStorage.setItem('lang', lang)
 
             else {
                 this.config.app.fallback_lang = lang
             }
+        }
+    },
+    /* Set default language on load (or fallback) */
+    created(){
+        if(this.app && this.app.defaultLanguageCode){
+            this.sel_lang = this.app.defaultLanguageCode
+        }
+
+        else {
+            this.sel_lang = this.config.app.fallback_lang
         }
     },
     filters: {
