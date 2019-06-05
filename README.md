@@ -8,9 +8,9 @@ What is [Dialogflow](https://dialogflow.com), by the way?
 
 This is a unofficial Web Integration for Dialogflow V2, built to support rich responses and make the most out of the Platform available to the Web
 
-The development of this project was made possible by [me](https://i.ushakov.co). You can hire me or [send me some snacks](https://paypal.me/mishushakov)
+The development of this project is done by @mishushakov.
 
-If you have any questions, feel free to [contact me](https://i.ushakov.co/#contact)
+If you have any questions, feel free to [contact](https://i.ushakov.co)
 
 ## Features
 
@@ -24,26 +24,17 @@ If you have any questions, feel free to [contact me](https://i.ushakov.co/#conta
 - Rich-component, Webhook and Actions on Google Support ([demo](https://codepen.io/mishushakov/pen/YMwoEK))
 - Iframe Support ([demo](https://codepen.io/mishushakov/pen/ywWaRW))
 - Based on Vue, Webpack 4, Babel 7
-- Lightweight (with ngx_pagespeed the build is <100KB)
-- Free and Documented (documentation coverage at least 80%)
+- Lightweight (build is <100KB)
+- Free and Documented
 - Free hosted version on [Dialogflow Gateway](https://dialogflow.cloud.ushakov.co)
-- Made in Germany (if it makes any sense to you)
+- Made in Germany
 
 ![](https://i.imgur.com/0vYBGTq.png)
 
-## Contributing
-
-There are many ways you can contribute to the project:
-
-- Adding more translations
-- Fixing bugs and contributing to the code base
-- Leaving your feedback and suggesting more features
-- Donating
-- Sharing
-
-# Getting started
+# Installation
 
 ## Requirements
+
 - NodeJS
 - NPM or Yarn
 - Basic knowledge in ES6 (JavaScript)
@@ -51,7 +42,7 @@ There are many ways you can contribute to the project:
 
 ## Setting Up [Dialogflow Gateway](https://dialogflow.cloud.ushakov.co)
 
-Dialogflow Gateway is a cloud-based service, which makes third-party Dialogflow V2 Integrations, like this one possible.
+Dialogflow Gateway is a cloud-based service, which makes third-party Dialogflow V2 Integrations like this possible.
 
 Follow a detailed guide, on how to connect your Agent to the Gateway [here](https://github.com/mishushakov/dialogflow-gateway-docs/blob/master/guide.md) and return to this guide, when you are finished
 
@@ -62,7 +53,8 @@ You can use git or download it directly from github
 ![](https://imgur.com/bpHE9K6.png)
 
 ## Getting the dependencies
-Open your cloned folder. Then, using your favorite package manager get the dependencies
+
+Open the cloned folder. Then, using your favorite package manager get the dependencies
 
 Example using npm
 
@@ -76,7 +68,7 @@ Example using yarn
 
 Open `config.js` and change the `gateway` variable to your Dialogflow Gateway URL. If you don't know, what Dialogflow Gateway is, please read the docs one more time, because you have missed something out.
 
-Hint: the Dialogflow Gateway URL is always your google cloud project name + `.gateway.dialogflow.cloud.ushakov.co`. When you have troubles finding it, make sure you have connected your Agent to the Gateway, then visit the [console](https://dialogflow.cloud.ushakov.co/console/), click on "Manage" and copy the Gateway URL
+Hint: the Dialogflow Gateway URL is always your google cloud project id + `.gateway.dialogflow.cloud.ushakov.co`. If you have troubles finding it, make sure you connected your Agent to the Gateway, then visit the [console](https://dialogflow.cloud.ushakov.co/console/), click on "Manage" and copy the Gateway URL
 
 Example
 
@@ -91,9 +83,9 @@ export default {
 [...]
 ```
 
-The logo, agent name, description and the available languages are fetched from Dialogflow directly. If you want to change them, then you should do it in the Dialogflow Console and it will be synced to the UI. Please note, when adding new languages, you need to translate some of the UI as well (`i18n` field in `config.js`). Also don't forget to clean your cache, if you make some changes to the Agent
+The logo, agent name, description and the available languages are fetched from Dialogflow directly. Change them in Dialogflow and it will be synced to the UI. Please note, when adding new languages, you may have to translate some of the UI as well (`i18n` field in `config.js`). Also don't forget to clean your cache, if you make changes to the Agent
 
-## Start development server & build
+## Start development server & Build
 
 Open your cloned folder. Then, using your favorite package manager run `dev` command
 
@@ -135,5 +127,3 @@ Example using yarn
 
 - Q: I changed the gateway url, but the responses are the same as with the previous one
 - A: Make sure you have **cleaned your cache** and **rebuilt your app**. In Safari go to "Develop" > "Empty Caches". In Chrome: "Developer Tools" > "Application" > "Clear storage" > "Clear site data"
-
-# Have fun using the product!

@@ -19,7 +19,7 @@
     background-color: white
 
     .app-icon
-        border-radius: 50%
+        border-radius: 8px
         width: 30px
         height: 30px
         object-fit: cover

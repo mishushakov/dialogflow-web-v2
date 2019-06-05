@@ -23,7 +23,6 @@
     border-radius: 12px
     display: inline-block
     max-width: 300px
-    margin-top: 10px
     margin-right: 10px
 
 .card-image

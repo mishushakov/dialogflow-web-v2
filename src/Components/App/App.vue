@@ -1,6 +1,5 @@
 <template>
     <main id="app">
-
         <!-- TopHead is the header with the information about the app -->
         <TopHead v-if="app && messages.length > 0" :app="app"></TopHead>
         <section class="container chat-container">
@@ -12,7 +11,6 @@
             <section class="messages" v-else>
                 <table v-for="m in messages" class="message">
                     <tr>
-
                         <!-- My message -->
                         <td><Bubble :text="m.queryResult.queryText" from="me" /></td>
                     </tr>
@@ -20,7 +18,6 @@
                     <!-- Component iterator (Dialogflow Gateway Feature) -->
                     <tr v-for="component in m.queryResult.fulfillmentMessages">
                         <td>
-
                             <!-- Default / Webhook bubble -->
                             <Bubble :text="component.content" v-if="component.name == 'DEFAULT'" />
 

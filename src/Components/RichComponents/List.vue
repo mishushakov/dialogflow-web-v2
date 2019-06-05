@@ -17,7 +17,6 @@
     display: inline-block
     max-width: 300px
     padding: 16px
-    margin-top: 10px
     border-radius: 12px
     background-color: white
     box-shadow: 0 2px 6px 2px rgba(60,64,67,0.15)

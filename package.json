@@ -1,7 +1,7 @@
 {
   "name": "dialogflow-web-v2",
   "description": "Dialogflow unofficial Progressive Web App",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "author": "MishUshakov",
   "private": true,
   "scripts": {

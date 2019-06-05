@@ -1,6 +1,5 @@
 const { VueLoaderPlugin } = require('vue-loader')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
 const path = require('path')
 
 const env = process.env.NODE_ENV
@@ -10,11 +9,11 @@ module.exports = {
     mode: env,
     output: {
         path: path.resolve(__dirname, './dist'),
-        publicPath: '/dist/',
+        publicPath: '/dist',
         filename: 'build.js'
     },
     optimization: {
-        minimizer: [new UglifyJsPlugin()],
+        minimizer: [new UglifyJsPlugin()]
     },
     module: {
         rules: [{

@@ -4,7 +4,6 @@
 
 <style lang="sass" scoped>
 .picture
-    margin-top: 10px
     max-width: 300px
     height: auto
     border-radius: 12px
