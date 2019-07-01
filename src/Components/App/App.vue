@@ -3,6 +3,8 @@
         <!-- TopHead is the header with the information about the app -->
         <TopHead v-if="app && messages.length > 0" :app="app"></TopHead>
         <section class="container chat-container">
+            <!-- Error component is for displaying errors -->
+            <Error v-if="error" :error="error"></Error>
 
             <!-- Welcome component is for onboarding experience and language picker -->
             <Welcome v-if="app && messages.length == 0" :app="app"></Welcome>
@@ -25,7 +27,7 @@
                             <Bubble :text="component.content.displayText || component.content.textToSpeech" v-if="component.name == 'SIMPLE_RESPONSE'" />
                             
                             <!-- Card -->
-                            <Card :title="component.content.title" :subtitle="component.content.subtitle" :image="component.content.image" :text="component.content.formattedText" :button="component.content.buttons[0]" v-if="component.name == 'CARD'" />
+                            <Card :title="component.content.title" :subtitle="component.content.subtitle" :image="component.content.image" :text="component.content.formattedText" :buttons="component.content.buttons" v-if="component.name == 'CARD'" />
                             
                             <!-- Carousel layout and cards -->
                             <div class="carousel" v-if="component.name == 'CAROUSEL_CARD'">
@@ -56,7 +58,7 @@
         <!-- #bottom is the anchor, we need, when new messages arrive, to scroll down -->
         <div id="bottom"></div>
 
-        <!-- ChatInput is made for submitting queres and displaying suggestions -->
+        <!-- ChatInput is made for submitting queries and displaying suggestions -->
         <ChatInput @submit="send" :suggestions="suggestions"></ChatInput>
 
         <!-- Audio toggle (on the top right corner), used to toggle the audio output, default mode is defined in the settings -->
@@ -114,6 +116,7 @@ body
 
 .message
     width: 100%
+    table-layout: fixed
 
 .audio-toggle
     position: fixed
@@ -140,6 +143,7 @@ body
 
 <script>
 import Welcome from './../Welcome/Welcome.vue'
+import Error from './../Error/Error.vue'
 import TopHead from './../Partials/TopHead.vue'
 import ChatInput from './../Partials/ChatInput.vue'
 
@@ -154,6 +158,7 @@ export default {
     name: 'app',
     components: {
         Welcome,
+        Error,
         TopHead,
         ChatInput,
         Bubble,
@@ -168,7 +173,8 @@ export default {
             language: '',
             session: '',
             muted: this.config.app.muted,
-            loading: false
+            loading: false,
+            error: null
         }
     },
     created(){
@@ -194,12 +200,16 @@ export default {
 
         else {
             fetch(this.config.app.gateway)
-            .then(response => {
-                return response.json()
-            })
+            .then(response => response.json())
             .then(agent => {
-                this.app = agent
-                if(this.history()) localStorage.setItem('agent', JSON.stringify(agent))
+                if(!agent.error){
+                    this.app = agent
+                    if(this.history()) localStorage.setItem('agent', JSON.stringify(agent))
+                }
+
+                else {
+                    this.error = agent.error
+                }
             })
         }
     },
@@ -272,18 +282,23 @@ export default {
             } // <- this is how a Dialogflow request look like
 
             this.loading = true
+            this.error = null
 
             /* Make the request to gateway with formatting enabled */
             fetch(this.config.app.gateway + '/' + this.session + '?format=true', {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(request)})
+            .then(response => response.json())
             .then(response => {
-                return response.json()
+                if(!response.error){
+                    this.messages.push(response)
+                    this.handle(response) // <- trigger the handle function (explanation below)
+                    //console.log(response) // <- (optional) log responses
+                }
+
+                else {
+                    this.error = response.error
+                }
             })
-            .then(response => {
-                this.messages.push(response)
-                this.handle(response) // <- trigger the handle function (explanation below)
-                this.loading = false
-                //console.log(response) // <- (optional) log responses
-            })
+            .then(() => this.loading = false)
         },
         handle(response){
             /* This function is used for speech output */
@@ -295,11 +310,10 @@ export default {
                 if(response.queryResult.fulfillmentMessages[component].name == 'SIMPLE_RESPONSE') text = response.queryResult.fulfillmentMessages[component].content.textToSpeech
 
                 let speech = new SpeechSynthesisUtterance(text)
-                speech.voiceURI = 'native' // <- change this, to get a different voice
+                speech.voiceURI = this.config.app.voice
 
                 /* This "hack" is used to format our lang format, to some other lang format (example: en -> en_EN). Mainly for Safari, Firefox and Edge */
                 speech.lang = this.lang() + '-' + this.lang().toUpperCase()
-
                 if(!this.muted) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
             }
         }

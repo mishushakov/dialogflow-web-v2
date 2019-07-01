@@ -1,5 +1,4 @@
 const { VueLoaderPlugin } = require('vue-loader')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 
 const env = process.env.NODE_ENV
@@ -13,7 +12,7 @@ module.exports = {
         filename: 'build.js'
     },
     optimization: {
-        minimizer: [new UglifyJsPlugin()]
+        minimize: true
     },
     module: {
         rules: [{

@@ -6,8 +6,8 @@
             <div class="card-subtitle" v-if="subtitle">{{subtitle}}</div>
             <div class="card-text">{{text}}</div>
 
-            <div class="card-buttons" v-if="button">
-                <a class="card-button" target="_blank" rel="noopener noreferrer" :href="button.openUriAction.uri">
+            <div class="card-buttons" v-if="buttons">
+                <a class="card-button" target="_blank" rel="noopener noreferrer" :href="button.openUriAction.uri" v-for="button in buttons">
                     <i aria-hidden="true" class="material-icons card-button-icon">arrow_forward</i>
                     <span class="card-button-title">{{button.title}}</span>
                 </a>
@@ -24,6 +24,7 @@
     display: inline-block
     max-width: 300px
     margin-right: 10px
+    margin-bottom: 10px
 
 .card-image
     width: 100%
@@ -69,6 +70,9 @@
     text-align: center
     position: relative
 
+    &:not(:first-child)
+        margin-top: 12px
+
 .card-button-icon
     left: 0
     margin-left: 12px
@@ -78,6 +82,6 @@
 <script>
 export default {
     name: 'Card',
-    props: ['title', 'subtitle', 'text', 'image', 'button']
+    props: ['title', 'subtitle', 'text', 'image', 'buttons']
 }
 </script>
