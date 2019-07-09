@@ -18,8 +18,8 @@
 
 <style lang="sass" scoped>
 .card
-    background-color: white
-    box-shadow: 0 2px 6px 2px rgba(60,64,67,0.15)
+    background-color: var(--component-background)
+    box-shadow: var(--shadow)
     border-radius: 12px
     display: inline-block
     max-width: 300px
@@ -32,6 +32,7 @@
     object-fit: cover
     border-top-right-radius: 10px
     border-top-left-radius: 10px
+    background-color: var(--image-background)
 
 .card-content
     padding: 16px
@@ -39,7 +40,7 @@
 .card-title
     font-weight: 500
     font-size: 20px
-    color: #202124
+    color: var(--text)
     line-height: 24px
     overflow: hidden
     text-overflow: ellipsis
@@ -47,12 +48,12 @@
 .card-subtitle
     font-size: 16px
     line-height: 24px
-    color: #757575
+    color: var(--text-subtitle)
 
 .card-text
     line-height: 24px
     font-size: 14px
-    color: #5F6368
+    color: var(--text-secondary)
     white-space: normal
 
 .card-buttons
@@ -61,8 +62,8 @@
 .card-button
     text-decoration: none
     line-height: 24px
-    color: #4285F4
-    border: 1px solid lighten(#4285F4, 25%)
+    color: var(--accent)
+    border: 1px solid var(--border)
     border-radius: 40px
     display: block
     font-weight: 500

@@ -16,13 +16,14 @@
     padding: 16px
     position: fixed
     width: 100%
-    background-color: white
+    background-color: var(--background)
 
     .app-icon
         border-radius: 8px
         width: 30px
         height: 30px
         object-fit: cover
+        background-color: var(--image-background)
 
     .app-info
         display: inline-block
@@ -31,14 +32,14 @@
         .app-name
             font-size: 18px
             font-weight: 500
-            color: #202124
+            color: var(--text)
 
         .app-poweredby
+            color: var(--text-secondary)
             font-size: 14px
-            opacity: .6
 
             a[href]
-                color: black
+                color: var(--text)
                 text-decoration: none
 </style>
 

@@ -1,0 +1,10 @@
+<svg width="24px" height="28px" viewBox="0 0 24 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-24.000000, -101.000000)">
+            <g transform="translate(24.000000, 101.000000)">
+                <path d="M0.5,1.21337148 C0.5,7.60669067 0.5,8.75579478 0.5,26.9324792 L22.5869302,8.52670404 C13.0408915,8.58583853 5.66962204,6.15258063 0.5,1.21337148 Z" stroke="#353535"></path>
+                <polygon fill="#121212" fill-rule="nonzero" points="1 9 24 9 1 28"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

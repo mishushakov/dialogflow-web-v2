@@ -35,7 +35,7 @@
                             </div>
 
                             <!-- List -->
-                            <List @select="send" :items="component.content.items" :title="component.content.title" v-if="component.name == 'LIST'" />
+                            <List @select="send" :items="component.content.items" :title="component.content.title" :subtitle="component.content.subtitle" v-if="component.name == 'LIST'" />
 
                             <!-- Webhook Image -->
                             <Picture v-if="component.name == 'IMAGE'" :image="component.content" />
@@ -77,7 +77,7 @@ body
     padding: 0
     font-family: Roboto, sans-serif
     font-display: swap
-    background-color: white
+    background-color: var(--background)
 
 .container
     max-width: 500px
@@ -125,12 +125,12 @@ body
     margin: 8px
     z-index: 999
     padding: 10px
-    background-color: #F1F3F4
+    background-color: var(--element-background)
     border-radius: 50%
     width: 24px
     height: 24px
     cursor: pointer
-    color: #202124
+    color: var(--text)
 
 .carousel
     overflow-x: scroll
@@ -153,6 +153,7 @@ import List from './../RichComponents/List.vue'
 import Picture from './../RichComponents/Picture.vue'
 
 import * as uuidv1 from 'uuid/v1'
+import './Theme.sass'
 
 export default {
     name: 'app',

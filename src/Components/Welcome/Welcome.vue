@@ -33,30 +33,32 @@
     height: 120px
     border-radius: 16px
     object-fit: cover
+    background-color: var(--image-background)
 
 .app-title
     font-weight: 500
     font-size: 24px
     margin-top: 30px
-    color: #202124
+    color: var(--text)
     line-height: 20px
 
 .app-description
     font-size: 16px
-    color: #5F6368
+    color: var(--text-secondary)
 
 .language-picker
     display: inline-block
-    border: 1px solid #E8EAED
+    border: 1px solid var(--border)
     padding: 8px 12px
     border-radius: 40px
     cursor: pointer
     font-weight: 500
     margin-right: 2px
+    color: var(--text)
 
     &.picked
-        background-color: #F1F3F4
-        border: 1px solid #F1F3F4
+        background-color: var(--element-background)
+        border: 1px solid var(--element-background)
 </style>
 
 <script>

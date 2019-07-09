@@ -1,7 +1,7 @@
 {
   "name": "dialogflow-web-v2",
   "description": "Dialogflow unofficial Progressive Web App",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "author": "MishUshakov",
   "private": true,
   "scripts": {
@@ -17,7 +17,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
     "babel-loader": "^8.0.0-beta",
     "cross-env": "^5.2.0",

@@ -14,13 +14,13 @@
 
 .error-icon
     font-size: 128px
-    color: #202124
+    color: var(--text)
     margin-bottom: 30px
 
 .error-description
     font-size: 16px
-    color: #202124
-    background-color: #F1F3F4
+    color: var(--text)
+    background-color: var(--element-background)
     padding: 16px
     border-radius: 16px
     overflow: scroll

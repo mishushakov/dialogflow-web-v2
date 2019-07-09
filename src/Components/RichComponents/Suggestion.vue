@@ -7,8 +7,8 @@
     display: inline-block
     padding: 8px 12px
     border-radius: 40px
-    border: 1px solid #DADCE0
-    color: #202124
+    border: 1px solid var(--border)
+    color: var(--text)
     cursor: pointer
     margin-right: 5px
     font-weight: 500

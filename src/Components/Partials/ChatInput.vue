@@ -32,7 +32,7 @@
     bottom: 0
     left: 0
     width: 100%
-    background-color: white
+    background-color: var(--background)
 
 .flexible
     display: flex
@@ -52,7 +52,7 @@
     box-sizing: border-box
     border-radius: 40px
     flex: 1 0 0
-    background-color: #F1F3F4
+    background-color: var(--element-background)
 
 .input
     font-size: 16px
@@ -64,7 +64,7 @@
     outline: none
     padding-left: 8px
     padding-right: 8px
-    color: #202124
+    color: var(--text)
 
 .button-container
     padding: 8px
@@ -73,12 +73,12 @@
     margin-left: 6px
     border-radius: 50%
     cursor: pointer
-    background-color: #202124
+    background-color: black
     color: white
 
     &.mic_button
-        background-color: #F1F3F4
-        color: #202124
+        background-color: var(--element-background)
+        color: var(--text)
         font-size: 24px
 
         &.mic_active
