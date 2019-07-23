@@ -10,37 +10,187 @@
             <Welcome v-if="app && messages.length == 0" :app="app"></Welcome>
 
             <!-- Messages Table -->
-            <section class="messages" v-else>
+            <section v-else>
                 <table v-for="m in messages" class="message">
                     <tr>
                         <!-- My message -->
-                        <td><Bubble :text="m.queryResult.queryText" from="me" /></td>
+                        <Bubble :text="m.queryResult.queryText" from="me" />
                     </tr>
-                    
-                    <!-- Component iterator (Dialogflow Gateway Feature) -->
-                    <tr v-for="component in m.queryResult.fulfillmentMessages">
-                        <td>
-                            <!-- Default / Webhook bubble -->
-                            <Bubble :text="component.content" v-if="component.name == 'DEFAULT'" />
 
-                            <!-- Simple Response -->
-                            <Bubble :text="component.content.displayText || component.content.textToSpeech" v-if="component.name == 'SIMPLE_RESPONSE'" />
-                            
-                            <!-- Card -->
-                            <Card :title="component.content.title" :subtitle="component.content.subtitle" :image="component.content.image" :text="component.content.formattedText" :buttons="component.content.buttons" v-if="component.name == 'CARD'" />
-                            
-                            <!-- Carousel layout and cards -->
-                            <div class="carousel" v-if="component.name == 'CAROUSEL_CARD'">
-                                <Card v-for="card in component.content" @click.native="send(card.info.key)" :key="card.info.key" :title="card.title" :image="card.image" :subtitle="card.subtitle" :text="card.description" />
+                    <!-- Dialogflow Components -->
+                    <tr class="component" v-for="component in m.queryResult.fulfillmentMessages">
+                        <!-- Text (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Text) -->
+                        <Bubble :text="component.text.text[0]" v-if="component.text" />
+
+                        <!-- SimpleResponses (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#SimpleResponses) -->
+                        <Bubble
+                            :text="component.simpleResponses.simpleResponses[0].displayText || component.simpleResponses.simpleResponses[0].textToSpeech"
+                            v-if="component.simpleResponses" />
+
+                        <!-- Card (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Card) -->
+                        <Card
+                            :title="component.card.title"
+                            :subtitle="component.card.subtitle"
+                            :imageUri="component.card.imageUri"
+                            v-if="component.card">
+                            <CardButton
+                                v-for="button in component.card.buttons"
+                                :key="button.text"
+                                :uri="button.postback"
+                                :title="button.text"
+                            />
+                        </Card>
+
+                        <!-- BasicCard (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#BasicCard) -->
+                        <Card
+                            :title="component.basicCard.title"
+                            :subtitle="component.basicCard.subtitle"
+                            :imageUri="component.basicCard.image.imageUri"
+                            :imageTitle="component.basicCard.image.accessibilityText"
+                            :text="component.basicCard.formattedText"
+                            v-if="component.basicCard">
+                            <CardButton
+                                v-for="button in component.basicCard.buttons"
+                                :key="button.title"
+                                :uri="button.openUriAction.uri"
+                                :title="button.title" 
+                            />
+                        </Card>
+
+                        <!-- CarouselSelect (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#CarouselSelect) -->
+                        <Carousel v-if="component.carouselSelect">
+                            <Card
+                                v-for="item in component.carouselSelect.items"
+                                @click.native="send(item.info.key)"
+                                :key="item.info.key"
+                                :title="item.title"
+                                :imageUri="item.image.imageUri"
+                                :imageTitle="item.image.accessibilityText"
+                                :text="item.description"
+                            />
+                        </Carousel>
+
+                        <!-- ListSelect (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#ListSelect) -->
+                        <List
+                            :title="component.listSelect.title"
+                            :subtitle="component.listSelect.subtitle"
+                            v-if="component.listSelect">
+                            <ListItem
+                                v-for="item in component.listSelect.items"
+                                @click.native="send(item.info.key)"
+                                :key="item.title"
+                                :title="item.title"
+                                :description="item.description"
+                                :imageUri="item.image.imageUri"
+                                :imageTitle="item.image.accessibilityText"
+                            />
+                        </List>
+
+                        <!-- Image (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Image) -->
+                        <Picture v-if="component.image" :uri="component.image.imageUri" :title="component.image.accessibilityText" />
+                    </tr>
+
+                    <!-- Actions on Google Components -->
+                    <section v-if="m.queryResult.webhookPayload && m.queryResult.webhookPayload.google">
+                        <tr class="component" v-for="component in m.queryResult.webhookPayload.google.richResponse.items">
+                            <!-- Simple response (https://developers.google.com/actions/assistant/responses#simple_response) -->
+                            <Bubble
+                                :text="component.simpleResponse.displayText || component.simpleResponse.textToSpeech"
+                                v-if="component.simpleResponse" />
+
+                            <!-- Basic card (https://developers.google.com/actions/assistant/responses#basic_card) -->
+                            <Card
+                                :title="component.basicCard.title"
+                                :subtitle="component.basicCard.subtitle"
+                                :imageUri="component.basicCard.image.url"
+                                :imageTitle="component.basicCard.image.accessibilityText"
+                                :text="component.basicCard.formattedText"
+                                v-if="component.basicCard">
+                                <CardButton
+                                    v-for="button in component.basicCard.buttons"
+                                    :key="button.title"
+                                    :uri="button.openUrlAction.url"
+                                    :title="button.title"
+                                />
+                            </Card>
+
+                            <!-- Browsing Carousel (https://developers.google.com/actions/assistant/responses#browsing_carousel) -->
+                            <List v-if="component.carouselBrowse">
+                                <ListItem
+                                    v-for="item in component.carouselBrowse.items"
+                                    :key="item.title"
+                                    :uri="item.openUrlAction.url"
+                                    :title="item.title"
+                                    :description="item.description"
+                                    :footer="item.footer"
+                                    :imageUri="item.image.url"
+                                    :imageTitle="item.image.accessibilityText"
+                                />
+                            </List>
+
+                            <!-- Media responses (https://developers.google.com/actions/assistant/responses#media_responses) -->
+                            <div v-if="component.mediaResponse && component.mediaResponse.mediaObjects">
+                                <Media
+                                    v-for="media in component.mediaResponse.mediaObjects"
+                                    :name="media.name"
+                                    :key="media.name"
+                                    :description="media.description"
+                                    :iconUri="media.icon.url"
+                                    :iconTitle="media.icon.accessibilityText"
+                                    :uri="media.contentUrl"
+                                />
                             </div>
 
-                            <!-- List -->
-                            <List @select="send" :items="component.content.items" :title="component.content.title" :subtitle="component.content.subtitle" v-if="component.name == 'LIST'" />
+                            <!-- Table cards (https://developers.google.com/actions/assistant/responses#table_cards) -->
+                            <TableCard
+                                :title="component.tableCard.title"
+                                :subtitle="component.tableCard.subtitle"
+                                :imageUri="component.tableCard.image.url"
+                                :imageTitle="component.tableCard.image.accessibilityText"
+                                :header="component.tableCard.columnProperties"
+                                :rows="component.tableCard.rows"
+                                v-if="component.tableCard">
+                                <CardButton
+                                    v-for="button in component.tableCard.buttons"
+                                    :key="button.title"
+                                    :uri="button.openUrlAction.url"
+                                    :title="button.title"
+                                />
+                            </TableCard>
+                        </tr>
 
-                            <!-- Webhook Image -->
-                            <Picture v-if="component.name == 'IMAGE'" :image="component.content" />
-                        </td>
-                    </tr>
+                        <!-- Visual Selection Responses (https://developers.google.com/actions/assistant/responses#visual_selection_responses) -->
+                        <tr class="component" v-for="component in m.queryResult.webhookPayload.google.systemIntent">
+                            <!-- List (https://developers.google.com/actions/assistant/responses#list) -->
+                            <List
+                                :title="component.listSelect.title"
+                                :subtitle="component.listSelect.subtitle"
+                                v-if="component.listSelect">
+                                <ListItem
+                                    @click.native="send(item.optionInfo.key)"
+                                    v-for="item in component.listSelect.items"
+                                    :key="item.optionInfo.key"
+                                    :title="item.title"
+                                    :description="item.description"
+                                    :imageUri="item.image.url"
+                                    :imageTitle="item.image.accessibilityText"
+                                />
+                            </List>
+
+                            <!-- Carousel (https://developers.google.com/actions/assistant/responses#carousel) -->
+                            <Carousel v-if="component.carouselSelect">
+                                <Card
+                                    v-for="item in component.carouselSelect.items"
+                                    @click.native="send(item.optionInfo.key)"
+                                    :key="item.optionInfo.key"
+                                    :title="item.title"
+                                    :imageUri="item.image.url"
+                                    :imageTitle="item.image.accessibilityText"
+                                    :text="item.description"
+                                />
+                            </Carousel>
+                        </tr>
+                    </section>
                 </table>
                 <table class="message" v-if="loading">
                     <tr>
@@ -55,14 +205,37 @@
             </section>
         </section>
 
-        <!-- #bottom is the anchor, we need, when new messages arrive, to scroll down -->
-        <div id="bottom"></div>
-
         <!-- ChatInput is made for submitting queries and displaying suggestions -->
-        <ChatInput @submit="send" :suggestions="suggestions"></ChatInput>
+        <ChatInput @submit="send">
+            <!-- Suggestion chips
+                https://developers.google.com/actions/assistant/responses#suggestion_chips
+                https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#QuickReplies
+                https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Suggestions
+            -->
+            <Suggestion
+                v-for="(suggestion, index) in suggestions.text_suggestions"
+                @click.native="send(suggestion)"
+                :key="index"
+                :title="suggestion"
+                v-if="suggestions.text_suggestions" />
+
+            <!-- Link suggestion chips
+                https://developers.google.com/actions/assistant/responses#suggestion_chips
+                https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#LinkOutSuggestion
+            -->
+            <Suggestion
+                :title="suggestions.link_suggestion.destinationName"
+                :url="suggestions.link_suggestion.uri || suggestions.link_suggestion.url"
+                v-if="suggestions.link_suggestion" />
+        </ChatInput>
 
         <!-- Audio toggle (on the top right corner), used to toggle the audio output, default mode is defined in the settings -->
-        <div :aria-label="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].muteTitle" :title="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].muteTitle" class="audio-toggle" @click="muted = !muted">
+        <div
+            class="audio-toggle" 
+            @click="muted = !muted"
+            :aria-label="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].muteTitle"
+            :title="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].muteTitle"
+        >
             <i aria-hidden="true" class="material-icons" v-if="!muted">volume_up</i>
             <i aria-hidden="true" class="material-icons" v-else>volume_off</i>
         </div>
@@ -71,11 +244,12 @@
 
 <style lang="sass">
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700')
+@import url('https://fonts.googleapis.com/css?family=Material+Icons')
 
 body
     margin: 0
     padding: 0
-    font-family: Roboto, sans-serif
+    font-family: Google Sans, Roboto, sans-serif
     font-display: swap
     background-color: var(--background)
 
@@ -85,28 +259,6 @@ body
     margin-right: auto
     padding: 16px
     position: relative
-
-@font-face
-    font-family: 'Material Icons'
-    font-style: normal
-    font-weight: 400
-    font-display: swap
-    src: url(https://fonts.gstatic.com/s/materialicons/v42/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2')
-
-.material-icons
-    font-family: 'Material Icons'
-    font-weight: normal
-    font-style: normal
-    font-size: 24px
-    line-height: 1
-    letter-spacing: normal
-    text-transform: none
-    display: inline-block
-    white-space: nowrap
-    word-wrap: normal
-    direction: ltr
-    -webkit-font-feature-settings: 'liga'
-    -webkit-font-smoothing: antialiased
 </style>
 
 <style lang="sass" scoped>
@@ -117,6 +269,14 @@ body
 .message
     width: 100%
     table-layout: fixed
+
+    .component
+        padding-bottom: 10px
+        width: 70%
+        display: block
+
+        @media screen and (max-width: 720px)
+            width: 100%
 
 .audio-toggle
     position: fixed
@@ -131,14 +291,6 @@ body
     height: 24px
     cursor: pointer
     color: var(--text)
-
-.carousel
-    overflow-x: scroll
-    overflow-y: hidden
-    white-space: nowrap
-    -webkit-overflow-scrolling: touch
-    padding-bottom: 20px
-    padding-left: 10px
 </style>
 
 <script>
@@ -149,8 +301,14 @@ import ChatInput from './../Partials/ChatInput.vue'
 
 import Bubble from './../RichComponents/Bubble.vue'
 import Card from './../RichComponents/Card.vue'
+import CardButton from './../RichComponents/CardButton.vue'
+import Carousel from './../RichComponents/Carousel.vue'
 import List from './../RichComponents/List.vue'
+import ListItem from './../RichComponents/ListItem.vue'
 import Picture from './../RichComponents/Picture.vue'
+import Media from './../RichComponents/Media.vue'
+import TableCard from './../RichComponents/TableCard.vue'
+import Suggestion from './../RichComponents/Suggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
 import './Theme.sass'
@@ -164,8 +322,14 @@ export default {
         ChatInput,
         Bubble,
         Card,
+        CardButton,
+        Carousel,
         List,
-        Picture
+        ListItem,
+        Picture,
+        Media,
+        TableCard,
+        Suggestion
     },
     data(){
         return {
@@ -218,12 +382,22 @@ export default {
         /* The code below is used to extract suggestions from last message, to display it on ChatInput */
         suggestions(){
             if(this.messages.length > 0){
-                let last_message = this.messages[this.messages.length - 1].queryResult.fulfillmentMessages
+                let last_message = this.messages[this.messages.length - 1]
                 let suggestions = []
+                
+                /* Dialogflow Suggestions */
+                for (let component in last_message.queryResult.fulfillmentMessages){
+                    if (last_message.queryResult.fulfillmentMessages[component].suggestions) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].suggestions.suggestions.map(suggestion => suggestion.title)
+                    if (last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion
+                    if (last_message.queryResult.fulfillmentMessages[component].quickReplies) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].quickReplies.quickReplies
+                }
 
-                for (let component in last_message){
-                    if (last_message[component].name == 'SUGGESTIONS') suggestions.text_suggestions = last_message[component].content
-                    if (last_message[component].name == 'LINK_OUT_SUGGESTION') suggestions.link_suggestion = last_message[component].content
+                /* Google Suggestions */
+                if (last_message.queryResult.webhookPayload && last_message.queryResult.webhookPayload.google){
+                    for (let component in last_message.queryResult.webhookPayload.google){
+                        if (last_message.queryResult.webhookPayload.google[component].suggestions) suggestions.text_suggestions = last_message.queryResult.webhookPayload.google[component].suggestions.map(suggestion => suggestion.title)
+                        if (last_message.queryResult.webhookPayload.google[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.webhookPayload.google[component].linkOutSuggestion
+                    }
                 }
 
                 return suggestions
@@ -245,10 +419,9 @@ export default {
         loading(){
             setTimeout(() => {
                 let app = document.querySelector('#app') // <- We need to scroll down #app, to prevent the whole page jumping to bottom, when using in iframe
-                app.querySelector('#bottom').scrollIntoView({ 
-                    behavior: 'smooth' 
-                })
-            }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to #bottom selector, used as anchor
+                let message = app.querySelectorAll('.message')[app.querySelectorAll('.message').length - 1].offsetTop - 70
+                window.scrollTo({top: message, behavior: 'smooth'})
+            }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to the last message
         },
         /* You don't need the function below. It's only for my cloud, to manage the SEO */
         app(agent){
@@ -285,8 +458,8 @@ export default {
             this.loading = true
             this.error = null
 
-            /* Make the request to gateway with formatting enabled */
-            fetch(this.config.app.gateway + '/' + this.session + '?format=true', {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(request)})
+            /* Make the request to gateway */
+            fetch(this.config.app.gateway + '/' + this.session, {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(request)})
             .then(response => response.json())
             .then(response => {
                 if(!response.error){
@@ -303,20 +476,27 @@ export default {
         },
         handle(response){
             /* This function is used for speech output */
+            let text // <- init a text variable
+
+            /* Dialogflow Text/SimpleResponses */
             for (let component in response.queryResult.fulfillmentMessages){
-                let text // <- init a text variable
-
-                /* Set the text variable according to component name */
-                if(response.queryResult.fulfillmentMessages[component].name == 'DEFAULT') text = response.queryResult.fulfillmentMessages[component].content
-                if(response.queryResult.fulfillmentMessages[component].name == 'SIMPLE_RESPONSE') text = response.queryResult.fulfillmentMessages[component].content.textToSpeech
-
-                let speech = new SpeechSynthesisUtterance(text)
-                speech.voiceURI = this.config.app.voice
-
-                /* This "hack" is used to format our lang format, to some other lang format (example: en -> en_EN). Mainly for Safari, Firefox and Edge */
-                speech.lang = this.lang() + '-' + this.lang().toUpperCase()
-                if(!this.muted) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
+                if(response.queryResult.fulfillmentMessages[component].text) text = response.queryResult.fulfillmentMessages[component].text.text[0]
+                if(response.queryResult.fulfillmentMessages[component].simpleResponses) text = response.queryResult.fulfillmentMessages[component].simpleResponses.simpleResponses[0].textToSpeech
             }
+
+            /* Actions on Google Simple response */
+            if (response.queryResult.webhookPayload && response.queryResult.webhookPayload.google){
+                for (let component in response.queryResult.webhookPayload.google){
+                    if(response.queryResult.webhookPayload.google[component].simpleResponse) text = response.queryResult.webhookPayload.google[component].simpleResponse.textToSpeech
+                }
+            }
+
+            let speech = new SpeechSynthesisUtterance(text)
+            speech.voiceURI = this.config.app.voice
+
+            /* This "hack" is used to format our lang format, to some other lang format (example: en -> en_EN). Mainly for Safari, Firefox and Edge */
+            speech.lang = this.lang() + '-' + this.lang().toUpperCase()
+            if(!this.muted) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
         }
     }
 }

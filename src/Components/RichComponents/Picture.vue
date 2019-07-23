@@ -1,11 +1,11 @@
 <template>
-    <img class="picture" :src="image.imageUri" :alt="image.accessibilityText" />
+    <img class="picture" :src="uri" :alt="title" />
 </template>
 
 <style lang="sass" scoped>
 .picture
-    max-width: 300px
     height: auto
+    max-width: 100%
     border-radius: 12px
     box-shadow: var(--shadow)
     object-fit: cover
@@ -15,6 +15,6 @@
 <script>
 export default {
     name: 'Picture',
-    props: ['image']
+    props: ['uri', 'title']
 }
 </script>

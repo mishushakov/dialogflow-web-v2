@@ -6,9 +6,21 @@
 
 This is a unofficial Web Integration for Dialogflow V2, which supports everything the Platform has to offer
 
-The development of this project is done by @mishushakov.
+The development of this project is done by @mishushakov
 
 If you have any questions, feel free to [contact](https://i.ushakov.co)
+
+#### 🎉 Announcement: Dialogflow for Web v2.6 is here 🎉
+
+![](https://i.imgur.com/wXpioBw.png)
+
+- **NEW** Dark Mode & [Theming](#theming)
+- **NEW** Improved Layout on Desktop and Mobile
+- **NEW** Best-in-class Actions on Google support
+- **NEW** Table Card, Media Card, 3-Line Lists ...
+- **NEW** Precise auto-scrolling
+- **NEW** No more vendor-dependency. 100% Plug-and-Play
+- **NEW** Better documentation and code
 
 ## Features
 
@@ -16,7 +28,6 @@ If you have any questions, feel free to [contact](https://i.ushakov.co)
 - Accessibility Features
 - Wide Browser Support (IE8+), offline capabilities (history) and great SEO
 - Familiar UI & UX, based on the official Google Assistant Design Specifications
-- **NEW!** Dark Mode & [Theming](#theming)
 - Hands-free interaction with Voice Input and Speech Feedback
 - Language Independency
 - Docker and Kubernetes support
@@ -27,8 +38,10 @@ If you have any questions, feel free to [contact](https://i.ushakov.co)
 - Free and Documented
 - Free hosted version on [Dialogflow Gateway](https://dialogflow.cloud.ushakov.co)
 - Made in Germany
+- Recommended by [Dialogflow](https://twitter.com/Dialogflow/status/923976390201847809) and [MadeWithVueJS](https://twitter.com/MadeWithVueJS/status/1130147606666063875):
 
-![](https://i.imgur.com/0vYBGTq.png)
+![](https://i.imgur.com/yWv9mBu.png)
+![](https://i.imgur.com/N70Kl62.png)
 
 # Installation
 
@@ -36,12 +49,16 @@ If you have any questions, feel free to [contact](https://i.ushakov.co)
 
 - NodeJS
 - NPM or Yarn
-- Basic knowledge in ES6 (JavaScript)
+- Basic knowledge in JS
 - Google Account and Dialogflow V2 Agent (if you look for V1, please use my [old repo](https://github.com/mishushakov/dialogflow-web) and the [instructions](https://github.com/mishushakov/dialogflow-web/blob/21ffc7017f1a4d51eabb1122c5aae119a7d73587/README.md))
+
+## Read the license
+
+Before making any further steps please *read* the [license](LICENSE). You should not use this work, if you are not willing to accept the terms and conditions under which it was provided to you. Any activities against license conditions may be followed by law
 
 ## Set up [Dialogflow Gateway](https://dialogflow.cloud.ushakov.co)
 
-Dialogflow Gateway is a cloud-based service, which makes third-party Dialogflow V2 Integrations like this possible.
+Dialogflow Gateway is a cloud-based service, which makes third-party Dialogflow V2 Integrations like this possible
 
 Follow a detailed guide, on how to connect your Agent to the Gateway [here](https://github.com/mishushakov/dialogflow-gateway-docs/blob/master/guide.md) and return to this guide, when you are finished
 
@@ -65,7 +82,7 @@ Example using yarn
 
 ## Connect your Agent
 
-Open `config.js` and change the `gateway` variable to your Dialogflow Gateway URL. If you don't know, what Dialogflow Gateway is, please read the docs one more time, because you have missed something out.
+Open `config.js` and change the `gateway` variable to your Dialogflow Gateway URL. If you don't know, what Dialogflow Gateway is, please read the docs one more time, because you have missed something out
 
 Hint: the Dialogflow Gateway URL is always your google cloud project id + `.gateway.dialogflow.cloud.ushakov.co`. If you have troubles finding it, make sure you connected your Agent to the Gateway, then visit the [console](https://dialogflow.cloud.ushakov.co/console/), click on "Manage" and copy the Gateway URL
 

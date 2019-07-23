@@ -1,17 +1,11 @@
 <template>
     <div class="card">
-        <img class="card-image" v-if="image.imageUri" :src="image.imageUri" :alt="image.accessibilityText" />
+        <img class="card-image" v-if="imageUri" :src="imageUri" :alt="imageTitle || title" />
         <div class="card-content">
             <div class="card-title" v-if="title">{{title}}</div>
             <div class="card-subtitle" v-if="subtitle">{{subtitle}}</div>
-            <div class="card-text">{{text}}</div>
-
-            <div class="card-buttons" v-if="buttons">
-                <a class="card-button" target="_blank" rel="noopener noreferrer" :href="button.openUriAction.uri" v-for="button in buttons">
-                    <i aria-hidden="true" class="material-icons card-button-icon">arrow_forward</i>
-                    <span class="card-button-title">{{button.title}}</span>
-                </a>
-            </div>
+            <div class="card-text" v-if="text">{{text}}</div>
+            <slot></slot>
         </div>
     </div>
 </template>
@@ -21,10 +15,6 @@
     background-color: var(--component-background)
     box-shadow: var(--shadow)
     border-radius: 12px
-    display: inline-block
-    max-width: 300px
-    margin-right: 10px
-    margin-bottom: 10px
 
 .card-image
     width: 100%
@@ -55,34 +45,11 @@
     font-size: 14px
     color: var(--text-secondary)
     white-space: normal
-
-.card-buttons
-    padding-top: 16px
-
-.card-button
-    text-decoration: none
-    line-height: 24px
-    color: var(--accent)
-    border: 1px solid var(--border)
-    border-radius: 40px
-    display: block
-    font-weight: 500
-    padding: 8px 16px
-    text-align: center
-    position: relative
-
-    &:not(:first-child)
-        margin-top: 12px
-
-.card-button-icon
-    left: 0
-    margin-left: 12px
-    position: absolute
 </style>
 
 <script>
 export default {
     name: 'Card',
-    props: ['title', 'subtitle', 'text', 'image', 'buttons']
+    props: ['text', 'imageUri', 'imageTitle', 'subtitle', 'title']
 }
 </script>

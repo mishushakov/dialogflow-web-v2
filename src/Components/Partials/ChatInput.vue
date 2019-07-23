@@ -2,10 +2,7 @@
     <div class="bottomchat">
         <div class="container">
             <!-- Here are the suggestions -->
-            <div class="suggestions">
-                <Suggestion v-if="suggestions.text_suggestions" v-for="(suggestion, index) in suggestions.text_suggestions" :key="index" @click.native="$emit('submit', suggestion)" :title="suggestion" />
-                <Suggestion v-if="suggestions.link_suggestion" :title="suggestions.link_suggestion.destinationName" :url="suggestions.link_suggestion.uri" />
-            </div>
+            <div class="suggestions"><slot></slot></div>
             <div class="flexible">
                 <!-- Text input -->
                 <div class="input-container">
@@ -87,14 +84,8 @@
 </style>
 
 <script>
-import Suggestion from './../RichComponents/Suggestion.vue'
-
 export default {
     name: 'ChatInput',
-    props: ['suggestions'],
-    components: {
-        Suggestion
-    },
     data(){
         return {
             query: '',

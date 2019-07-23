@@ -23,9 +23,6 @@
         margin-top: -9px
         margin-left: -1px
 
-    &:not(.me)
-        margin-bottom: 10px
-
     &.me
         float: right
         background-color: var(--element-background)
