@@ -21,6 +21,8 @@
         justify-content: space-between
         grid-gap: 10px
         grid-template-columns: 1fr 1fr
+        white-space: normal
+        overflow-x: auto
 
         *
             display: block
