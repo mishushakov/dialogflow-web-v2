@@ -5,7 +5,9 @@ import Vue from 'vue'
 import App from './Components/App/App.vue'
 
 import config from './../config'
-import worker from './registerServiceWorker' // <- register service worker, disable it, when running in development mode
+import { register_service_worker } from './utils'
+
+register_service_worker() // <- register service worker, disable it, when running in development mode
 
 Vue.prototype.config = config // <- set config to global scope
 

@@ -311,6 +311,7 @@ import TableCard from './../RichComponents/TableCard.vue'
 import Suggestion from './../RichComponents/Suggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
+import { set_seo } from './../../utils'
 import './Theme.sass'
 
 export default {
@@ -387,16 +388,16 @@ export default {
                 
                 /* Dialogflow Suggestions */
                 for (let component in last_message.queryResult.fulfillmentMessages){
-                    if (last_message.queryResult.fulfillmentMessages[component].suggestions) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].suggestions.suggestions.map(suggestion => suggestion.title)
-                    if (last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion
-                    if (last_message.queryResult.fulfillmentMessages[component].quickReplies) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].quickReplies.quickReplies
+                    if(last_message.queryResult.fulfillmentMessages[component].suggestions) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].suggestions.suggestions.map(suggestion => suggestion.title)
+                    if(last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion
+                    if(last_message.queryResult.fulfillmentMessages[component].quickReplies) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].quickReplies.quickReplies
                 }
 
                 /* Google Suggestions */
                 if (last_message.queryResult.webhookPayload && last_message.queryResult.webhookPayload.google){
                     for (let component in last_message.queryResult.webhookPayload.google){
-                        if (last_message.queryResult.webhookPayload.google[component].suggestions) suggestions.text_suggestions = last_message.queryResult.webhookPayload.google[component].suggestions.map(suggestion => suggestion.title)
-                        if (last_message.queryResult.webhookPayload.google[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.webhookPayload.google[component].linkOutSuggestion
+                        if(last_message.queryResult.webhookPayload.google[component].suggestions) suggestions.text_suggestions = last_message.queryResult.webhookPayload.google[component].suggestions.map(suggestion => suggestion.title)
+                        if(last_message.queryResult.webhookPayload.google[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.webhookPayload.google[component].linkOutSuggestion
                     }
                 }
 
@@ -419,29 +420,15 @@ export default {
         loading(){
             setTimeout(() => {
                 let app = document.querySelector('#app') // <- We need to scroll down #app, to prevent the whole page jumping to bottom, when using in iframe
-                let message = app.querySelectorAll('.message')[app.querySelectorAll('.message').length - 1].offsetTop - 70
-                window.scrollTo({top: message, behavior: 'smooth'})
+                if (app.querySelector('.message')){
+                    let message = app.querySelectorAll('.message')[app.querySelectorAll('.message').length - 1].offsetTop - 70
+                    window.scrollTo({top: message, behavior: 'smooth'})
+                }
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to the last message
         },
-        /* You don't need the function below. It's only for my cloud, to manage the SEO */
+        /* You don't need the function below. It's only for managed version, get the SEO right */
         app(agent){
-            if(window.location.host.includes("cloud.ushakov.co")){
-                document.querySelector("title").innerText = agent.displayName
-                document.querySelector("meta[name=description]").content = agent.description
-                document.querySelector("link[rel=canonical]").href = location.href
-                document.querySelector("meta[name=application-name]").content = agent.displayName
-                document.querySelector("link[rel=icon]").href = agent.avatarUri
-                document.querySelector("link[rel=apple-touch-icon]").href = agent.avatarUri
-                document.querySelector("meta[name=msapplication-TileImage]").content = agent.avatarUri
-                document.querySelector("meta[name=apple-mobile-web-app-title]").content = agent.displayName
-                document.querySelector("meta[property=og\\:title]").content = agent.displayName
-                document.querySelector("meta[property=og\\:image]").content = agent.avatarUri
-                document.querySelector("meta[property=og\\:description]").content = agent.description
-                document.querySelector("meta[property=og\\:url]").content = location.href
-                document.querySelector("meta[name=twitter\\:title]").content = agent.displayName
-                document.querySelector("meta[name=twitter\\:image]").content = agent.avatarUri
-                document.querySelector("meta[name=twitter\\:description]").content = agent.description
-            }
+            set_seo(agent)
         }
     },
     methods: {
