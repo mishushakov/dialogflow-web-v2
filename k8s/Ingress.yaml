@@ -1,23 +1,20 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: dialogflow-ui-ingress
+  name: dialogflow-ui
   annotations:
     kubernetes.io/ingress.class: traefik
-    traefik.frontend.rule.type: PathPrefixStrip
-    certmanager.k8s.io/cluster-issuer: do-issuer
-    certmanager.k8s.io/acme-challenge-type: dns01
-    certmanager.k8s.io/acme-dns01-provider: digitalocean
+    cert-manager.io/cluster-issuer: ushacom
 spec:
   rules:
-  - host: "*.ui.dialogflow.cloud.ushakov.co"
+  - host: '*.ui.dialogflow.cloud.ushakov.co'
     http:
       paths:
       - path: /
         backend:
-          serviceName: dialogflow-ui-service
+          serviceName: dialogflow-ui
           servicePort: http
   tls:
   - hosts:
     - '*.ui.dialogflow.cloud.ushakov.co'
-    secretName: ui-cert
+    secretName: dialogflow-ui-cert

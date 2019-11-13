@@ -1,16 +1,18 @@
 <template>
     <header class="app-head">
-        <img :alt="app.displayName" class="app-icon" :src="app.avatarUri" v-if="app.avatarUri" />
-        <img :alt="app.displayName" class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" v-else />
-        
+        <img v-if="app.avatarUri" class="app-icon" :alt="app.displayName" :src="app.avatarUri">
+        <img v-else class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" :alt="app.displayName">
         <div class="app-info">
             <div class="app-name">{{app.displayName}}</div>
-            <div class="app-poweredby">Built with <a target="_blank" rel="noopener noreferrer" href="https://dialogflow.cloud.ushakov.co">Dialogflow Gateway</a></div>
+            <div class="app-poweredby">Built with <a target="_blank" rel="noopener noreferrer" href="https://dialogflow.cloud.ushakov.co" aria-hidden="true">Dialogflow Gateway</a></div>
         </div>
+        <slot />
     </header>
 </template>
 
 <style lang="sass" scoped>
+@import './../App/Mixins.sass'
+
 .app-head
     z-index: 666
     padding: 16px
@@ -41,11 +43,34 @@
             a[href]
                 color: var(--text)
                 text-decoration: none
+
+.audio-toggle
+    @include reset
+    display: flex
+    position: fixed
+    top: 0
+    right: 0
+    margin: 16px 0
+    z-index: 999
+    padding: 8px 8px 8px 8px
+    background-color: var(--element-background)
+    border-radius: 20px 0 0 20px
+    cursor: pointer
+    color: var(--text)
+    transition: padding .25s ease
+
+    &:hover
+        padding-right: 20px
 </style>
 
 <script>
 export default {
     name: 'TopHead',
-    props: ['app']
+    props: {
+        app: {
+            type: Object,
+            default: null
+        }
+    }
 }
 </script>

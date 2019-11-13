@@ -1,29 +1,36 @@
 <template>
     <div class="overlay">
         <!-- Agent Icon -->
-        <img :alt="app.displayName" class="app-icon" :src="app.avatarUri" v-if="app.avatarUri" />
-        <img :alt="app.displayName" class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" v-else />
-        
+        <img v-if="app.avatarUri" class="app-icon" :alt="app.displayName" :src="app.avatarUri">
+        <img v-else class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" :alt="app.displayName">
+
         <!-- Agent Title -->
         <h1 class="app-title">{{(config.i18n[sel_lang] && config.i18n[sel_lang].welcomeTitle) || config.i18n[config.app.fallback_lang].welcomeTitle}} {{app.displayName}}</h1>
 
         <!-- Agent Description -->
         <p class="app-description">{{app.description}}</p>
-        
+
         <!-- Language picker, when your Agent supports more than one Language -->
         <div v-if="app.supportedLanguageCodes && app.supportedLanguageCodes.length > 0">
-            <span @click="sel_lang = app.defaultLanguageCode" class="language-picker" :class="{'picked': sel_lang == app.defaultLanguageCode}">
-                {{ app.defaultLanguageCode | toLang }}
-            </span>
-
-            <span @click="sel_lang = language" class="language-picker" v-for="language in app.supportedLanguageCodes" :class="{'picked': sel_lang == language}">
-                {{ language | toLang }}
-            </span>
+            <button class="language-picker" role="checkbox" :class="{'picked': sel_lang == app.defaultLanguageCode}" @click="sel_lang = app.defaultLanguageCode">
+                {{app.defaultLanguageCode | toLang}}
+            </button>
+            <button
+                v-for="language in app.supportedLanguageCodes"
+                :key="language"
+                class="language-picker"
+                role="checkbox"
+                :class="{'picked': sel_lang == language}"
+                @click="sel_lang = language">
+                {{language | toLang}}
+            </button>
         </div>
     </div>
 </template>
 
 <style lang="sass" scoped>
+@import './../App/Mixins.sass'
+
 .overlay
     text-align: center
     padding-top: 25px
@@ -47,6 +54,7 @@
     color: var(--text-secondary)
 
 .language-picker
+    @include reset
     display: inline-block
     border: 1px solid var(--border)
     padding: 8px 12px
@@ -65,8 +73,19 @@
 const langs = require('langs')
 
 export default {
-    name: 'welcome',
-    props: ['app'],
+    name: 'Welcome',
+    filters: {
+        /* This filter turns language code to the local language name using the langs dependency (example "en" -> "English") */
+        toLang(code){
+            return langs.where('1', code).local
+        }
+    },
+    props: {
+        app: {
+            type: Object,
+            required: true
+        }
+    },
     data(){
         return {
             sel_lang: ''
@@ -75,7 +94,7 @@ export default {
     watch: {
         /* Save selected language */
         sel_lang(lang){
-            if(this.history()) localStorage.setItem('lang', lang)
+            if (this.history()) localStorage.setItem('lang', lang)
 
             else {
                 this.config.app.fallback_lang = lang
@@ -84,18 +103,12 @@ export default {
     },
     /* Set default language on load (or fallback) */
     created(){
-        if(this.app && this.app.defaultLanguageCode){
+        if (this.app && this.app.defaultLanguageCode){
             this.sel_lang = this.app.defaultLanguageCode
         }
 
         else {
             this.sel_lang = this.config.app.fallback_lang
-        }
-    },
-    filters: {
-        /* This filter turns language code to the local language name using the langs dependency (example "en" -> "English") */
-        toLang(code){
-            return langs.where('1', code).local
         }
     }
 }

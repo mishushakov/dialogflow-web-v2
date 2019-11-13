@@ -1,7 +1,7 @@
 <template>
     <div class="overlay">
         <!-- Error Icon -->
-        <i aria-hidden="true" class="material-icons error-icon">error</i>
+        <i class="material-icons error-icon" aria-hidden="true">error</i>
 
         <!-- Error Description -->
         <pre class="error-description">{{error}}</pre>
@@ -28,7 +28,12 @@
 
 <script>
 export default {
-    name: 'error',
-    props: ['error']
+    name: 'Error',
+    props: {
+        error: {
+            type: String,
+            default: null
+        }
+    }
 }
 </script>

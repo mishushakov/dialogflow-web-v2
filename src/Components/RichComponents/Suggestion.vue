@@ -1,9 +1,20 @@
 <template>
-    <a target="_blank" rel="noopener noreferrer" :href="url" class="suggestion">{{title}}</a>
+    <a
+        v-if="url"
+        class="suggestion"
+        target="_blank"
+        rel="noopener noreferrer"
+        :href="url">
+        {{title}}
+    </a>
+    <button v-else class="suggestion">{{title}}</button>
 </template>
 
 <style lang="sass" scoped>
+@import './../App/Mixins.sass'
+
 .suggestion
+    @include reset
     display: inline-block
     padding: 8px 12px
     border-radius: 40px
@@ -25,6 +36,15 @@
 <script>
 export default {
     name: 'Suggestion',
-    props: ['title', 'url']
+    props: {
+        url: {
+            type: String,
+            default: null
+        },
+        title: {
+            type: String,
+            default: null
+        }
+    }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <a class="card-button" target="_blank" rel="noopener noreferrer" :href="uri">
-        <i aria-hidden="true" class="material-icons card-button-icon">arrow_forward</i>
+        <i class="material-icons card-button-icon" aria-hidden="true">arrow_forward</i>
         <span class="card-button-title">{{title}}</span>
     </a>
 </template>
@@ -28,6 +28,15 @@
 <script>
 export default {
     name: 'CardButton',
-    props: ['uri', 'title']
+    props: {
+        uri: {
+            type: String,
+            default: null
+        },
+        title: {
+            type: String,
+            default: null
+        }
+    }
 }
 </script>

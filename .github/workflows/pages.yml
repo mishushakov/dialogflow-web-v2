@@ -1,0 +1,25 @@
+name: Publish to GitHub Pages
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Clone
+      env:
+        CI: true
+      run: |
+        npm install
+        npm run build --if-present
+    - name: Publish
+      run: |
+        cd dist
+        git init
+        git config user.name $GITHUB_ACTOR
+        git config user.email $GITHUB_ACTOR@users.noreply.github.com
+        git add -A
+        git commit -m "Deploy"
+        git push -f https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/$GITHUB_REPOSITORY.git master:gh-pages

@@ -1,7 +1,5 @@
 <template>
-    <span class="bubble" :class="{'me': from == 'me', 'loading': loading}">
-        {{text}}
-    </span>
+    <div class="bubble" tabindex="0" :class="{'me': me, 'loading': loading}">{{text}}</div>
 </template>
 
 <style lang="sass" scoped>
@@ -24,11 +22,9 @@
         margin-left: -1px
 
     &.me
-        float: right
         background-color: var(--element-background)
         border: 1px solid var(--element-background)
         color: var(--text-secondary)
-        margin-top: 24px
 
         &::before
             content: ''
@@ -57,6 +53,18 @@
 <script>
 export default {
     name: 'Bubble',
-    props: ['text', 'from', 'loading']
+    props: {
+        text: {
+            type: String,
+            required: false,
+            default: ''
+        },
+        me: {
+            type: Boolean
+        },
+        loading: {
+            type: Boolean
+        }
+    }
 }
 </script>

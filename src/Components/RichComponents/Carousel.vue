@@ -1,19 +1,22 @@
 <template>
-    <div class="carousel"><slot></slot></div>
+    <ul class="carousel"><slot /></ul>
 </template>
 
 <style lang="sass" scoped>
 .carousel
+    display: flex
+    flex-wrap: nowrap
     overflow-x: scroll
     overflow-y: hidden
     white-space: nowrap
     -webkit-overflow-scrolling: touch
-    padding-bottom: 20px
+    padding: 0 0 20px 0
     width: 500px
 
     *
         display: inline-block
         margin-right: 10px
+        flex: 0 0 auto
 
     @media screen and (max-width: 720px)
         width: 100%
@@ -22,7 +25,6 @@
         grid-gap: 10px
         grid-template-columns: 1fr 1fr
         white-space: normal
-        overflow-x: auto
 
         *
             display: block

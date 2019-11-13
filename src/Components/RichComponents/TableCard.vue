@@ -1,21 +1,21 @@
 <template>
     <div class="table-card">
-        <img class="table-card-image" v-if="imageUri" :src="imageUri" :alt="imageTitle" />
+        <img v-if="imageUri" class="table-card-image" :src="imageUri" :alt="imageTitle">
         <div class="table-card-content">
-            <div class="table-card-title" v-if="title">{{title}}</div>
-            <div class="table-card-subtitle" v-if="subtitle">{{subtitle}}</div>
+            <div v-if="title" class="table-card-title">{{title}}</div>
+            <div v-if="subtitle" class="table-card-subtitle">{{subtitle}}</div>
         </div>
         <div class="table-card-scrollable">
             <table class="table-card-table" cellspacing="0" cellpadding="0">
                 <tr>
-                    <th v-for="head in header">{{head.header}}</th>
+                    <th v-for="(head, i) in header" :key="i">{{head.header}}</th>
                 </tr>
-                <tr v-for="row in rows">
-                    <td v-for="cell in row.cells">{{cell.text}}</td>
+                <tr v-for="(row, i) in rows" :key="i">
+                    <td v-for="cell in row.cells" :key="cell.text">{{cell.text}}</td>
                 </tr>
             </table>
         </div>
-        <slot></slot>
+        <slot />
     </div>
 </template>
 
@@ -79,7 +79,32 @@
 
 <script>
 export default {
-    name: 'table-card',
-    props: ['title', 'subtitle', 'imageUri', 'imageTitle', 'header', 'rows']
+    name: 'TableCard',
+    props: {
+        title: {
+            type: String,
+            default: null
+        },
+        subtitle: {
+            type: String,
+            default: null
+        },
+        imageUri: {
+            type: String,
+            default: null
+        },
+        imageTitle: {
+            type: String,
+            default: null
+        },
+        header: {
+            type: Array,
+            default: null
+        },
+        rows: {
+            type: Array,
+            default: null
+        }
+    }
 }
 </script>

@@ -1,9 +1,9 @@
 <template>
     <div class="media">
-        <img class="media-image" v-if="iconUri" :src="iconUri" :alt="iconTitle" />
+        <img v-if="iconUri" class="media-image" :src="iconUri" :alt="iconTitle">
         <div class="media-content">
-            <div class="media-title" v-if="name">{{name}}</div>
-            <div class="media-subtitle" v-if="description">{{description}}</div>
+            <div v-if="name" class="media-title">{{name}}</div>
+            <div v-if="description" class="media-subtitle">{{description}}</div>
         </div>
         <audio class="media-controls" controls :src="uri" />
     </div>
@@ -49,6 +49,27 @@
 <script>
 export default {
     name: 'Media',
-    props: ['name', 'description', 'iconUri', 'iconTitle', 'uri']
+    props: {
+        name: {
+            type: String,
+            default: null
+        },
+        description: {
+            type: String,
+            default: null
+        },
+        iconUri: {
+            type: String,
+            default: null
+        },
+        iconTitle: {
+            type: String,
+            default: null
+        },
+        uri: {
+            type: String,
+            default: null
+        }
+    }
 }
 </script>

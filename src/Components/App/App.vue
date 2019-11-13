@@ -1,38 +1,46 @@
 <template>
     <main id="app">
         <!-- TopHead is the header with the information about the app -->
-        <TopHead v-if="app && messages.length > 0" :app="app"></TopHead>
+        <TopHead v-if="app && messages.length > 0" :app="app">
+            <!-- Audio toggle (on the top right corner), used to toggle the audio output, default mode is defined in the settings -->
+            <button
+                class="audio-toggle"
+                :title="muted ? (config.i18n[lang()] && config.i18n[lang()].unMuteTitle) || config.i18n[config.app.fallback_lang].unMuteTitle : (config.i18n[lang()] && config.i18n[lang()].muteTitle) || config.i18n[config.app.fallback_lang].muteTitle"
+                :aria-label="muted ? (config.i18n[lang()] && config.i18n[lang()].unMuteTitle) || config.i18n[config.app.fallback_lang].unMuteTitle : (config.i18n[lang()] && config.i18n[lang()].muteTitle) || config.i18n[config.app.fallback_lang].muteTitle"
+                @click="muted = !muted">
+                <i aria-hidden="true" class="material-icons">{{muted ? 'volume_off': 'volume_up'}}</i>
+            </button>
+        </TopHead>
         <section class="container chat-container">
             <!-- Error component is for displaying errors -->
-            <Error v-if="error" :error="error"></Error>
+            <Error v-if="error" :error="error" />
 
             <!-- Welcome component is for onboarding experience and language picker -->
-            <Welcome v-if="app && messages.length == 0" :app="app"></Welcome>
+            <Welcome v-if="app && messages.length == 0" :app="app" />
 
             <!-- Messages Table -->
-            <section v-else>
-                <table v-for="m in messages" class="message">
-                    <tr>
-                        <!-- My message -->
-                        <Bubble :text="m.queryResult.queryText" from="me" />
-                    </tr>
+            <section v-else aria-live="polite">
+                <div v-for="m in messages" :key="m.responseId" class="message">
+                    <!-- My message -->
+                    <BubbleWrapper><Bubble me :text="m.queryResult.queryText" /></BubbleWrapper>
 
                     <!-- Dialogflow Components -->
-                    <tr class="component" v-for="component in m.queryResult.fulfillmentMessages">
+                    <div v-for="(component, id) in m.queryResult.fulfillmentMessages" :key="id" class="component">
                         <!-- Text (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Text) -->
-                        <Bubble :text="component.text.text[0]" v-if="component.text" />
+                        <Bubble v-if="component.text" :text="component.text.text[0]" />
 
                         <!-- SimpleResponses (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#SimpleResponses) -->
                         <Bubble
+                            v-if="component.simpleResponses"
                             :text="component.simpleResponses.simpleResponses[0].displayText || component.simpleResponses.simpleResponses[0].textToSpeech"
-                            v-if="component.simpleResponses" />
+                        />
 
                         <!-- Card (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Card) -->
                         <Card
+                            v-if="component.card"
                             :title="component.card.title"
                             :subtitle="component.card.subtitle"
-                            :imageUri="component.card.imageUri"
-                            v-if="component.card">
+                            :image-uri="component.card.imageUri">
                             <CardButton
                                 v-for="button in component.card.buttons"
                                 :key="button.text"
@@ -43,17 +51,17 @@
 
                         <!-- BasicCard (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#BasicCard) -->
                         <Card
+                            v-if="component.basicCard"
                             :title="component.basicCard.title"
                             :subtitle="component.basicCard.subtitle"
-                            :imageUri="component.basicCard.image.imageUri"
-                            :imageTitle="component.basicCard.image.accessibilityText"
-                            :text="component.basicCard.formattedText"
-                            v-if="component.basicCard">
+                            :image-uri="component.basicCard.image.imageUri"
+                            :image-title="component.basicCard.image.accessibilityText"
+                            :text="component.basicCard.formattedText">
                             <CardButton
                                 v-for="button in component.basicCard.buttons"
                                 :key="button.title"
                                 :uri="button.openUriAction.uri"
-                                :title="button.title" 
+                                :title="button.title"
                             />
                         </Card>
 
@@ -61,51 +69,52 @@
                         <Carousel v-if="component.carouselSelect">
                             <Card
                                 v-for="item in component.carouselSelect.items"
-                                @click.native="send(item.info.key)"
                                 :key="item.info.key"
                                 :title="item.title"
-                                :imageUri="item.image.imageUri"
-                                :imageTitle="item.image.accessibilityText"
+                                :image-uri="item.image.imageUri"
+                                :image-title="item.image.accessibilityText"
                                 :text="item.description"
+                                @click.native="send(item.info.key)"
                             />
                         </Carousel>
 
                         <!-- ListSelect (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#ListSelect) -->
                         <List
+                            v-if="component.listSelect"
                             :title="component.listSelect.title"
-                            :subtitle="component.listSelect.subtitle"
-                            v-if="component.listSelect">
+                            :subtitle="component.listSelect.subtitle">
                             <ListItem
                                 v-for="item in component.listSelect.items"
-                                @click.native="send(item.info.key)"
                                 :key="item.title"
                                 :title="item.title"
                                 :description="item.description"
-                                :imageUri="item.image.imageUri"
-                                :imageTitle="item.image.accessibilityText"
+                                :image-uri="item.image.imageUri"
+                                :image-title="item.image.accessibilityText"
+                                @click.native="send(item.info.key)"
                             />
                         </List>
 
                         <!-- Image (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Image) -->
                         <Picture v-if="component.image" :uri="component.image.imageUri" :title="component.image.accessibilityText" />
-                    </tr>
+                    </div>
 
                     <!-- Actions on Google Components -->
                     <section v-if="m.queryResult.webhookPayload && m.queryResult.webhookPayload.google">
-                        <tr class="component" v-for="component in m.queryResult.webhookPayload.google.richResponse.items">
+                        <div v-for="(component, id) in m.queryResult.webhookPayload.google.richResponse.items" :key="id" class="component">
                             <!-- Simple response (https://developers.google.com/actions/assistant/responses#simple_response) -->
                             <Bubble
+                                v-if="component.simpleResponse"
                                 :text="component.simpleResponse.displayText || component.simpleResponse.textToSpeech"
-                                v-if="component.simpleResponse" />
+                            />
 
                             <!-- Basic card (https://developers.google.com/actions/assistant/responses#basic_card) -->
                             <Card
+                                v-if="component.basicCard"
                                 :title="component.basicCard.title"
                                 :subtitle="component.basicCard.subtitle"
-                                :imageUri="component.basicCard.image.url"
-                                :imageTitle="component.basicCard.image.accessibilityText"
-                                :text="component.basicCard.formattedText"
-                                v-if="component.basicCard">
+                                :image-uri="component.basicCard.image.url"
+                                :image-title="component.basicCard.image.accessibilityText"
+                                :text="component.basicCard.formattedText">
                                 <CardButton
                                     v-for="button in component.basicCard.buttons"
                                     :key="button.title"
@@ -123,8 +132,8 @@
                                     :title="item.title"
                                     :description="item.description"
                                     :footer="item.footer"
-                                    :imageUri="item.image.url"
-                                    :imageTitle="item.image.accessibilityText"
+                                    :image-uri="item.image.url"
+                                    :image-title="item.image.accessibilityText"
                                 />
                             </List>
 
@@ -132,24 +141,24 @@
                             <div v-if="component.mediaResponse && component.mediaResponse.mediaObjects">
                                 <Media
                                     v-for="media in component.mediaResponse.mediaObjects"
-                                    :name="media.name"
                                     :key="media.name"
+                                    :name="media.name"
                                     :description="media.description"
-                                    :iconUri="media.icon.url"
-                                    :iconTitle="media.icon.accessibilityText"
+                                    :icon-uri="media.icon.url"
+                                    :icon-title="media.icon.accessibilityText"
                                     :uri="media.contentUrl"
                                 />
                             </div>
 
                             <!-- Table cards (https://developers.google.com/actions/assistant/responses#table_cards) -->
                             <TableCard
+                                v-if="component.tableCard"
                                 :title="component.tableCard.title"
                                 :subtitle="component.tableCard.subtitle"
-                                :imageUri="component.tableCard.image.url"
-                                :imageTitle="component.tableCard.image.accessibilityText"
+                                :image-uri="component.tableCard.image.url"
+                                :image-title="component.tableCard.image.accessibilityText"
                                 :header="component.tableCard.columnProperties"
-                                :rows="component.tableCard.rows"
-                                v-if="component.tableCard">
+                                :rows="component.tableCard.rows">
                                 <CardButton
                                     v-for="button in component.tableCard.buttons"
                                     :key="button.title"
@@ -157,23 +166,23 @@
                                     :title="button.title"
                                 />
                             </TableCard>
-                        </tr>
+                        </div>
 
                         <!-- Visual Selection Responses (https://developers.google.com/actions/assistant/responses#visual_selection_responses) -->
-                        <tr class="component" v-for="component in m.queryResult.webhookPayload.google.systemIntent">
+                        <div v-for="(component, id) in m.queryResult.webhookPayload.google.systemIntent" :key="id" class="component">
                             <!-- List (https://developers.google.com/actions/assistant/responses#list) -->
                             <List
+                                v-if="component.listSelect"
                                 :title="component.listSelect.title"
-                                :subtitle="component.listSelect.subtitle"
-                                v-if="component.listSelect">
+                                :subtitle="component.listSelect.subtitle">
                                 <ListItem
-                                    @click.native="send(item.optionInfo.key)"
                                     v-for="item in component.listSelect.items"
                                     :key="item.optionInfo.key"
                                     :title="item.title"
                                     :description="item.description"
-                                    :imageUri="item.image.url"
-                                    :imageTitle="item.image.accessibilityText"
+                                    :image-uri="item.image.url"
+                                    :image-title="item.image.accessibilityText"
+                                    @click.native="send(item.optionInfo.key)"
                                 />
                             </List>
 
@@ -181,27 +190,24 @@
                             <Carousel v-if="component.carouselSelect">
                                 <Card
                                     v-for="item in component.carouselSelect.items"
-                                    @click.native="send(item.optionInfo.key)"
                                     :key="item.optionInfo.key"
                                     :title="item.title"
-                                    :imageUri="item.image.url"
-                                    :imageTitle="item.image.accessibilityText"
+                                    :image-uri="item.image.url"
+                                    :image-title="item.image.accessibilityText"
                                     :text="item.description"
+                                    @click.native="send(item.optionInfo.key)"
                                 />
                             </Carousel>
-                        </tr>
+                        </div>
                     </section>
-                </table>
-                <table class="message" v-if="loading">
-                    <tr>
-                        <!-- My message (Loading) -->
-                        <td><Bubble from="me" loading="true" /></td>
-                    </tr>
-                    <tr>
-                        <!-- Default / Webhook bubble (Loading) -->
-                        <td><Bubble loading="true" /></td>
-                    </tr>
-                </table>
+                </div>
+                <div v-if="loading" class="message">
+                    <!-- My message (Loading) -->
+                    <BubbleWrapper><Bubble me loading aria-hidden="true" /></BubbleWrapper>
+
+                    <!-- Default / Webhook bubble (Loading) -->
+                    <Bubble loading aria-hidden="true" />
+                </div>
             </section>
         </section>
 
@@ -212,33 +218,25 @@
                 https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#QuickReplies
                 https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Suggestions
             -->
-            <Suggestion
-                v-for="(suggestion, index) in suggestions.text_suggestions"
-                @click.native="send(suggestion)"
-                :key="index"
-                :title="suggestion"
-                v-if="suggestions.text_suggestions" />
+            <span v-if="suggestions.text_suggestions">
+                <Suggestion
+                    v-for="(suggestion, index) in suggestions.text_suggestions"
+                    :key="index"
+                    :title="suggestion"
+                    @click.native="send(suggestion)"
+                />
+            </span>
 
             <!-- Link suggestion chips
                 https://developers.google.com/actions/assistant/responses#suggestion_chips
                 https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#LinkOutSuggestion
             -->
             <Suggestion
+                v-if="suggestions.link_suggestion"
                 :title="suggestions.link_suggestion.destinationName"
                 :url="suggestions.link_suggestion.uri || suggestions.link_suggestion.url"
-                v-if="suggestions.link_suggestion" />
+            />
         </ChatInput>
-
-        <!-- Audio toggle (on the top right corner), used to toggle the audio output, default mode is defined in the settings -->
-        <div
-            class="audio-toggle" 
-            @click="muted = !muted"
-            :aria-label="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].muteTitle"
-            :title="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].muteTitle"
-        >
-            <i aria-hidden="true" class="material-icons" v-if="!muted">volume_up</i>
-            <i aria-hidden="true" class="material-icons" v-else>volume_off</i>
-        </div>
     </main>
 </template>
 
@@ -249,7 +247,7 @@
 body
     margin: 0
     padding: 0
-    font-family: Google Sans, Roboto, sans-serif
+    font-family: var(--font)
     font-display: swap
     background-color: var(--background)
 
@@ -263,34 +261,16 @@ body
 
 <style lang="sass" scoped>
 .chat-container
-    padding-top: 60px
+    padding-top: 80px
     padding-bottom: 125px
 
 .message
-    width: 100%
-    table-layout: fixed
-
     .component
         padding-bottom: 10px
         width: 70%
-        display: block
 
         @media screen and (max-width: 720px)
             width: 100%
-
-.audio-toggle
-    position: fixed
-    top: 0
-    right: 0
-    margin: 8px
-    z-index: 999
-    padding: 10px
-    background-color: var(--element-background)
-    border-radius: 50%
-    width: 24px
-    height: 24px
-    cursor: pointer
-    color: var(--text)
 </style>
 
 <script>
@@ -300,6 +280,7 @@ import TopHead from './../Partials/TopHead.vue'
 import ChatInput from './../Partials/ChatInput.vue'
 
 import Bubble from './../RichComponents/Bubble.vue'
+import BubbleWrapper from './../RichComponents/BubbleWrapper.vue'
 import Card from './../RichComponents/Card.vue'
 import CardButton from './../RichComponents/CardButton.vue'
 import Carousel from './../RichComponents/Carousel.vue'
@@ -312,16 +293,19 @@ import Suggestion from './../RichComponents/Suggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
 import { set_seo } from './../../utils'
+
+import 'dialogflow-gateway/build/bundle'
 import './Theme.sass'
 
 export default {
-    name: 'app',
+    name: 'App',
     components: {
         Welcome,
         Error,
         TopHead,
         ChatInput,
         Bubble,
+        BubbleWrapper,
         Card,
         CardButton,
         Carousel,
@@ -340,88 +324,51 @@ export default {
             session: '',
             muted: this.config.app.muted,
             loading: false,
-            error: null
-        }
-    },
-    created(){
-        /* If history is enabled, the messages are retrieved from localStorage */
-        if(this.history() && localStorage.getItem('message_history') !== null){
-            this.messages = JSON.parse(localStorage.getItem('message_history'))
-        }
-
-        /* Session should be persistent (in case of page reload, the context should stay) */
-        if(this.history() && localStorage.getItem('session') !== null){
-            this.session = localStorage.getItem('session')
-        }
-
-        else {
-            this.session = uuidv1()
-            if(this.history()) localStorage.setItem('session', this.session)
-        }
-
-        /* Cache Agent (this will save bandwith) */
-        if(this.history() && localStorage.getItem('agent') !== null){
-            this.app = JSON.parse(localStorage.getItem('agent'))
-        }
-
-        else {
-            fetch(this.config.app.gateway)
-            .then(response => response.json())
-            .then(agent => {
-                if(!agent.error){
-                    this.app = agent
-                    if(this.history()) localStorage.setItem('agent', JSON.stringify(agent))
-                }
-
-                else {
-                    this.error = agent.error
-                }
-            })
+            error: null,
+            client: new df.Client(this.config.app.gateway).connect()
         }
     },
     computed: {
         /* The code below is used to extract suggestions from last message, to display it on ChatInput */
         suggestions(){
-            if(this.messages.length > 0){
-                let last_message = this.messages[this.messages.length - 1]
-                let suggestions = []
-                
+            if (this.messages.length > 0){
+                const last_message = this.messages[this.messages.length - 1]
+                const suggestions = []
+
                 /* Dialogflow Suggestions */
-                for (let component in last_message.queryResult.fulfillmentMessages){
-                    if(last_message.queryResult.fulfillmentMessages[component].suggestions) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].suggestions.suggestions.map(suggestion => suggestion.title)
-                    if(last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion
-                    if(last_message.queryResult.fulfillmentMessages[component].quickReplies) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].quickReplies.quickReplies
+                for (const component in last_message.queryResult.fulfillmentMessages){
+                    if (last_message.queryResult.fulfillmentMessages[component].suggestions) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].suggestions.suggestions.map(suggestion => suggestion.title)
+                    if (last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.fulfillmentMessages[component].linkOutSuggestion
+                    if (last_message.queryResult.fulfillmentMessages[component].quickReplies) suggestions.text_suggestions = last_message.queryResult.fulfillmentMessages[component].quickReplies.quickReplies
                 }
 
                 /* Google Suggestions */
                 if (last_message.queryResult.webhookPayload && last_message.queryResult.webhookPayload.google){
-                    for (let component in last_message.queryResult.webhookPayload.google){
-                        if(last_message.queryResult.webhookPayload.google[component].suggestions) suggestions.text_suggestions = last_message.queryResult.webhookPayload.google[component].suggestions.map(suggestion => suggestion.title)
-                        if(last_message.queryResult.webhookPayload.google[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.webhookPayload.google[component].linkOutSuggestion
+                    for (const component in last_message.queryResult.webhookPayload.google){
+                        if (last_message.queryResult.webhookPayload.google[component].suggestions) suggestions.text_suggestions = last_message.queryResult.webhookPayload.google[component].suggestions.map(suggestion => suggestion.title)
+                        if (last_message.queryResult.webhookPayload.google[component].linkOutSuggestion) suggestions.link_suggestion = last_message.queryResult.webhookPayload.google[component].linkOutSuggestion
                     }
                 }
 
                 return suggestions
             }
-            
-            else {
-                return {
-                    text_suggestions: this.config.app.start_suggestions // <- if no messages are present, return start_suggestions, from config.js to help user figure out what he can do with your application
-                }
+
+            return {
+                text_suggestions: this.config.app.start_suggestions // <- if no messages are present, return start_suggestions, from config.js to help user figure out what he can do with your application
             }
         }
     },
     watch: {
         /* This function is triggered, when new messages arrive */
         messages(messages){
-            if(this.history()) localStorage.setItem('message_history', JSON.stringify(messages)) // <- Save history if the feature is enabled
+            if (this.history()) localStorage.setItem('message_history', JSON.stringify(messages)) // <- Save history if the feature is enabled
         },
         /* This function is triggered, when request is started or finished */
         loading(){
             setTimeout(() => {
-                let app = document.querySelector('#app') // <- We need to scroll down #app, to prevent the whole page jumping to bottom, when using in iframe
+                const app = document.querySelector('#app') // <- We need to scroll down #app, to prevent the whole page jumping to bottom, when using in iframe
                 if (app.querySelector('.message')){
-                    let message = app.querySelectorAll('.message')[app.querySelectorAll('.message').length - 1].offsetTop - 70
+                    const message = app.querySelectorAll('.message')[app.querySelectorAll('.message').length - 1].offsetTop - 70
                     window.scrollTo({top: message, behavior: 'smooth'})
                 }
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to the last message
@@ -431,13 +378,46 @@ export default {
             set_seo(agent)
         }
     },
+    created(){
+        /* If history is enabled, the messages are retrieved from localStorage */
+        if (this.history() && localStorage.getItem('message_history') !== null){
+            this.messages = JSON.parse(localStorage.getItem('message_history'))
+        }
+
+        /* Session should be persistent (in case of page reload, the context should stay) */
+        if (this.history() && localStorage.getItem('session') !== null){
+            this.session = localStorage.getItem('session')
+        }
+
+        else {
+            this.session = uuidv1()
+            if (this.history()) localStorage.setItem('session', this.session)
+        }
+
+        /* Cache Agent (this will save bandwith) */
+        if (this.history() && localStorage.getItem('agent') !== null){
+            this.app = JSON.parse(localStorage.getItem('agent'))
+        }
+
+        else {
+            this.client.get()
+            .then(agent => {
+                this.app = agent
+                if (this.history()) localStorage.setItem('agent', JSON.stringify(agent))
+            })
+            .catch(error => {
+                this.error = error.message
+            })
+        }
+    },
     methods: {
         send(q){
-            let request = {
-                "queryInput": {
-                    "text": {
-                        "text": q,
-                        "languageCode": this.lang()
+            const request = {
+                session: this.session,
+                queryInput: {
+                    text: {
+                        text: q,
+                        languageCode: this.lang()
                     }
                 }
             } // <- this is how a Dialogflow request look like
@@ -446,44 +426,47 @@ export default {
             this.error = null
 
             /* Make the request to gateway */
-            fetch(this.config.app.gateway + '/' + this.session, {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(request)})
-            .then(response => response.json())
+            this.client.send(request)
             .then(response => {
-                if(!response.error){
-                    this.messages.push(response)
-                    this.handle(response) // <- trigger the handle function (explanation below)
-                    //console.log(response) // <- (optional) log responses
-                }
-
-                else {
-                    this.error = response.error
-                }
+                this.messages.push(response)
+                this.handle(response) // <- trigger the handle function (explanation below)
+                // console.log(response) // <- (optional) log responses
+            })
+            .catch(error => {
+                this.error = error.message
             })
             .then(() => this.loading = false)
         },
         handle(response){
             /* This function is used for speech output */
-            let text // <- init a text variable
-
-            /* Dialogflow Text/SimpleResponses */
-            for (let component in response.queryResult.fulfillmentMessages){
-                if(response.queryResult.fulfillmentMessages[component].text) text = response.queryResult.fulfillmentMessages[component].text.text[0]
-                if(response.queryResult.fulfillmentMessages[component].simpleResponses) text = response.queryResult.fulfillmentMessages[component].simpleResponses.simpleResponses[0].textToSpeech
+            if (response.outputAudio){
+                const output = new Audio(`data:audio/mp3;base64,${response.outputAudio}`)
+                if (!this.muted) output.play()
             }
 
-            /* Actions on Google Simple response */
-            if (response.queryResult.webhookPayload && response.queryResult.webhookPayload.google){
-                for (let component in response.queryResult.webhookPayload.google){
-                    if(response.queryResult.webhookPayload.google[component].simpleResponse) text = response.queryResult.webhookPayload.google[component].simpleResponse.textToSpeech
+            else {
+                let text // <- init a text variable
+
+                /* Dialogflow Text/SimpleResponses */
+                for (const component in response.queryResult.fulfillmentMessages){
+                    if (response.queryResult.fulfillmentMessages[component].text) text = response.queryResult.fulfillmentMessages[component].text.text[0]
+                    if (response.queryResult.fulfillmentMessages[component].simpleResponses) text = response.queryResult.fulfillmentMessages[component].simpleResponses.simpleResponses[0].textToSpeech
                 }
+
+                /* Actions on Google Simple response */
+                if (response.queryResult.webhookPayload && response.queryResult.webhookPayload.google){
+                    for (const component in response.queryResult.webhookPayload.google){
+                        if (response.queryResult.webhookPayload.google[component].simpleResponse) text = response.queryResult.webhookPayload.google[component].simpleResponse.textToSpeech
+                    }
+                }
+
+                const speech = new SpeechSynthesisUtterance(text)
+                speech.voiceURI = this.config.app.voice
+
+                /* This "hack" is used to format our lang format, to some other lang format (example: en -> en_EN). Mainly for Safari, Firefox and Edge */
+                speech.lang = `${this.lang()}-${this.lang().toUpperCase()}`
+                if (!this.muted) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
             }
-
-            let speech = new SpeechSynthesisUtterance(text)
-            speech.voiceURI = this.config.app.voice
-
-            /* This "hack" is used to format our lang format, to some other lang format (example: en -> en_EN). Mainly for Safari, Firefox and Edge */
-            speech.lang = this.lang() + '-' + this.lang().toUpperCase()
-            if(!this.muted) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
         }
     }
 }

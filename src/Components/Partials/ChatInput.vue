@@ -2,28 +2,45 @@
     <div class="bottomchat">
         <div class="container">
             <!-- Here are the suggestions -->
-            <div class="suggestions"><slot></slot></div>
+            <div class="suggestions"><slot /></div>
             <div class="flexible">
                 <!-- Text input -->
-                <div class="input-container">
-                    <input :aria-label="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle" class="input" type="text" :placeholder="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle" v-model="query" @keypress.enter="submit()" />
-                </div>
+                <input
+                    v-model="query"
+                    class="input"
+                    type="text"
+                    :placeholder="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle"
+                    :aria-label="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle"
+                    @keypress.enter="submit()">
 
                 <!-- Send message button (arrow button) -->
-                <div :aria-label="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle" :title="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle" class="button-container" v-if="!micro && query.length > 0" @click="submit()">
+                <button
+                    v-if="!micro && query.length > 0 || !recognition"
+                    class="button"
+                    :title="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle"
+                    :aria-label="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle"
+                    @click="submit()">
                     <i class="material-icons" aria-hidden="true">arrow_upward</i>
-                </div>
+                </button>
 
                 <!-- Microphone Button -->
-                <div :aria-label="(config.i18n[lang()] && config.i18n[lang()].microphoneTitle) || config.i18n[config.app.fallback_lang].microphoneTitle" :title="(config.i18n[lang()] && config.i18n[lang()].microphoneTitle) || config.i18n[config.app.fallback_lang].microphoneTitle" class="button-container mic_button" :class="{'mic_active': micro}" @click="micro = !micro" v-else>
+                <button
+                    v-else
+                    class="button"
+                    :aria-label="(config.i18n[lang()] && config.i18n[lang()].microphoneTitle) || config.i18n[config.app.fallback_lang].microphoneTitle"
+                    :title="(config.i18n[lang()] && config.i18n[lang()].microphoneTitle) || config.i18n[config.app.fallback_lang].microphoneTitle"
+                    :class="{'mic_active': micro}"
+                    @click="micro = !micro">
                     <i class="material-icons" aria-hidden="true">mic</i>
-                </div>
+                </button>
             </div>
         </div>
     </div>
 </template>
 
 <style lang="sass" scoped>
+@import './../App/Mixins.sass'
+
 .bottomchat
     position: fixed
     bottom: 0
@@ -43,44 +60,35 @@
     &::-webkit-scrollbar
         display: none
 
-.input-container
-    width: 100%
-    padding: 8px
-    box-sizing: border-box
-    border-radius: 40px
-    flex: 1 0 0
-    background-color: var(--element-background)
-
 .input
     font-size: 16px
     font-weight: 500
     width: 100%
     box-sizing: border-box
-    background-color: transparent
     border: none
-    outline: none
-    padding-left: 8px
-    padding-right: 8px
+    padding: 10px 12px
     color: var(--text)
+    border-radius: 40px
+    flex: 1 0 0
+    background-color: var(--element-background)
 
-.button-container
+    &:focus
+        background-color: transparent
+
+.button
+    @include reset
     padding: 8px
-    width: 24px
-    height: 24px
     margin-left: 6px
     border-radius: 50%
     cursor: pointer
-    background-color: black
-    color: white
+    background-color: var(--element-background)
+    color: var(--text)
+    font-size: 24px
+    display: flex
 
-    &.mic_button
-        background-color: var(--element-background)
-        color: var(--text)
-        font-size: 24px
-
-        &.mic_active
-            background-color: #F44336
-            color: white
+    &.mic_active
+        background-color: #F44336
+        color: white
 </style>
 
 <script>
@@ -93,20 +101,13 @@ export default {
             recognition: null
         }
     },
-    created(){
-        if(window.webkitSpeechRecognition || window.SpeechRecognition){
-            this.recognition = new webkitSpeechRecognition() || new SpeechRecognition()
-            this.recognition.interimResults = true
-            this.recognition.lang = this.lang()
-        }
-    },
     watch: {
         /* This function triggers when user clicks on the microphone button */
         micro(bool){
-            if(bool){
+            if (bool){
                 /* When value is true, start voice recognition */
                 this.recognition.start()
-                this.recognition.onresult = (event) => {
+                this.recognition.onresult = event => {
                     for (let i = event.resultIndex; i < event.results.length; ++i){
                         this.query = event.results[i][0].transcript // <- push results to the Text input
                     }
@@ -124,9 +125,16 @@ export default {
             }
         }
     },
+    created(){
+        if (window.webkitSpeechRecognition || window.SpeechRecognition){
+            this.recognition = new window.webkitSpeechRecognition() || new window.SpeechRecognition()
+            this.recognition.interimResults = true
+            this.recognition.lang = this.lang()
+        }
+    },
     methods: {
         submit(){
-            if(this.query.length > 0){
+            if (this.query.length > 0){
                 this.$emit('submit', this.query)
                 this.query = ''
             }

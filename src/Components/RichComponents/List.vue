@@ -1,8 +1,8 @@
 <template>
     <div class="list">
-        <div class="list-title" v-if="title">{{title}}</div>
-        <div class="list-subtitle" v-if="subtitle">Subtitle</div>
-        <slot></slot>
+        <div v-if="title" class="list-title">{{title}}</div>
+        <div v-if="subtitle" class="list-subtitle">Subtitle</div>
+        <ul :aria-label="title" class="list-content"><slot /></ul>
     </div>
 </template>
 
@@ -13,20 +13,34 @@
     background-color: var(--component-background)
     box-shadow: var(--shadow)
 
-.list-title
-    font-weight: 500
-    font-size: 20px
-    line-height: 30px
-    color: var(--text)
+    .list-title
+        font-weight: 500
+        font-size: 20px
+        line-height: 30px
+        color: var(--text)
 
-.list-subtitle
-    line-height: 24px
-    color: var(--text-subtitle)
+    .list-subtitle
+        line-height: 24px
+        color: var(--text-subtitle)
+
+    .list-content
+        list-style-type: none
+        margin: 0
+        padding: 0
 </style>
 
 <script>
 export default {
     name: 'List',
-    props: ['title', 'subtitle']
+    props: {
+        title: {
+            type: String,
+            default: null
+        },
+        subtitle: {
+            type: String,
+            default: null
+        }
+    }
 }
 </script>

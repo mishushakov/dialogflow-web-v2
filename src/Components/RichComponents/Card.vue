@@ -1,11 +1,11 @@
 <template>
-    <div class="card">
-        <img class="card-image" v-if="imageUri" :src="imageUri" :alt="imageTitle || title" />
+    <div class="card" tabindex="0">
+        <img v-if="imageUri" class="card-image" :src="imageUri" :alt="imageTitle || title">
         <div class="card-content">
-            <div class="card-title" v-if="title">{{title}}</div>
-            <div class="card-subtitle" v-if="subtitle">{{subtitle}}</div>
-            <div class="card-text" v-if="text">{{text}}</div>
-            <slot></slot>
+            <div v-if="title" class="card-title">{{title}}</div>
+            <div v-if="subtitle" class="card-subtitle">{{subtitle}}</div>
+            <div v-if="text" class="card-text">{{text}}</div>
+            <slot />
         </div>
     </div>
 </template>
@@ -50,6 +50,27 @@
 <script>
 export default {
     name: 'Card',
-    props: ['text', 'imageUri', 'imageTitle', 'subtitle', 'title']
+    props: {
+        text: {
+            type: String,
+            default: null
+        },
+        imageUri: {
+            type: String,
+            default: null
+        },
+        imageTitle: {
+            type: String,
+            default: null
+        },
+        subtitle: {
+            type: String,
+            default: null
+        },
+        title: {
+            type: String,
+            default: null
+        }
+    }
 }
 </script>
