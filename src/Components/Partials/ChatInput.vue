@@ -103,9 +103,10 @@ export default {
     },
     watch: {
         /* This function triggers when user clicks on the microphone button */
-        micro(bool){
-            if (bool){
-                /* When value is true, start voice recognition */
+        micro(activate){
+            if (activate){
+                /* When value is true, reset the language & start voice recognition */
+                this.recognition.lang = this.lang()
                 this.recognition.start()
                 this.recognition.onresult = event => {
                     for (let i = event.resultIndex; i < event.results.length; ++i){
@@ -129,7 +130,6 @@ export default {
         if (window.webkitSpeechRecognition || window.SpeechRecognition){
             this.recognition = new window.webkitSpeechRecognition() || new window.SpeechRecognition()
             this.recognition.interimResults = true
-            this.recognition.lang = this.lang()
         }
     },
     methods: {
