@@ -1,8 +1,6 @@
-import { get_gateway_url } from './utils'
-
 export default {
     app: {
-        gateway: get_gateway_url('https://dialogflow-web-v2.gateway.dialogflow.cloud.ushakov.co'), // <- enter your gateway URL here, the function is just a helper function for my hosted integration. You don't normally need it
+        gateway: 'https://dialogflow-web-v2.gateway.dialogflow.cloud.ushakov.co', // <- enter your gateway URL here
         muted: false, // <- mute microphone at start
         start_suggestions: [], // <- array of suggestions, displayed at the start screen
         fallback_lang: 'en', // <- fallback language code, if history mode or network is unavailable,

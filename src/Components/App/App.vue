@@ -292,7 +292,6 @@ import TableCard from './../RichComponents/TableCard.vue'
 import Suggestion from './../RichComponents/Suggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
-import { set_seo } from './../../utils'
 
 import 'dialogflow-gateway/build/bundle'
 import './Theme.sass'
@@ -372,10 +371,6 @@ export default {
                     window.scrollTo({top: message, behavior: 'smooth'})
                 }
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to the last message
-        },
-        /* You don't need the function below. It's only for managed version, get the SEO right */
-        app(agent){
-            set_seo(agent)
         }
     },
     created(){

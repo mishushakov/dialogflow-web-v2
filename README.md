@@ -10,7 +10,7 @@ The development of the project is done by [mishushakov](https://github.com/mishu
 
 ![Support Dialogflow for Web v2](https://i.imgur.com/adRvGaY.png)
 
-If you have any questions, feel free to [contact](https://ushakov.co/#contact)
+If you have any questions, feel free to [contact](https://mish.co/contact)
 
 ## Features
 
@@ -22,33 +22,13 @@ If you have any questions, feel free to [contact](https://ushakov.co/#contact)
 - Hands-free interaction with Voice Input and Speech Feedback
 - Language Independency
 - Docker and Kubernetes support
-- Rich-component, Webhook and Actions on Google Support ([demo](https://codepen.io/mishushakov/pen/YMwoEK))
-- Floating Widget for embedding on websites ([demo](https://codepen.io/mishushakov/pen/ywWaRW))
+- Rich-component, Webhook and Actions on Google Support ([demo](https://mishushakov.github.io/dialogflow-web-v2/))
+- Floating Widget for embedding on websites ([repo and demo](https://github.com/mishushakov/df-btn))
 - Based on Vue, Webpack, Babel and PostCSS
 - Lightweight (build is <50KB gzipped)
 - Free and fully Documented
 - Made in Germany
-- Recommended by [Dialogflow](https://twitter.com/Dialogflow/status/923976390201847809) and [MadeWithVueJS](https://twitter.com/MadeWithVueJS/status/1130147606666063875):
-
-![](https://i.imgur.com/yWv9mBu.png)
-![](https://i.imgur.com/N70Kl62.png)
-
-### New in this version
-
-![](https://i.imgur.com/a2DOOeD.gif)
-
-- New tooling: Vue CLI
-- Better accessibility & audit
-- Better layout, semantics and flexbox
-- Better carousels
-- Improved speed (~3x) & reliability
-- Improved code quality and logic
-- Nicer look and feel
-- GitHub Pages, Actions and Registry
-- Support for Dialogflow SSML
-- Updated docs and demos
-- More theming option: custom fonts
-- Reduced bundle size (~50%)
+- Recommended by [Dialogflow](https://twitter.com/Dialogflow/status/923976390201847809) and [MadeWithVueJS](https://twitter.com/MadeWithVueJS/status/1130147606666063875)
 
 # Installation
 
