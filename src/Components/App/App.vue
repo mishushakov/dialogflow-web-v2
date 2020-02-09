@@ -74,7 +74,7 @@
                                 :image-uri="item.image.imageUri"
                                 :image-title="item.image.accessibilityText"
                                 :text="item.description"
-                                @click.native="send(item.info.key)"
+                                @click.native="send({text: item.info.key})"
                             />
                         </Carousel>
 
@@ -90,7 +90,7 @@
                                 :description="item.description"
                                 :image-uri="item.image.imageUri"
                                 :image-title="item.image.accessibilityText"
-                                @click.native="send(item.info.key)"
+                                @click.native="send({text: item.info.key})"
                             />
                         </List>
 
@@ -182,7 +182,7 @@
                                     :description="item.description"
                                     :image-uri="item.image.url"
                                     :image-title="item.image.accessibilityText"
-                                    @click.native="send(item.optionInfo.key)"
+                                    @click.native="send({text: item.optionInfo.key})"
                                 />
                             </List>
 
@@ -195,7 +195,7 @@
                                     :image-uri="item.image.url"
                                     :image-title="item.image.accessibilityText"
                                     :text="item.description"
-                                    @click.native="send(item.optionInfo.key)"
+                                    @click.native="send({text: item.optionInfo.key})"
                                 />
                             </Carousel>
                         </div>
@@ -223,7 +223,7 @@
                     v-for="(suggestion, index) in suggestions.text_suggestions"
                     :key="index"
                     :title="suggestion"
-                    @click.native="send(suggestion)"
+                    @click.native="send({text: suggestion})"
                 />
             </span>
 
@@ -274,22 +274,22 @@ body
 </style>
 
 <script>
-import Welcome from './../Welcome/Welcome.vue'
-import Error from './../Error/Error.vue'
-import TopHead from './../Partials/TopHead.vue'
-import ChatInput from './../Partials/ChatInput.vue'
+import Welcome from '@/Components/Welcome/Welcome.vue'
+import Error from '@/Components/Error/Error.vue'
+import TopHead from '@/Components/Partials/TopHead.vue'
+import ChatInput from '@/Components/Partials/ChatInput.vue'
 
-import Bubble from './../RichComponents/Bubble.vue'
-import BubbleWrapper from './../RichComponents/BubbleWrapper.vue'
-import Card from './../RichComponents/Card.vue'
-import CardButton from './../RichComponents/CardButton.vue'
-import Carousel from './../RichComponents/Carousel.vue'
-import List from './../RichComponents/List.vue'
-import ListItem from './../RichComponents/ListItem.vue'
-import Picture from './../RichComponents/Picture.vue'
-import Media from './../RichComponents/Media.vue'
-import TableCard from './../RichComponents/TableCard.vue'
-import Suggestion from './../RichComponents/Suggestion.vue'
+import Bubble from '@/Components/RichComponents/Bubble.vue'
+import BubbleWrapper from '@/Components/RichComponents/BubbleWrapper.vue'
+import Card from '@/Components/RichComponents/Card.vue'
+import CardButton from '@/Components/RichComponents/CardButton.vue'
+import Carousel from '@/Components/RichComponents/Carousel.vue'
+import List from '@/Components/RichComponents/List.vue'
+import ListItem from '@/Components/RichComponents/ListItem.vue'
+import Picture from '@/Components/RichComponents/Picture.vue'
+import Media from '@/Components/RichComponents/Media.vue'
+import TableCard from '@/Components/RichComponents/TableCard.vue'
+import Suggestion from '@/Components/RichComponents/Suggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
 
@@ -406,16 +406,35 @@ export default {
         }
     },
     methods: {
-        send(q){
-            const request = {
-                session: this.session,
-                queryInput: {
-                    text: {
-                        text: q,
-                        languageCode: this.lang()
+        send(submission){
+            let request
+
+            /* Text request */
+            if (submission.text){
+                request = {
+                    session: this.session,
+                    queryInput: {
+                        text: {
+                            text: submission.text,
+                            languageCode: this.lang()
+                        }
                     }
                 }
-            } // <- this is how a Dialogflow request look like
+            }
+
+            /* Audio request */
+            else if (submission.audio){
+                request = {
+                    session: this.session,
+                    queryInput: {
+                        audioConfig: {
+                            audioEncoding: 'AUDIO_ENCODING_UNSPECIFIED',
+                            languageCode: this.lang()
+                        }
+                    },
+                    inputAudio: submission.audio
+                }
+            }
 
             this.loading = true
             this.error = null

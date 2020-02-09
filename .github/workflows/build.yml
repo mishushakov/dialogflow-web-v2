@@ -1,0 +1,21 @@
+name: Build docker image
+on:
+  push:
+    branches:
+      - hosted
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CONTAINER_IMAGE: docker.pkg.github.com/${{github.repository}}/${{secrets.REPO}}:${{github.sha}}
+      CONTAINER_IMAGE_LATEST: docker.pkg.github.com/${{github.repository}}/${{secrets.REPO}}:latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Docker Build
+      run: |
+        docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
+        docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
+    - name: Docker Push
+      run: |
+        docker push $CONTAINER_IMAGE
+        docker push $CONTAINER_IMAGE_LATEST

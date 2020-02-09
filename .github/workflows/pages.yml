@@ -4,17 +4,17 @@ on:
     branches:
       - master
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Clone
+    - name: Page Build
       env:
         CI: true
       run: |
         npm install
         npm run build --if-present
-    - name: Publish
+    - name: Page Publish
       run: |
         cd dist
         git init

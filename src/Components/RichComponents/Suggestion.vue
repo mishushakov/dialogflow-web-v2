@@ -11,7 +11,7 @@
 </template>
 
 <style lang="sass" scoped>
-@import './../App/Mixins.sass'
+@import '@/Components/App/Mixins'
 
 .suggestion
     @include reset

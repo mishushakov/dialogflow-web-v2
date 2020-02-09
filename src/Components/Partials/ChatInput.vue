@@ -11,15 +11,15 @@
                     type="text"
                     :placeholder="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle"
                     :aria-label="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle"
-                    @keypress.enter="submit()">
+                    @keypress.enter="submit({text: query})">
 
                 <!-- Send message button (arrow button) -->
                 <button
-                    v-if="!micro && query.length > 0 || !recognition"
+                    v-if="!micro && query.length > 0 || !microphone_allowed"
                     class="button"
                     :title="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle"
                     :aria-label="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle"
-                    @click="submit()">
+                    @click="submit({text: query})">
                     <i class="material-icons" aria-hidden="true">arrow_upward</i>
                 </button>
 
@@ -39,7 +39,7 @@
 </template>
 
 <style lang="sass" scoped>
-@import './../App/Mixins.sass'
+@import '@/Components/App/Mixins'
 
 .bottomchat
     position: fixed
@@ -92,52 +92,82 @@
 </style>
 
 <script>
+window.MediaRecorder = require('audio-recorder-polyfill')
 export default {
     name: 'ChatInput',
     data(){
         return {
             query: '',
             micro: false,
-            recognition: null
+            recognition: null,
+            recorder: null
+        }
+    },
+    computed: {
+        /* Helper function to decide, whether allow microphone input */
+        microphone_allowed(){
+            if (this.recognition || this.recorder) return true
+            return false
         }
     },
     watch: {
-        /* This function triggers when user clicks on the microphone button */
+        /* Toggle microphone */
         micro(activate){
-            if (activate){
-                /* When value is true, reset the language & start voice recognition */
-                this.recognition.lang = this.lang()
-                this.recognition.start()
-                this.recognition.onresult = event => {
-                    for (let i = event.resultIndex; i < event.results.length; ++i){
-                        this.query = event.results[i][0].transcript // <- push results to the Text input
-                    }
+            /* Recognition is available */
+            if (this.recognition){
+                if (activate){
+                    this.recognition.lang = this.lang()
+                    this.recognition.start()
                 }
 
-                this.recognition.onend = () => {
-                    this.recognition.stop()
-                    this.micro = false
-                    this.submit(this.query) // <- submit the result
-                }
+                else this.recognition.abort()
             }
 
-            else {
-                this.recognition.abort() // <- if user stops the recognition, abort it (in V1 this prevented users from starting a new recording)
+            /* Recorder is available */
+            else if (this.recorder){
+                if (activate) this.recorder.start()
+                else this.recorder.stop()
             }
         }
     },
     created(){
+        /* Set up recognition */
         if (window.webkitSpeechRecognition || window.SpeechRecognition){
             this.recognition = new window.webkitSpeechRecognition() || new window.SpeechRecognition()
             this.recognition.interimResults = true
+            this.recognition.onresult = event => {
+                for (let i = event.resultIndex; i < event.results.length; ++i){
+                    this.query = event.results[i][0].transcript // <- push results to the Text input
+                }
+            }
+
+            this.recognition.onend = () => {
+                this.recognition.stop()
+                this.micro = false
+                this.submit({text: this.query}) // <- submit the result
+            }
+        }
+
+        /* Set up recorder */
+        else if (window.MediaRecorder){
+            navigator.mediaDevices.getUserMedia({audio: true})
+            .then(stream => {
+                this.recorder = new window.MediaRecorder(stream)
+                this.recorder.addEventListener('dataavailable', recording => {
+                    const reader = new FileReader()
+                    reader.readAsDataURL(recording.data)
+                    reader.onloadend = () => {
+                        this.submit({audio: reader.result.replace(/^data:.+;base64,/, '')})
+                    }
+                })
+            })
         }
     },
     methods: {
-        submit(){
-            if (this.query.length > 0){
-                this.$emit('submit', this.query)
-                this.query = ''
-            }
+        submit(submission){
+            if (submission.text && submission.text.length > 0) this.$emit('submit', submission)
+            else if (submission.audio) this.$emit('submit', submission)
+            this.query = ''
         }
     }
 }
