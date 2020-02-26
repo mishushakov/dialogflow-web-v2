@@ -3,8 +3,10 @@
         <img v-if="app.avatarUri" class="app-icon" :alt="app.displayName" :src="'https://storage.googleapis.com/cloudprod-apiai/' + app.avatarUri">
         <img v-else class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" :alt="app.displayName">
         <div class="app-info">
-            <div class="app-name">{{app.displayName}}</div>
-            <div class="app-poweredby">Built with <a target="_blank" rel="noopener noreferrer" href="https://dialogflow.cloud.ushakov.co" aria-hidden="true">Dialogflow Gateway</a></div>
+            <!-- <div class="app-name">{{app.displayName}}</div> -->
+            <div class="app-name" style="color:#B3284A;">Agent Genie</div>
+            <!-- <div class="app-poweredby">Built with <a target="_blank" rel="noopener noreferrer" href="https://dialogflow.cloud.ushakov.co" aria-hidden="true">Dialogflow Gateway</a></div> -->
+            <div class="app-poweredby" style="color:#F4A261;">Your Genie Assistant</div>
         </div>
         <slot />
     </header>

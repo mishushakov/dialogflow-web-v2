@@ -22,9 +22,9 @@
         margin-left: -1px
 
     &.me
-        background-color: var(--element-background)
-        border: 1px solid var(--element-background)
-        color: var(--text-secondary)
+        background-color: var(--text)
+        border: 1px solid var(--text)
+        color: var(--component-background)
 
         &::before
             content: ''

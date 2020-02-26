@@ -19,11 +19,12 @@
     padding: 8px 12px
     border-radius: 40px
     border: 1px solid var(--border)
-    color: var(--text)
+    color: var(--component-background)
     cursor: pointer
     margin-right: 5px
     font-weight: 500
     margin-bottom: 12px
+    background: var(--text)
 
 .suggestion[href]
     background: #3C4043
