@@ -5,8 +5,8 @@
             <!-- Audio toggle (on the top right corner), used to toggle the audio output, default mode is defined in the settings -->
             <button
                 class="audio-toggle"
-                :title="muted ? (config.i18n[lang()] && config.i18n[lang()].unMuteTitle) || config.i18n[config.app.fallback_lang].unMuteTitle : (config.i18n[lang()] && config.i18n[lang()].muteTitle) || config.i18n[config.app.fallback_lang].muteTitle"
-                :aria-label="muted ? (config.i18n[lang()] && config.i18n[lang()].unMuteTitle) || config.i18n[config.app.fallback_lang].unMuteTitle : (config.i18n[lang()] && config.i18n[lang()].muteTitle) || config.i18n[config.app.fallback_lang].muteTitle"
+                :title="muted ? (translations[lang()] && translations[lang()].unMuteTitle) || translations[config.fallback_lang].unMuteTitle : (translations[lang()] && translations[lang()].muteTitle) || translations[config.fallback_lang].muteTitle"
+                :aria-label="muted ? (translations[lang()] && translations[lang()].unMuteTitle) || translations[config.fallback_lang].unMuteTitle : (translations[lang()] && translations[lang()].muteTitle) || translations[config.fallback_lang].muteTitle"
                 @click="muted = !muted">
                 <i aria-hidden="true" class="material-icons">{{muted ? 'volume_off': 'volume_up'}}</i>
             </button>
@@ -22,7 +22,7 @@
             <section v-else aria-live="polite">
                 <div v-for="m in messages" :key="m.responseId" class="message">
                     <!-- My message -->
-                    <BubbleWrapper><Bubble me :text="m.queryResult.queryText" /></BubbleWrapper>
+                    <BubbleWrapper><Bubble v-if="m.queryResult.queryText" :text="m.queryResult.queryText" me /></BubbleWrapper>
 
                     <!-- Dialogflow Components -->
                     <div v-for="(component, id) in m.queryResult.fulfillmentMessages" :key="id" class="component">
@@ -212,7 +212,7 @@
         </section>
 
         <!-- ChatInput is made for submitting queries and displaying suggestions -->
-        <ChatInput @submit="send">
+        <ChatInput ref="input" @submit="send">
             <!-- Suggestion chips
                 https://developers.google.com/actions/assistant/responses#suggestion_chips
                 https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#QuickReplies
@@ -241,9 +241,6 @@
 </template>
 
 <style lang="sass">
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700')
-@import url('https://fonts.googleapis.com/css?family=Material+Icons')
-
 body
     margin: 0
     padding: 0
@@ -255,7 +252,7 @@ body
     max-width: 500px
     margin-left: auto
     margin-right: auto
-    padding: 16px
+    padding: 12px
     position: relative
 </style>
 
@@ -266,35 +263,37 @@ body
 
 .message
     .component
-        padding-bottom: 10px
+        padding-bottom: 8px
         width: 70%
+        word-break: break-word
 
         @media screen and (max-width: 720px)
             width: 100%
 </style>
 
 <script>
-import Welcome from '@/Components/Welcome/Welcome.vue'
-import Error from '@/Components/Error/Error.vue'
-import TopHead from '@/Components/Partials/TopHead.vue'
-import ChatInput from '@/Components/Partials/ChatInput.vue'
+import Welcome from './Welcome.vue'
 
-import Bubble from '@/Components/RichComponents/Bubble.vue'
-import BubbleWrapper from '@/Components/RichComponents/BubbleWrapper.vue'
-import Card from '@/Components/RichComponents/Card.vue'
-import CardButton from '@/Components/RichComponents/CardButton.vue'
-import Carousel from '@/Components/RichComponents/Carousel.vue'
-import List from '@/Components/RichComponents/List.vue'
-import ListItem from '@/Components/RichComponents/ListItem.vue'
-import Picture from '@/Components/RichComponents/Picture.vue'
-import Media from '@/Components/RichComponents/Media.vue'
-import TableCard from '@/Components/RichComponents/TableCard.vue'
-import Suggestion from '@/Components/RichComponents/Suggestion.vue'
+import Error from '@/Components/Parts/Error.vue'
+import TopHead from '@/Components/Parts/TopHead.vue'
+import ChatInput from '@/Components/Parts/ChatInput.vue'
+
+import Bubble from '@/Components/Rich/Bubble.vue'
+import BubbleWrapper from '@/Components/Rich/BubbleWrapper.vue'
+import Card from '@/Components/Rich/Card.vue'
+import CardButton from '@/Components/Rich/CardButton.vue'
+import Carousel from '@/Components/Rich/Carousel.vue'
+import List from '@/Components/Rich/List.vue'
+import ListItem from '@/Components/Rich/ListItem.vue'
+import Picture from '@/Components/Rich/Picture.vue'
+import Media from '@/Components/Rich/Media.vue'
+import TableCard from '@/Components/Rich/TableCard.vue'
+import Suggestion from '@/Components/Rich/Suggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
 
 import 'dialogflow-gateway/build/bundle'
-import './Theme.sass'
+import '@/Style/Theme.sass'
 
 export default {
     name: 'App',
@@ -321,10 +320,10 @@ export default {
             messages: [],
             language: '',
             session: '',
-            muted: this.config.app.muted,
+            muted: this.config.muted,
             loading: false,
             error: null,
-            client: new df.Client(this.config.app.gateway).connect()
+            client: new df.Client(this.config.gateway).connect()
         }
     },
     computed: {
@@ -353,7 +352,7 @@ export default {
             }
 
             return {
-                text_suggestions: this.config.app.start_suggestions // <- if no messages are present, return start_suggestions, from config.js to help user figure out what he can do with your application
+                text_suggestions: this.config.start_suggestions // <- if no messages are present, return start_suggestions, from config.js to help user figure out what he can do with your application
             }
         }
     },
@@ -367,7 +366,7 @@ export default {
             setTimeout(() => {
                 const app = document.querySelector('#app') // <- We need to scroll down #app, to prevent the whole page jumping to bottom, when using in iframe
                 if (app.querySelector('.message')){
-                    const message = app.querySelectorAll('.message')[app.querySelectorAll('.message').length - 1].offsetTop - 70
+                    const message = app.querySelectorAll('.message')[app.querySelectorAll('.message').length - 1].offsetTop - 68
                     window.scrollTo({top: message, behavior: 'smooth'})
                 }
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to the last message
@@ -455,6 +454,8 @@ export default {
             /* This function is used for speech output */
             if (response.outputAudio){
                 const output = new Audio(`data:audio/mp3;base64,${response.outputAudio}`)
+                output.onended = () => this.$refs.input.listen()
+
                 if (!this.muted) output.play()
             }
 
@@ -475,7 +476,7 @@ export default {
                 }
 
                 const speech = new SpeechSynthesisUtterance(text)
-                speech.voiceURI = this.config.app.voice
+                speech.voiceURI = this.config.voice
 
                 /* This "hack" is used to format our lang format, to some other lang format (example: en -> en_EN). Mainly for Safari, Firefox and Edge */
                 speech.lang = `${this.lang()}-${this.lang().toUpperCase()}`

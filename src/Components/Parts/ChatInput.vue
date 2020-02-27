@@ -9,16 +9,17 @@
                     v-model="query"
                     class="input"
                     type="text"
-                    :placeholder="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle"
-                    :aria-label="(config.i18n[lang()] && config.i18n[lang()].inputTitle) || config.i18n[config.app.fallback_lang].inputTitle"
-                    @keypress.enter="submit({text: query})">
+                    :placeholder="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
+                    :aria-label="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
+                    @keypress.enter="submit({text: query})"
+                    @keydown="microphone = false; should_listen = false">
 
                 <!-- Send message button (arrow button) -->
                 <button
-                    v-if="!micro && query.length > 0 || !microphone_allowed"
+                    v-if="!microphone && query.length > 0 || !microphone_allowed"
                     class="button"
-                    :title="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle"
-                    :aria-label="(config.i18n[lang()] && config.i18n[lang()].sendTitle) || config.i18n[config.app.fallback_lang].sendTitle"
+                    :title="(translations[lang()] && translations[lang()].sendTitle) || translations[config.fallback_lang].sendTitle"
+                    :aria-label="(translations[lang()] && translations[lang()].sendTitle) || translations[config.fallback_lang].sendTitle"
                     @click="submit({text: query})">
                     <i class="material-icons" aria-hidden="true">arrow_upward</i>
                 </button>
@@ -27,10 +28,10 @@
                 <button
                     v-else
                     class="button"
-                    :aria-label="(config.i18n[lang()] && config.i18n[lang()].microphoneTitle) || config.i18n[config.app.fallback_lang].microphoneTitle"
-                    :title="(config.i18n[lang()] && config.i18n[lang()].microphoneTitle) || config.i18n[config.app.fallback_lang].microphoneTitle"
-                    :class="{'mic_active': micro}"
-                    @click="micro = !micro">
+                    :aria-label="(translations[lang()] && translations[lang()].microphoneTitle) || translations[config.fallback_lang].microphoneTitle"
+                    :title="(translations[lang()] && translations[lang()].microphoneTitle) || translations[config.fallback_lang].microphoneTitle"
+                    :class="{'mic_active': microphone}"
+                    @click="microphone = !microphone">
                     <i class="material-icons" aria-hidden="true">mic</i>
                 </button>
             </div>
@@ -39,7 +40,7 @@
 </template>
 
 <style lang="sass" scoped>
-@import '@/Components/App/Mixins'
+@import '@/Style/Mixins'
 
 .bottomchat
     position: fixed
@@ -98,9 +99,10 @@ export default {
     data(){
         return {
             query: '',
-            micro: false,
+            microphone: false,
             recognition: null,
-            recorder: null
+            recorder: null,
+            should_listen: true
         }
     },
     computed: {
@@ -112,22 +114,19 @@ export default {
     },
     watch: {
         /* Toggle microphone */
-        micro(activate){
-            /* Recognition is available */
-            if (this.recognition){
-                if (activate){
+        microphone(activate){
+            if (activate){
+                this.should_listen = true
+                if (this.recognition){
                     this.recognition.lang = this.lang()
                     this.recognition.start()
                 }
 
-                else this.recognition.abort()
+                else if (this.recorder) this.recorder.start()
             }
 
-            /* Recorder is available */
-            else if (this.recorder){
-                if (activate) this.recorder.start()
-                else this.recorder.stop()
-            }
+            else if (this.recognition) this.recognition.abort()
+            else if (this.recorder) this.recorder.stop()
         }
     },
     created(){
@@ -143,7 +142,7 @@ export default {
 
             this.recognition.onend = () => {
                 this.recognition.stop()
-                this.micro = false
+                this.microphone = false
                 this.submit({text: this.query}) // <- submit the result
             }
         }
@@ -164,6 +163,9 @@ export default {
         }
     },
     methods: {
+        listen(){
+            if (this.should_listen) this.microphone = true
+        },
         submit(submission){
             if (submission.text && submission.text.length > 0) this.$emit('submit', submission)
             else if (submission.audio) this.$emit('submit', submission)

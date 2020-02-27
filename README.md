@@ -30,6 +30,20 @@ If you have any questions, feel free to [contact](https://mish.co/contact)
 - Made in Germany
 - Recommended by [Dialogflow](https://twitter.com/Dialogflow/status/923976390201847809) and [MadeWithVueJS](https://twitter.com/MadeWithVueJS/status/1130147606666063875)
 
+## In this update
+
+61 changes, including:
+
+- New Dark-mode theme, inspired by Google
+- Active listening feature
+- Improved project structure
+- Bundled fonts for GDPR
+- Better design and improved bubbles
+
+the update was brought to you by [Vokode](https://www.vokode.com) - an audio marketing studio from Paris, which does: sound design, podcast and voice apps
+
+![Vokode](https://www.vokode.com/wp-content/uploads/2019/01/vokode-horizontal-web.png)
+
 # Installation
 
 ## Requirements
@@ -69,24 +83,22 @@ Using yarn
 
 ## Connect your Agent
 
-Open `config.js` and change the `gateway` variable to your Dialogflow Gateway URL
+Open `src/Config/index.js` and change the `gateway` variable to your Dialogflow Gateway URL
 
-Hint: the URL for [Dialogflow Gateway Hosted by Ushakov](https://dialogflow.cloud.ushakov.co) is always your google cloud project id + `.gateway.dialogflow.cloud.ushakov.co`. If you have any troubles, make sure you connected your Agent to the Gateway, then visit the [console](https://dialogflow.cloud.ushakov.co/console/), click on "Manage" and copy the Gateway URL
+Hint: the URL for [Dialogflow Gateway Hosted by Ushakov](https://dialogflow.cloud.ushakov.co) is always your google cloud project id + `.core.ushaflow.com`. If you have any troubles, make sure you connected your Agent to the Gateway, then visit the [console](https://dialogflow.cloud.ushakov.co/console/), click on "Manage" and copy the Gateway URL
 
 Example
 
 ```js
 export default {
-    app: {
-        gateway: "https://dialogflow-web-v2.gateway.dialogflow.cloud.ushakov.co"
-        [...]
-    }
+    gateway: 'https://dialogflow-web-v2.core.ushaflow.com'
+    [...]
 }
 
 [...]
 ```
 
-The logo, agent name, description and available languages are fetched from Dialogflow. Change them in Dialogflow and it will sync to the UI. Please note, when adding new languages, you may have to translate some of the UI as well (`i18n` field in `config.js`)
+The logo, agent name, description and available languages are fetched from Dialogflow. Change them in Dialogflow and it will sync to the UI. Please note, when adding new languages, you may have to translate some of the UI as well (`translations.json` in `src/Translations`)
 
 ## Developing
 
@@ -118,7 +130,7 @@ You can make a custom theme for Dialogflow for Web v2, according to the specific
 
 ![Theme Dialogflow for Web v2](https://svgur.com/i/HVW.svg)
 
-To apply the variables, open `src/components/App/Theme.sass` and change them in the `\:root` selector
+To apply the variables, open `src/Style/Theme.sass` and change them in the `\:root` selector
 
 You can also optimize your theme for Dark-mode-enabled clients within the same file and selector under the `@media (prefers-color-scheme: dark)`
 

@@ -1,3 +1,5 @@
+@import './Fonts'
+
 \:root
     --font: Google Sans, Roboto, sans-serif
     --background: white
@@ -10,19 +12,20 @@
     --border: #E5E5E5
     --accent: #4285F4
     --shadow: 0 2px 6px 2px rgba(60,64,67,0.15)
-    --left-bubble: url("../../Assets/bubble-left.svg")
-    --right-bubble: url("../../Assets/bubble-right.svg")
+    --left-bubble: url('./../Assets/SVG/bubble-left.svg')
+    --right-bubble: url('./../Assets/SVG/bubble-right.svg')
 
 @media (prefers-color-scheme: dark)
     \:root
-        --background: #121212
-        --element-background: #1E1E1E
-        --component-background: #1E1E1E
+        --background: #202124
+        --element-background: #28292c
+        --component-background: #28292c
         --image-background: white
-        --text: white
+        --text: #e8eaed
         --text-subtitle: #E0E0E0
         --text-secondary: #A5A5A5
-        --border: #353535
+        --border: #5f6368
+        --accent: #8ab4f8
         --shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)
-        --left-bubble: url("../../Assets/bubble-left_dark.svg")
-        --right-bubble: url("../../Assets/bubble-right_dark.svg")
+        --left-bubble: url('./../Assets/SVG/bubble-left_dark.svg')
+        --right-bubble: url('./../Assets/SVG/bubble-right_dark.svg')

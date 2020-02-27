@@ -12,6 +12,7 @@
     position: relative
     background-color: var(--background)
     min-width: 26px
+    border-top-left-radius: 0px
 
     &::before
         content: var(--left-bubble)
@@ -25,6 +26,7 @@
         background-color: var(--element-background)
         border: 1px solid var(--element-background)
         color: var(--text-secondary)
+        border-top-left-radius: 40px
 
         &::before
             content: ''

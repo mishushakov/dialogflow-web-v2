@@ -6,6 +6,7 @@
 .bubble-wrapper
     display: flex
     justify-content: flex-end
+    padding-bottom: 8px
 </style>
 
 <script>

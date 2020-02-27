@@ -11,14 +11,16 @@
 </template>
 
 <style lang="sass" scoped>
-@import '@/Components/App/Mixins'
+@import '@/Style/Mixins'
 
 .app-head
     z-index: 666
-    padding: 16px
+    padding: 12px
     position: fixed
     width: 100%
-    background-color: var(--background)
+
+    @media screen and (max-width: 1000px)
+        background-color: var(--background)
 
     .app-icon
         border-radius: 8px
@@ -35,6 +37,7 @@
             font-size: 18px
             font-weight: 500
             color: var(--text)
+            line-height: 15px
 
         .app-poweredby
             color: var(--text-secondary)
@@ -50,9 +53,9 @@
     position: fixed
     top: 0
     right: 0
-    margin: 16px 0
+    margin: 8.5px 0
     z-index: 999
-    padding: 8px 8px 8px 8px
+    padding: 8px
     background-color: var(--element-background)
     border-radius: 20px 0 0 20px
     cursor: pointer

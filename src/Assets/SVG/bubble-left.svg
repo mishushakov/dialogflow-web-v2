@@ -1,0 +1,10 @@
+<svg width="33px" height="28px" viewBox="0 0 33 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-24.000000, -28.000000)" fill-rule="nonzero">
+            <g transform="translate(24.000000, 28.000000)">
+                <path d="M0,0 C0,3 0,12.3333333 0,28 L33,8 C18.333333,8.33333333 7.333333,5.66666667 0,0 Z" fill="#E8EAED"></path>
+                <path d="M1,2 C1,4.67857143 1,13.5899578 1,27.5780531 L31.5613861,8.99736023 C18.2280525,9.29497927 7.66666636,7.05952381 1,2 Z" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

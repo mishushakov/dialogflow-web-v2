@@ -5,7 +5,7 @@
         <img v-else class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" :alt="app.displayName">
 
         <!-- Agent Title -->
-        <h1 class="app-title">{{(config.i18n[sel_lang] && config.i18n[sel_lang].welcomeTitle) || config.i18n[config.app.fallback_lang].welcomeTitle}} {{app.displayName}}</h1>
+        <h1 class="app-title">{{(translations[sel_lang] && translations[sel_lang].welcomeTitle) || translations[config.fallback_lang].welcomeTitle}} {{app.displayName}}</h1>
 
         <!-- Agent Description -->
         <p class="app-description">{{app.description}}</p>
@@ -29,7 +29,7 @@
 </template>
 
 <style lang="sass" scoped>
-@import '@/Components/App/Mixins'
+@import '@/Style/Mixins'
 
 .overlay
     text-align: center
@@ -97,7 +97,7 @@ export default {
             if (this.history()) localStorage.setItem('lang', lang)
 
             else {
-                this.config.app.fallback_lang = lang
+                this.config.fallback_lang = lang
             }
         }
     },
@@ -108,7 +108,7 @@ export default {
         }
 
         else {
-            this.sel_lang = this.config.app.fallback_lang
+            this.sel_lang = this.config.fallback_lang
         }
     }
 }
