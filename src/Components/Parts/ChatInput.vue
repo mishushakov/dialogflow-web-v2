@@ -12,7 +12,7 @@
                     :placeholder="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
                     :aria-label="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
                     @keypress.enter="submit({text: query})"
-                    @keydown="microphone = false; should_listen = false">
+                    @focus="microphone = false; should_listen = false">
 
                 <!-- Send message button (arrow button) -->
                 <button
