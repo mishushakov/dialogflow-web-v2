@@ -11,10 +11,10 @@ Vue.config.productionTip = false
 Vue.prototype.config = config // <- set config to global scope
 Vue.prototype.translations = translations // <- set translations to global scope
 
-/* (global) This code is going to tell us, if history mode can be activated on the client, so the application can be consumed without localstorage */
+/* (global) This code is going to tell us, if history mode can be activated on the client, so the application can be consumed without sessionStorage */
 Vue.prototype.history = () => {
     try {
-        localStorage.getItem('check')
+        sessionStorage.getItem('check')
         return true
     }
 
@@ -25,7 +25,7 @@ Vue.prototype.history = () => {
 
 /* (global) Currently selected language or fallback language (en). Needs to be a function, since it's reactive. No need for vuex there */
 Vue.prototype.lang = () => {
-    if (Vue.prototype.history()) return localStorage.getItem('lang') || config.fallback_lang
+    if (Vue.prototype.history()) return sessionStorage.getItem('lang') || config.fallback_lang
     return config.fallback_lang
 }
 

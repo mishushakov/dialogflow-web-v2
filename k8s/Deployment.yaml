@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ushaflow-web
+spec:
+  selector:
+    matchLabels:
+      app: ushaflow-web
+  template:
+    metadata:
+      labels:
+        app: ushaflow-web
+    spec:
+      containers:
+      - name: ushaflow-web
+        image: docker.pkg.github.com/mishushakov/dialogflow-web-v2/dialogflow-web-v2

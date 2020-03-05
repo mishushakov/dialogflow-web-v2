@@ -19,9 +19,9 @@ If you have any questions, feel free to [contact](https://mish.co/contact)
 - Extensive Browser Support (IE8+), offline capabilities (history) and great SEO
 - Familiar UI & UX, based on the official Google Assistant Design Specifications
 - Dark Mode & [Theming](#theming)
-- Hands-free interaction with Voice Input and Speech Feedback
-- Language Independency
-- Docker and Kubernetes support
+- Hands-free interaction with Voice Input and Speech Feedback (with SSML)
+- Language independent
+- [Docker](./Dockerfile) and [Kubernetes](./k8s) support
 - Rich-component, Webhook and Actions on Google Support ([demo](https://mishushakov.github.io/dialogflow-web-v2/))
 - Floating Widget for embedding on websites ([repo and demo](https://github.com/mishushakov/df-btn))
 - Based on Vue, Webpack, Babel and PostCSS

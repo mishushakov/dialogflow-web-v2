@@ -359,7 +359,7 @@ export default {
     watch: {
         /* This function is triggered, when new messages arrive */
         messages(messages){
-            if (this.history()) localStorage.setItem('message_history', JSON.stringify(messages)) // <- Save history if the feature is enabled
+            if (this.history()) sessionStorage.setItem('message_history', JSON.stringify(messages)) // <- Save history if the feature is enabled
         },
         /* This function is triggered, when request is started or finished */
         loading(){
@@ -373,31 +373,31 @@ export default {
         }
     },
     created(){
-        /* If history is enabled, the messages are retrieved from localStorage */
-        if (this.history() && localStorage.getItem('message_history') !== null){
-            this.messages = JSON.parse(localStorage.getItem('message_history'))
+        /* If history is enabled, the messages are retrieved from sessionStorage */
+        if (this.history() && sessionStorage.getItem('message_history') !== null){
+            this.messages = JSON.parse(sessionStorage.getItem('message_history'))
         }
 
         /* Session should be persistent (in case of page reload, the context should stay) */
-        if (this.history() && localStorage.getItem('session') !== null){
-            this.session = localStorage.getItem('session')
+        if (this.history() && sessionStorage.getItem('session') !== null){
+            this.session = sessionStorage.getItem('session')
         }
 
         else {
             this.session = uuidv1()
-            if (this.history()) localStorage.setItem('session', this.session)
+            if (this.history()) sessionStorage.setItem('session', this.session)
         }
 
         /* Cache Agent (this will save bandwith) */
-        if (this.history() && localStorage.getItem('agent') !== null){
-            this.app = JSON.parse(localStorage.getItem('agent'))
+        if (this.history() && sessionStorage.getItem('agent') !== null){
+            this.app = JSON.parse(sessionStorage.getItem('agent'))
         }
 
         else {
             this.client.get()
             .then(agent => {
                 this.app = agent
-                if (this.history()) localStorage.setItem('agent', JSON.stringify(agent))
+                if (this.history()) sessionStorage.setItem('agent', JSON.stringify(agent))
             })
             .catch(error => {
                 this.error = error.message
