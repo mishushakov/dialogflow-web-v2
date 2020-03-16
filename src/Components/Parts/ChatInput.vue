@@ -95,6 +95,8 @@
 
 <script>
 window.MediaRecorder = require('audio-recorder-polyfill')
+const hark = require('hark')
+
 export default {
     name: 'ChatInput',
     data(){
@@ -160,6 +162,10 @@ export default {
                         this.submit({audio: reader.result.replace(/^data:.+;base64,/, '')})
                     }
                 })
+
+                /* Speech end detection */
+                const speechEvents = hark(stream.clone())
+                speechEvents.on('stopped_speaking', () => this.microphone = false)
             })
         }
     },

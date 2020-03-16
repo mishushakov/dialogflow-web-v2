@@ -10,6 +10,7 @@
     "audio-recorder-polyfill": "^0.2.0",
     "core-js": "^3.6.4",
     "dialogflow-gateway": "0.0.7",
+    "hark": "^1.2.3",
     "langs": "^2.0.0",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.11"
