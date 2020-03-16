@@ -20,12 +20,12 @@
 
             <!-- Messages Table -->
             <section v-else aria-live="polite">
-                <div v-for="m in messages" :key="m.responseId" class="message">
+                <div v-for="m in messages" id="message" :key="m.responseId">
                     <!-- My message -->
                     <BubbleWrapper><Bubble v-if="m.queryResult.queryText" :text="m.queryResult.queryText" me /></BubbleWrapper>
 
                     <!-- Dialogflow Components -->
-                    <div v-for="(component, id) in m.queryResult.fulfillmentMessages" :key="id" class="component">
+                    <RichComponent v-for="(component, id) in m.queryResult.fulfillmentMessages" :key="id">
                         <!-- Text (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Text) -->
                         <Bubble v-if="component.text" :text="component.text.text[0]" />
 
@@ -96,11 +96,11 @@
 
                         <!-- Image (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Image) -->
                         <Picture v-if="component.image" :uri="component.image.imageUri" :title="component.image.accessibilityText" />
-                    </div>
+                    </RichComponent>
 
                     <!-- Actions on Google Components -->
                     <section v-if="m.queryResult.webhookPayload && m.queryResult.webhookPayload.google">
-                        <div v-for="(component, id) in m.queryResult.webhookPayload.google.richResponse.items" :key="id" class="component">
+                        <RichComponent v-for="(component, id) in m.queryResult.webhookPayload.google.richResponse.items" :key="id">
                             <!-- Simple response (https://developers.google.com/actions/assistant/responses#simple_response) -->
                             <Bubble
                                 v-if="component.simpleResponse"
@@ -166,10 +166,10 @@
                                     :title="button.title"
                                 />
                             </TableCard>
-                        </div>
+                        </RichComponent>
 
                         <!-- Visual Selection Responses (https://developers.google.com/actions/assistant/responses#visual_selection_responses) -->
-                        <div v-for="(component, id) in m.queryResult.webhookPayload.google.systemIntent" :key="id" class="component">
+                        <RichComponent v-for="(component, id) in m.queryResult.webhookPayload.google.systemIntent" :key="id">
                             <!-- List (https://developers.google.com/actions/assistant/responses#list) -->
                             <List
                                 v-if="component.listSelect"
@@ -198,10 +198,10 @@
                                     @click.native="send({text: item.optionInfo.key})"
                                 />
                             </Carousel>
-                        </div>
+                        </RichComponent>
                     </section>
                 </div>
-                <div v-if="loading" class="message">
+                <div v-if="loading" id="message">
                     <!-- My message (Loading) -->
                     <BubbleWrapper><Bubble me loading aria-hidden="true" /></BubbleWrapper>
 
@@ -241,6 +241,8 @@
 </template>
 
 <style lang="sass">
+@import '@/Style/Theme.sass'
+
 body
     margin: 0
     padding: 0
@@ -260,15 +262,6 @@ body
 .chat-container
     padding-top: 80px
     padding-bottom: 125px
-
-.message
-    .component
-        padding-bottom: 8px
-        width: 70%
-        word-break: break-word
-
-        @media screen and (max-width: 720px)
-            width: 100%
 </style>
 
 <script>
@@ -278,6 +271,7 @@ import Error from '@/Components/Parts/Error.vue'
 import TopHead from '@/Components/Parts/TopHead.vue'
 import ChatInput from '@/Components/Parts/ChatInput.vue'
 
+import RichComponent from '@/Components/Rich/Component.vue'
 import Bubble from '@/Components/Rich/Bubble.vue'
 import BubbleWrapper from '@/Components/Rich/BubbleWrapper.vue'
 import Card from '@/Components/Rich/Card.vue'
@@ -293,7 +287,6 @@ import Suggestion from '@/Components/Rich/Suggestion.vue'
 import * as uuidv1 from 'uuid/v1'
 
 import 'dialogflow-gateway/build/bundle'
-import '@/Style/Theme.sass'
 
 export default {
     name: 'App',
@@ -302,6 +295,7 @@ export default {
         Error,
         TopHead,
         ChatInput,
+        RichComponent,
         Bubble,
         BubbleWrapper,
         Card,
@@ -365,8 +359,8 @@ export default {
         loading(){
             setTimeout(() => {
                 const app = document.querySelector('#app') // <- We need to scroll down #app, to prevent the whole page jumping to bottom, when using in iframe
-                if (app.querySelector('.message')){
-                    const message = app.querySelectorAll('.message')[app.querySelectorAll('.message').length - 1].offsetTop - 68
+                if (app.querySelector('#message')){
+                    const message = app.querySelectorAll('#message')[app.querySelectorAll('#message').length - 1].offsetTop - 68
                     window.scrollTo({top: message, behavior: 'smooth'})
                 }
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to the last message

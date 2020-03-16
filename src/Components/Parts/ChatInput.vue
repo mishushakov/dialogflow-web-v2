@@ -9,6 +9,7 @@
                     v-model="query"
                     class="input"
                     type="text"
+                    autofocus
                     :placeholder="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
                     :aria-label="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
                     @keypress.enter="submit({text: query})"
@@ -167,9 +168,12 @@ export default {
             if (this.should_listen) this.microphone = true
         },
         submit(submission){
-            if (submission.text && submission.text.length > 0) this.$emit('submit', submission)
+            if (submission.text && submission.text.length > 0){
+                this.$emit('submit', submission)
+                this.query = ''
+            }
+
             else if (submission.audio) this.$emit('submit', submission)
-            this.query = ''
         }
     }
 }

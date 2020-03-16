@@ -59,22 +59,26 @@
     width: 100%
     padding-bottom: 16px
 
-.table-card-table th
-    text-align: left
-    padding-top: 8px
-    padding-bottom: 8px
-    border-bottom: 1px solid var(--border)
-    color: var(--text)
-    font-size: 18px
-    font-weight: 500
+.table-card-table
+    th
+        text-align: left
+        padding-top: 8px
+        padding-bottom: 8px
+        border-bottom: 1px solid var(--border)
+        color: var(--text)
+        font-size: 18px
+        font-weight: 500
 
-.table-card-table td
-    padding-top: 16px
-    padding-right: 16px
-    padding-bottom: 16px
-    border-bottom: 1px solid var(--border)
-    color: var(--text-secondary)
-    font-size: 14px
+    td
+        padding-top: 16px
+        padding-bottom: 16px
+        border-bottom: 1px solid var(--border)
+        color: var(--text-secondary)
+        font-size: 14px
+
+    tr:last-child td
+        padding-bottom: 0
+        border-bottom: 0
 </style>
 
 <script>
