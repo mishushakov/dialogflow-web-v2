@@ -1,6 +1,6 @@
 <template>
     <header class="app-head">
-        <img v-if="app.avatarUri" class="app-icon" :alt="app.displayName" :src="'https://storage.googleapis.com/cloudprod-apiai/' + app.avatarUri">
+        <img v-if="app.avatarUri" class="app-icon" :alt="app.displayName" :src="app.avatarUri">
         <img v-else class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" :alt="app.displayName">
         <div class="app-info">
             <div class="app-name">{{app.displayName}}</div>
