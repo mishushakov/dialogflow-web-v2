@@ -1,7 +1,7 @@
 <template>
     <div class="overlay">
         <!-- Agent Icon -->
-        <img v-if="app.avatarUri" class="app-icon" :alt="app.displayName" :src="'https://storage.googleapis.com/cloudprod-apiai/' + app.avatarUri">
+        <img v-if="app.avatarUri" class="app-icon" :alt="app.displayName" :src="app.avatarUri">
         <img v-else class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" :alt="app.displayName">
 
         <!-- Agent Title -->
