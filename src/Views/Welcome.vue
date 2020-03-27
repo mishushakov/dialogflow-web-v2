@@ -68,7 +68,7 @@
 </style>
 
 <script>
-const langs = require('langs')
+import * as langs from 'langs'
 
 export default {
     name: 'Welcome',

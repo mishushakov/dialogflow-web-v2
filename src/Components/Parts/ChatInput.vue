@@ -94,8 +94,10 @@
 </style>
 
 <script>
-window.MediaRecorder = require('audio-recorder-polyfill')
-const hark = require('hark')
+import AudioRecorder from 'audio-recorder-polyfill'
+import * as hark from 'hark'
+
+window.MediaRecorder = AudioRecorder
 
 export default {
     name: 'ChatInput',
@@ -105,7 +107,7 @@ export default {
             microphone: false,
             recognition: null,
             recorder: null,
-            should_listen: true
+            should_listen: false
         }
     },
     watch: {
