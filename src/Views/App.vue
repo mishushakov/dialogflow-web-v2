@@ -96,6 +96,19 @@
 
                         <!-- Image (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Image) -->
                         <Picture v-if="component.image" :uri="component.image.imageUri" :title="component.image.accessibilityText" />
+
+                        <!-- Image (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#MediaContent) -->
+                        <div v-if="component.mediaContent && component.mediaContent.mediaObjects">
+                            <Media
+                                v-for="media in component.mediaContent.mediaObjects"
+                                :key="media.name"
+                                :name="media.name"
+                                :description="media.description"
+                                :icon-uri="media.icon ? media.icon.imageUri : media.largeImage.imageUri"
+                                :icon-title="media.icon ? media.icon.accessibilityText : media.largeImage.accessibilityText"
+                                :uri="media.contentUrl"
+                            />
+                        </div>
                     </RichComponent>
 
                     <!-- Actions on Google Components -->
@@ -286,7 +299,7 @@ import Suggestion from '@/Components/Rich/Suggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
 
-import 'dialogflow-gateway/build/bundle'
+import { Client } from 'dialogflow-gateway'
 
 export default {
     name: 'App',
@@ -317,7 +330,7 @@ export default {
             muted: this.config.muted,
             loading: false,
             error: null,
-            client: new df.Client(this.config.gateway).connect()
+            client: new Client(this.config.endpoint).connect()
         }
     },
     computed: {
@@ -432,7 +445,7 @@ export default {
             this.loading = true
             this.error = null
 
-            /* Make the request to gateway */
+            /* Send the request to endpoint */
             this.client.send(request)
             .then(response => {
                 this.messages.push(response)
@@ -471,9 +484,9 @@ export default {
 
                 const speech = new SpeechSynthesisUtterance(text)
                 speech.voiceURI = this.config.voice
+                speech.lang = this.lang()
+                speech.onend = () => this.$refs.input.listen()
 
-                /* This "hack" is used to format our lang format, to some other lang format (example: en -> en_EN). Mainly for Safari, Firefox and Edge */
-                speech.lang = `${this.lang()}-${this.lang().toUpperCase()}`
                 if (!this.muted) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
             }
         }

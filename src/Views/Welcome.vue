@@ -5,25 +5,18 @@
         <img v-else class="app-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" :alt="app.displayName">
 
         <!-- Agent Title -->
-        <h1 class="app-title">{{(translations[sel_lang] && translations[sel_lang].welcomeTitle) || translations[config.fallback_lang].welcomeTitle}} {{app.displayName}}</h1>
+        <h1 class="app-title">{{app.displayName}}</h1>
 
         <!-- Agent Description -->
         <p class="app-description">{{app.description}}</p>
 
-        <!-- Language picker, when your Agent supports more than one Language -->
-        <div v-if="app.supportedLanguageCodes && app.supportedLanguageCodes.length > 0">
-            <button class="language-picker" role="checkbox" :class="{'picked': sel_lang == app.defaultLanguageCode}" @click="sel_lang = app.defaultLanguageCode">
-                {{app.defaultLanguageCode | toLang}}
-            </button>
-            <button
-                v-for="language in app.supportedLanguageCodes"
-                :key="language"
-                class="language-picker"
-                role="checkbox"
-                :class="{'picked': sel_lang == language}"
-                @click="sel_lang = language">
-                {{language | toLang}}
-            </button>
+        <!-- Language picker, if your Agent supports more than one language -->
+        <div v-if="app.supportedLanguageCodes && app.supportedLanguageCodes.length > 0" class="language-picker">
+            <select v-model="sel_lang">
+                <option :value="app.defaultLanguageCode">{{app.defaultLanguageCode | toLang}}</option>
+                <option v-for="language in app.supportedLanguageCodes" :key="language" :value="language">{{language | toLang}}</option>
+            </select>
+            <i aria-hidden="true" class="material-icons">arrow_drop_down</i>
         </div>
     </div>
 </template>
@@ -54,19 +47,24 @@
     color: var(--text-secondary)
 
 .language-picker
-    @include reset
-    display: inline-block
+    display: inline-flex
     border: 1px solid var(--border)
-    padding: 8px 12px
     border-radius: 40px
     cursor: pointer
     font-weight: 500
     margin-right: 2px
     color: var(--text)
+    align-items: center
 
-    &.picked
-        background-color: var(--element-background)
-        border: 1px solid var(--element-background)
+    select
+        @include reset
+        width: 100%
+        padding: 8px 12px
+        margin-right: -24px
+        padding-right: 24px
+
+    i
+        pointer-events: none
 </style>
 
 <script>
@@ -95,7 +93,6 @@ export default {
         /* Save selected language */
         sel_lang(lang){
             if (this.history()) sessionStorage.setItem('lang', lang)
-
             else {
                 this.config.fallback_lang = lang
             }

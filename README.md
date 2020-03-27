@@ -83,15 +83,15 @@ Using yarn
 
 ## Connect your Agent
 
-Open `src/Config/index.js` and change the `gateway` variable to your Dialogflow Gateway URL
+Open `src/Config/index.js` and change the `endpoint` variable to your Dialogflow Gateway URL
 
-Hint: the URL for [Dialogflow Gateway Hosted by Ushakov](https://dialogflow.cloud.ushakov.co) is always your google cloud project id + `.core.ushaflow.com`. If you have any troubles, make sure you connected your Agent to the Gateway, then visit the [console](https://dialogflow.cloud.ushakov.co/console/), click on "Manage" and copy the Gateway URL
+Hint: the URL for [Dialogflow Gateway Hosted by Ushakov](https://dialogflow.cloud.ushakov.co) is always your google cloud project id + `.core.ushaflow.io`. If you have any troubles, make sure you connected your Agent to the Gateway, then visit the [console](https://dialogflow.cloud.ushakov.co/console/), click on "Manage" and copy the Gateway URL
 
 Example
 
 ```js
 export default {
-    gateway: 'https://dialogflow-web-v2.core.ushaflow.com'
+    endpoint: 'https://dialogflow-web-v2.core.ushaflow.io'
     [...]
 }
 

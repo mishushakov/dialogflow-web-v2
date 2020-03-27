@@ -1,34 +1,30 @@
 {
     "en": {
-        "welcomeTitle": "Welcome to",
         "muteTitle": "Mute",
         "unMuteTitle": "Unmute",
-        "inputTitle": "Type your message",
+        "inputTitle": "Message",
         "sendTitle": "Send",
         "microphoneTitle": "Voice Input",
         "recognitionUnavailable": "Speech recognition is not available"
     },
     "ru": {
-        "welcomeTitle": "Добро пожаловать в",
         "muteTitle": "Звук",
         "unMuteTitle": "Без звука",
-        "inputTitle": "Введите ваше сообщение",
+        "inputTitle": "Сообщение",
         "sendTitle": "Отправить",
         "microphoneTitle": "Голосовой ввод"
     },
     "de": {
-        "welcomeTitle": "Wilkommen bei",
         "muteTitle": "Stumm",
         "unMuteTitle": "Nicht stumm",
-        "inputTitle": "Schreiben Sie ihre Nachricht",
+        "inputTitle": "Nachricht",
         "sendTitle": "Senden",
         "microphoneTitle": "Spracheingabe"
     },
     "fr": {
-        "welcomeTitle": "Bienvenue à",
         "muteTitle": "Son",
         "unMuteTitle": "Silent",
-        "inputTitle": "Entrez votre message",
+        "inputTitle": "Message",
         "sendTitle": "Envoyer",
         "microphoneTitle": "Entrée vocale"
     }

@@ -17,7 +17,7 @@
 
                 <!-- Send message button (arrow button) -->
                 <button
-                    v-if="!microphone && query.length > 0 || !microphone_allowed"
+                    v-if="!microphone && query.length > 0"
                     class="button"
                     :title="(translations[lang()] && translations[lang()].sendTitle) || translations[config.fallback_lang].sendTitle"
                     :aria-label="(translations[lang()] && translations[lang()].sendTitle) || translations[config.fallback_lang].sendTitle"
@@ -108,65 +108,54 @@ export default {
             should_listen: true
         }
     },
-    computed: {
-        /* Helper function to decide, whether allow microphone input */
-        microphone_allowed(){
-            if (this.recognition || this.recorder) return true
-            return false
-        }
-    },
     watch: {
         /* Toggle microphone */
         microphone(activate){
             if (activate){
                 this.should_listen = true
-                if (this.recognition){
+                if (window.webkitSpeechRecognition || window.SpeechRecognition){
+                    this.recognition = new window.webkitSpeechRecognition() || new window.SpeechRecognition()
+                    this.recognition.interimResults = true
                     this.recognition.lang = this.lang()
+                    this.recognition.onresult = event => {
+                        for (let i = event.resultIndex; i < event.results.length; ++i){
+                            this.query = event.results[i][0].transcript // <- push results to the Text input
+                        }
+                    }
+
+                    this.recognition.onend = () => {
+                        this.recognition.stop()
+                        this.microphone = false
+                        this.submit({text: this.query}) // <- submit the result
+                    }
+
+                    this.recognition.onerror = () => this.microphone = false
                     this.recognition.start()
                 }
 
-                else if (this.recorder) this.recorder.start()
+                else if (window.MediaRecorder){
+                    if (window.MediaRecorder){
+                        navigator.mediaDevices.getUserMedia({audio: true})
+                        .then(stream => {
+                            this.recorder = new window.MediaRecorder(stream)
+                            this.recorder.addEventListener('dataavailable', recording => {
+                                const reader = new FileReader()
+                                reader.readAsDataURL(recording.data)
+                                reader.onloadend = () => {
+                                    this.submit({audio: reader.result.replace(/^data:.+;base64,/, '')})
+                                }
+                            })
+
+                            hark(this.recorder.stream).on('stopped_speaking', () => this.microphone = false) // <- Speech end detection
+                            this.recorder.start()
+                        })
+                        .catch(() => this.microphone = false)
+                    }
+                }
             }
 
             else if (this.recognition) this.recognition.abort()
             else if (this.recorder) this.recorder.stop()
-        }
-    },
-    created(){
-        /* Set up recognition */
-        if (window.webkitSpeechRecognition || window.SpeechRecognition){
-            this.recognition = new window.webkitSpeechRecognition() || new window.SpeechRecognition()
-            this.recognition.interimResults = true
-            this.recognition.onresult = event => {
-                for (let i = event.resultIndex; i < event.results.length; ++i){
-                    this.query = event.results[i][0].transcript // <- push results to the Text input
-                }
-            }
-
-            this.recognition.onend = () => {
-                this.recognition.stop()
-                this.microphone = false
-                this.submit({text: this.query}) // <- submit the result
-            }
-        }
-
-        /* Set up recorder */
-        else if (window.MediaRecorder){
-            navigator.mediaDevices.getUserMedia({audio: true})
-            .then(stream => {
-                this.recorder = new window.MediaRecorder(stream)
-                this.recorder.addEventListener('dataavailable', recording => {
-                    const reader = new FileReader()
-                    reader.readAsDataURL(recording.data)
-                    reader.onloadend = () => {
-                        this.submit({audio: reader.result.replace(/^data:.+;base64,/, '')})
-                    }
-                })
-
-                /* Speech end detection */
-                const speechEvents = hark(stream.clone())
-                speechEvents.on('stopped_speaking', () => this.microphone = false)
-            })
         }
     },
     methods: {
