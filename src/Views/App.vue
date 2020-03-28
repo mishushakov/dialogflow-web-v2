@@ -20,12 +20,12 @@
 
             <!-- Messages Table -->
             <section v-else aria-live="polite">
-                <div v-for="m in messages" id="message" :key="m.responseId">
+                <div v-for="message in messages" id="message" :key="message.responseId">
                     <!-- My message -->
-                    <BubbleWrapper><Bubble v-if="m.queryResult.queryText" :text="m.queryResult.queryText" me /></BubbleWrapper>
+                    <BubbleWrapper><Bubble v-if="message.queryResult.queryText" :text="message.queryResult.queryText" me /></BubbleWrapper>
 
                     <!-- Dialogflow Components -->
-                    <RichComponent v-for="(component, id) in m.queryResult.fulfillmentMessages" :key="id">
+                    <RichComponent v-for="(component, id) in message.queryResult.fulfillmentMessages" :key="id">
                         <!-- Text (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Text) -->
                         <Bubble v-if="component.text" :text="component.text.text[0]" />
 
@@ -112,8 +112,8 @@
                     </RichComponent>
 
                     <!-- Actions on Google Components -->
-                    <section v-if="m.queryResult.webhookPayload && m.queryResult.webhookPayload.google">
-                        <RichComponent v-for="(component, id) in m.queryResult.webhookPayload.google.richResponse.items" :key="id">
+                    <section v-if="message.queryResult.webhookPayload && message.queryResult.webhookPayload.google">
+                        <RichComponent v-for="(component, id) in message.queryResult.webhookPayload.google.richResponse.items" :key="id">
                             <!-- Simple response (https://developers.google.com/actions/assistant/responses#simple_response) -->
                             <Bubble
                                 v-if="component.simpleResponse"
@@ -182,7 +182,7 @@
                         </RichComponent>
 
                         <!-- Visual Selection Responses (https://developers.google.com/actions/assistant/responses#visual_selection_responses) -->
-                        <RichComponent v-for="(component, id) in m.queryResult.webhookPayload.google.systemIntent" :key="id">
+                        <RichComponent v-for="(component, id) in message.queryResult.webhookPayload.google.systemIntent" :key="id">
                             <!-- List (https://developers.google.com/actions/assistant/responses#list) -->
                             <List
                                 v-if="component.listSelect"
