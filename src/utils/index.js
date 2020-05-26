@@ -28,3 +28,20 @@ export const register_service_worker = () => {
         })
     }
 }
+
+export const set_seo = agent => {
+    document.querySelector('title').innerText = agent.displayName
+    document.querySelector('meta[name=description]').content = agent.description
+    document.querySelector('link[rel=canonical]').href = location.href
+    document.querySelector('link[rel=icon]').href = agent.avatarUri
+    document.querySelector('link[rel=apple-touch-icon]').href = agent.avatarUri
+    document.querySelector('meta[name=msapplication-TileImage]').content = agent.avatarUri
+    document.querySelector('meta[name=apple-mobile-web-app-title]').content = agent.displayName
+    document.querySelector('meta[property=og\\:title]').content = agent.displayName
+    document.querySelector('meta[property=og\\:image]').content = agent.avatarUri
+    document.querySelector('meta[property=og\\:description]').content = agent.description
+    document.querySelector('meta[property=og\\:url]').content = location.href
+    document.querySelector('meta[name=twitter\\:title]').content = agent.displayName
+    document.querySelector('meta[name=twitter\\:image]').content = agent.avatarUri
+    document.querySelector('meta[name=twitter\\:description]').content = agent.description
+}

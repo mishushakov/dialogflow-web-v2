@@ -2,12 +2,27 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: ushaflow-web
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: ushacom
 spec:
   rules:
-  - host: example.com
+  - host: '*.ui.dialogflow.cloud.ushakov.co'
     http:
       paths:
       - path: /
         backend:
           serviceName: ushaflow-web
           servicePort: http
+  - host: '*.web.ushaflow.io'
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: ushaflow-web
+          servicePort: http
+  tls:
+  - hosts:
+    - '*.ui.dialogflow.cloud.ushakov.co'
+    - '*.web.ushaflow.io'
+    secretName: ushaflow-web-cert

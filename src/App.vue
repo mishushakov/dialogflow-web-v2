@@ -22,7 +22,7 @@
             <section v-else aria-live="polite">
                 <div v-for="message in messages" id="message" :key="message.responseId">
                     <!-- My message -->
-                    <RichComponent me><Bubble v-if="message.queryResult.queryText" :text="message.queryResult.queryText" me /></RichComponent>
+                    <RichComponent me><Bubble v-if="message.queryResult.queryText" :text="message.queryResult.queryText" me /></richComponent>
 
                     <!-- Dialogflow Components -->
                     <RichComponent v-for="(component, component_id) in message.queryResult.fulfillmentMessages" :key="component_id" :fullwidth="component.carouselSelect ? true : false || component.rbmCarouselRichCard ? true : false">
@@ -257,7 +257,7 @@
                                     :title="button.title"
                                 />
                             </TableCard>
-                        </RichComponent>
+                        </richComponent>
 
                         <!-- Visual Selection Responses (https://developers.google.com/actions/assistant/responses#visual_selection_responses) -->
                         <RichComponent v-for="(component, component_id) in message.queryResult.webhookPayload.google.systemIntent" :key="component_id" :fullwidth="component.carouselSelect ? true : false">
@@ -289,7 +289,7 @@
                                     @click.native="send({text: item.optionInfo.key})"
                                 />
                             </Carousel>
-                        </RichComponent>
+                        </richComponent>
                     </section>
                 </div>
                 <div v-if="loading" id="message">
@@ -368,6 +368,7 @@ import TableCard from '@/components/rich/TableCard.vue'
 import Suggestion from '@/components/rich/Suggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
+import { set_seo } from '@/utils'
 
 import { Client } from 'dialogflow-gateway'
 
@@ -446,6 +447,9 @@ export default {
                     window.scrollTo({top: message, behavior: 'smooth'})
                 }
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to the last message
+        },
+        agent(agent){
+            set_seo(agent)
         }
     },
     created(){
