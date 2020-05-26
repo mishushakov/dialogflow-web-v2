@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import App from './Views/App.vue'
+import App from './App.vue'
 
-import config from './Config'
-import translations from './Translations/translations.json'
-import { register_service_worker } from './Utils'
+import config from './config'
+import translations from './translations/translations.json'
+import { register_service_worker } from './utils'
 
 register_service_worker()
 
