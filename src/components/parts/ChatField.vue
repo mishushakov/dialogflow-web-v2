@@ -136,6 +136,8 @@ export default {
         microphone(activate){
             if (activate){
                 this.should_listen = true
+                this.$emit('listening')
+
                 if (window.webkitSpeechRecognition || window.SpeechRecognition){
                     this.recognition = new window.webkitSpeechRecognition() || new window.SpeechRecognition()
                     this.recognition.interimResults = true

@@ -303,7 +303,7 @@
         </section>
 
         <!-- ChatField is made for submitting queries and displaying suggestions -->
-        <ChatField ref="input" @submit="send">
+        <ChatField ref="input" @submit="send" @listening="speaking">
             <!-- Suggestion chips
                 https://developers.google.com/actions/assistant/responses#suggestion_chips
                 https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#QuickReplies
@@ -399,7 +399,8 @@ export default {
             muted: this.config.muted,
             loading: false,
             error: null,
-            client: new Client(this.config.endpoint)
+            client: new Client(this.config.endpoint),
+            audio: new Audio()
         }
     },
     computed: {
@@ -529,10 +530,10 @@ export default {
         handle(response){
             /* This function is used for speech output */
             if (response.outputAudio){
-                const output = new Audio(`data:${this.config.audio_encoding};base64,${response.outputAudio}`)
-                output.onended = () => this.$refs.input.listen()
+                this.audio.src = `data:${this.config.audio_encoding};base64,${response.outputAudio}`
+                this.audio.onended = () => this.$refs.input.listen()
 
-                if (!this.muted) output.play()
+                if (!this.muted) this.audio.play()
             }
 
             else {
@@ -559,6 +560,10 @@ export default {
 
                 if (!this.muted) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
             }
+        },
+        /* Stop audio playback when user is speaking */
+        speaking(){
+            window.speechSynthesis.cancel() || this.audio.pause()
         }
     }
 }
