@@ -1,20 +1,20 @@
 <template>
-    <li class="list-item" tabindex="0">
-        <img v-if="imageUri" class="list-item-image" :src="imageUri" :alt="imageTitle">
+    <li class="rich-list-item" tabindex="0">
+        <img v-if="imageUri" class="rich-list-item-image" :src="imageUri" :alt="imageTitle">
         <a
-            class="list-item-content"
+            class="rich-list-item-content"
             target="_blank"
             rel="noopener noreferrer"
             :href="uri">
-            <div class="list-item-title">{{title}}</div>
-            <span class="list-item-description">{{description}}</span>
-            <span class="list-item-footer">{{footer}}</span>
+            <div class="rich-list-item-title">{{title}}</div>
+            <span class="rich-list-item-description">{{description}}</span>
+            <span class="rich-list-item-footer">{{footer}}</span>
         </a>
     </li>
 </template>
 
 <style lang="sass" scoped>
-.list-item
+.rich-list-item
     cursor: pointer
     overflow: hidden
     padding-top: 16px
@@ -26,7 +26,7 @@
         border-bottom: none
         padding-bottom: 0
 
-.list-item-image
+.rich-list-item-image
     border-radius: 12px
     height: 50px
     width: 50px
@@ -35,24 +35,24 @@
     float: right
     background-color: var(--image-background)
 
-.list-item-content
+.rich-list-item-content
     display: inline-block
     vertical-align: top
     margin-top: 2.5px
     max-width: 70%
     text-decoration: none
 
-.list-item-title
+.rich-list-item-title
     font-weight: 500
     color: var(--text)
     line-height: 24px
 
-.list-item-description
+.rich-list-item-description
     color: var(--text-subtitle)
     line-height: 20px
     font-size: 14px
 
-.list-item-footer
+.rich-list-item-footer
     color: var(--text-secondary)
     margin-top: 6px
     font-size: 12px
@@ -61,7 +61,7 @@
 
 <script>
 export default {
-    name: 'ListItem',
+    name: 'RichListItem',
     props: {
         imageUri: {
             type: String,

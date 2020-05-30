@@ -1,5 +1,5 @@
 <template>
-    <div class="welcome-overlay">
+    <div class="welcome-view">
         <!-- Agent Icon -->
         <img v-if="agent.avatarUri" class="agent-icon" :alt="agent.displayName" :src="agent.avatarUri">
         <img v-else class="agent-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" :alt="agent.displayName">
@@ -24,7 +24,7 @@
 <style lang="sass" scoped>
 @import '@/style/mixins'
 
-.welcome-overlay
+.welcome-view
     text-align: center
     padding-top: 25px
 
@@ -71,7 +71,7 @@
 import * as langs from 'langs'
 
 export default {
-    name: 'Welcome',
+    name: 'WelcomeView',
     filters: {
         /* This filter turns language code to the local language name using the langs dependency (example "en" -> "English") */
         toLang(code){

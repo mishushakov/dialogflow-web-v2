@@ -1,9 +1,9 @@
 <template>
-    <img class="picture" :src="uri" :alt="title">
+    <img class="rich-picture" :src="uri" :alt="title">
 </template>
 
 <style lang="sass" scoped>
-.picture
+.rich-picture
     height: auto
     width: 100%
     max-width: 100%
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    name: 'Picture',
+    name: 'RichPicture',
     props: {
         uri: {
             type: String,

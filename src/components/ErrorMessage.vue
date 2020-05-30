@@ -1,23 +1,23 @@
 <template>
-    <div class="error-overlay">
+    <div class="error-message">
         <!-- Error Icon -->
-        <i class="material-icons error-icon" aria-hidden="true">error</i>
+        <i class="material-icons error-message-icon" aria-hidden="true">error</i>
 
         <!-- Error Description -->
-        <pre class="error-description">{{error}}</pre>
+        <pre class="error-message-description">{{error}}</pre>
     </div>
 </template>
 
 <style lang="sass" scoped>
-.error-overlay
+.error-message
     text-align: center
 
-.error-icon
+.error-message-icon
     font-size: 128px
     color: var(--text)
     margin-bottom: 30px
 
-.error-description
+.error-message-description
     font-size: 16px
     color: var(--text)
     background-color: var(--element-background)
@@ -28,7 +28,7 @@
 
 <script>
 export default {
-    name: 'Error',
+    name: 'ErrorMessage',
     props: {
         error: {
             type: String,
