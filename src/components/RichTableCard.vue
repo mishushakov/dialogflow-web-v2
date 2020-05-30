@@ -1,12 +1,12 @@
 <template>
-    <div class="table-card">
-        <img v-if="imageUri" class="table-card-image" :src="imageUri" :alt="imageTitle">
-        <div class="table-card-content">
-            <div v-if="title" class="table-card-title">{{title}}</div>
-            <div v-if="subtitle" class="table-card-subtitle">{{subtitle}}</div>
+    <div class="rich-table-card">
+        <img v-if="imageUri" class="rich-table-card-image" :src="imageUri" :alt="imageTitle">
+        <div class="rich-table-card-content">
+            <div v-if="title" class="rich-table-card-title">{{title}}</div>
+            <div v-if="subtitle" class="rich-table-card-subtitle">{{subtitle}}</div>
         </div>
-        <div class="table-card-scrollable">
-            <table class="table-card-table" cellspacing="0" cellpadding="0">
+        <div class="rich-table-card-scrollable">
+            <table class="rich-table-card-table" cellspacing="0" cellpadding="0">
                 <tr>
                     <th v-for="(head, head_id) in header" :key="head_id">{{head.header}}</th>
                 </tr>
@@ -20,29 +20,29 @@
 </template>
 
 <style lang="sass" scoped>
-.table-card
+.rich-table-card
     padding: 16px
     border-radius: 12px
     background-color: var(--component-background)
     box-shadow: var(--shadow)
 
-.table-card-title
+.rich-table-card-title
     font-weight: 500
     font-size: 20px
     line-height: 30px
     color: var(--text)
 
-.table-card-subtitle
+.rich-table-card-subtitle
     line-height: 24px
     color: var(--text-subtitle)
 
-.table-card-content
+.rich-table-card-content
     display: inline-block
     vertical-align: top
     margin-top: 2.5px
     max-width: 70%
 
-.table-card-image
+.rich-table-card-image
     border-radius: 12px
     height: 50px
     width: 50px
@@ -51,15 +51,15 @@
     float: right
     background-color: var(--image-background)
 
-.table-card-scrollable
+.rich-table-card-scrollable
     white-space: nowrap
     overflow: scroll
 
-.table-card-table
+.rich-table-card-table
     width: 100%
     padding-bottom: 16px
 
-.table-card-table
+.rich-table-card-table
     th
         text-align: left
         padding-top: 8px
@@ -83,7 +83,7 @@
 
 <script>
 export default {
-    name: 'TableCard',
+    name: 'RichTableCard',
     props: {
         title: {
             type: String,

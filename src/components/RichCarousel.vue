@@ -1,9 +1,9 @@
 <template>
-    <ul class="carousel"><slot /></ul>
+    <ul class="rich-carousel"><slot /></ul>
 </template>
 
 <style lang="sass" scoped>
-.carousel
+.rich-carousel
     display: flex
     flex-wrap: nowrap
     overflow-x: scroll
@@ -32,6 +32,6 @@
 
 <script>
 export default {
-    name: 'CarouselSelect'
+    name: 'RichCarousel'
 }
 </script>

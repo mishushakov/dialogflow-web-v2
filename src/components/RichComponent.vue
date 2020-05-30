@@ -1,9 +1,9 @@
 <template>
-    <div class="component" :class="{'me': me, 'fullwidth': fullwidth}"><slot /></div>
+    <div class="rich-component" :class="{'me': me, 'fullwidth': fullwidth}"><slot /></div>
 </template>
 
 <style lang="sass" scoped>
-.component
+.rich-component
     padding-bottom: 8px
     width: 70%
     word-break: break-word

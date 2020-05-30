@@ -1,9 +1,9 @@
 <template>
-    <div class="bubble" tabindex="0" :class="{'me': me, 'loading': loading}">{{text}}</div>
+    <div class="rich-bubble" tabindex="0" :class="{'me': me, 'loading': loading}">{{text}}</div>
 </template>
 
 <style lang="sass" scoped>
-.bubble
+.rich-bubble
     padding: 12px
     border-radius: 40px
     color: var(--text)
@@ -55,7 +55,7 @@
 
 <script>
 export default {
-    name: 'Bubble',
+    name: 'RichBubble',
     props: {
         text: {
             type: String,
