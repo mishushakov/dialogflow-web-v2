@@ -12,7 +12,7 @@
 
         <!-- Language picker, if your Agent supports more than one language -->
         <div v-if="agent.supportedLanguageCodes && agent.supportedLanguageCodes.length > 0" class="language-picker">
-            <select v-model="sel_lang">
+            <select v-model="sel_lang" :aria-label="(translations[lang()] && translations[lang()].selectLanguageTitle) || translations[config.fallback_lang].selectLanguageTitle">
                 <option :value="agent.defaultLanguageCode">{{agent.defaultLanguageCode | toLang}}</option>
                 <option v-for="language in agent.supportedLanguageCodes" :key="language" :value="language">{{language | toLang}}</option>
             </select>
