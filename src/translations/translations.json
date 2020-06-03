@@ -6,7 +6,8 @@
         "sendTitle": "Send",
         "microphoneTitle": "Voice Input",
         "recognitionUnavailable": "Speech recognition is not available",
-        "poweredBy": "Built with"
+        "poweredBy": "Built with",
+        "selectLanguageTitle": "Language"
     },
     "ru": {
         "muteTitle": "Звук",
@@ -14,7 +15,8 @@
         "inputTitle": "Сообщение",
         "sendTitle": "Отправить",
         "microphoneTitle": "Голосовой ввод",
-        "poweredBy": "Работает на"
+        "poweredBy": "Работает на",
+        "selectLanguageTitle": "Язык"
     },
     "de": {
         "muteTitle": "Stumm",
@@ -22,7 +24,8 @@
         "inputTitle": "Nachricht",
         "sendTitle": "Senden",
         "microphoneTitle": "Spracheingabe",
-        "poweredBy": "Unterstützt von"
+        "poweredBy": "Unterstützt von",
+        "selectLanguageTitle": "Sprache"
     },
     "fr": {
         "muteTitle": "Son",
@@ -30,6 +33,7 @@
         "inputTitle": "Message",
         "sendTitle": "Envoyer",
         "microphoneTitle": "Entrée vocale",
-        "poweredBy": "Alimenté par"
+        "poweredBy": "Alimenté par",
+        "selectLanguageTitle": "Langue"
     }
 }
