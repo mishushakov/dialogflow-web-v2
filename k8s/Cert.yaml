@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: ushaflow-web-cert
+spec:
+  secretName: ushaflow-web-cert
+  issuerRef:
+    name: ushacom
+    kind: ClusterIssuer
+  dnsNames:
+  - '*.web.ushaflow.io'
+  - '*.web.ushaflow.com'
+  - '*.ui.dialogflow.cloud.ushakov.co'

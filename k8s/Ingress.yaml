@@ -1,28 +1,35 @@
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: ushaflow-web
-  annotations:
-    kubernetes.io/ingress.class: traefik
-    cert-manager.io/cluster-issuer: ushacom
 spec:
-  rules:
-  - host: '*.ui.dialogflow.cloud.ushakov.co'
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: ushaflow-web
-          servicePort: http
-  - host: '*.web.ushaflow.io'
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: ushaflow-web
-          servicePort: http
+  entryPoints:
+    - http
+    - https
+  routes:
+  - match: HostRegexp(`{subdomain:.+}.web.ushaflow.io`) && Method(`GET`)
+    kind: Rule
+    services:
+    - name: ushaflow-web
+      port: 80
+
+  - match: HostRegexp(`{subdomain:.+}.web.ushaflow.com`) && Method(`GET`)
+    kind: Rule
+    services:
+    - name: ushaflow-web
+      port: 80
+
+  - match: HostRegexp(`{subdomain:.+}.ui.dialogflow.cloud.ushakov.co`) && Method(`GET`)
+    kind: Rule
+    services:
+    - name: ushaflow-web
+      port: 80
+
+  - match: HostRegexp(`{subdomain:.+}.web.ushaflow.io`) && Method(`POST`)
+    kind: Rule
+    services:
+    - name: ushaflow-ssr
+      port: 80
+
   tls:
-  - hosts:
-    - '*.ui.dialogflow.cloud.ushakov.co'
-    - '*.web.ushaflow.io'
     secretName: ushaflow-web-cert
