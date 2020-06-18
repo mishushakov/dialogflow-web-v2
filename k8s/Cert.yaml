@@ -5,7 +5,7 @@ metadata:
 spec:
   secretName: ushaflow-web-cert
   issuerRef:
-    name: ushacom
+    name: cert-issuer
     kind: ClusterIssuer
   dnsNames:
   - '*.web.ushaflow.io'
