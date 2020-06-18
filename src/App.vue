@@ -27,17 +27,17 @@
                     <!-- Dialogflow Components -->
                     <RichComponent v-for="(component, component_id) in message.queryResult.fulfillmentMessages" :key="component_id" :fullwidth="component.carouselSelect ? true : false || component.rbmCarouselRichCard ? true : false">
                         <!-- Text (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Text) -->
-                        <RichBubble v-if="component.text" :text="component.text.text[0]" />
+                        <RichBubble v-if="component.text" :text="component.text.text[0] || ((translations[lang()] && translations[lang()].noContent) || translations[config.fallback_lang].noContent)" />
 
                         <!-- SimpleResponses (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#SimpleResponses) -->
                         <RichBubble
                             v-if="component.simpleResponses"
-                            :text="component.simpleResponses.simpleResponses[0].displayText || component.simpleResponses.simpleResponses[0].textToSpeech"
+                            :text="component.simpleResponses.simpleResponses[0].displayText || component.simpleResponses.simpleResponses[0].textToSpeech || ((translations[lang()] && translations[lang()].noContent) || translations[config.fallback_lang].noContent)"
                         />
 
                         <!-- RbmText (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#rbmtext) -->
                         <div v-if="component.rbmText">
-                            <RichBubble :text="component.rbmText.text" />
+                            <RichBubble :text="component.rbmText.text || ((translations[lang()] && translations[lang()].noContent) || translations[config.fallback_lang].noContent)" />
                             <div v-for="(suggestion, suggestion_id) in component.rbmText.rbmSuggestion" :key="suggestion_id">
                                 <RichCardButton
                                     v-if="suggestion.reply"
@@ -195,7 +195,7 @@
                             <!-- Simple response (https://developers.google.com/actions/assistant/responses#simple_response) -->
                             <RichBubble
                                 v-if="component.simpleResponse"
-                                :text="component.simpleResponse.displayText || component.simpleResponse.textToSpeech"
+                                :text="component.simpleResponse.displayText || component.simpleResponse.textToSpeech || ((translations[lang()] && translations[lang()].noContent) || translations[config.fallback_lang].noContent)"
                             />
 
                             <!-- Basic card (https://developers.google.com/actions/assistant/responses#basic_card) -->
