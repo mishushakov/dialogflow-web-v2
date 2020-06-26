@@ -542,14 +542,14 @@ export default {
                 /* Dialogflow Text/SimpleResponses */
                 for (const component in response.queryResult.fulfillmentMessages){
                     if (response.queryResult.fulfillmentMessages[component].text) text += `${response.queryResult.fulfillmentMessages[component].text.text[0]}. `
-                    if (response.queryResult.fulfillmentMessages[component].simpleResponses) text += `${response.queryResult.fulfillmentMessages[component].simpleResponses.simpleResponses[0].textToSpeech}. `
+                    if (response.queryResult.fulfillmentMessages[component].simpleResponses && response.queryResult.fulfillmentMessages[component].simpleResponses.simpleResponses[0].textToSpeech) text += `${response.queryResult.fulfillmentMessages[component].simpleResponses.simpleResponses[0].textToSpeech}. `
                     if (response.queryResult.fulfillmentMessages[component].rbmText) text += `${response.queryResult.fulfillmentMessages[component].rbmText.text}. `
                 }
 
                 /* Actions on Google Simple response */
                 if (response.queryResult.webhookPayload && response.queryResult.webhookPayload.google){
                     for (const component in response.queryResult.webhookPayload.google.richResponse.items){
-                        if (response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse) text += `${response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse.textToSpeech}. `
+                        if (response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse && response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse.textToSpeech) text += `${response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse.textToSpeech}. `
                     }
                 }
 
