@@ -27,17 +27,17 @@
                     <!-- Dialogflow Components -->
                     <RichComponent v-for="(component, component_id) in message.queryResult.fulfillmentMessages" :key="component_id" :fullwidth="component.carouselSelect ? true : false || component.rbmCarouselRichCard ? true : false">
                         <!-- Text (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#Text) -->
-                        <RichBubble v-if="component.text" :text="component.text.text[0]" />
+                        <RichBubble v-if="component.text" :text="component.text.text[0] || ((translations[lang()] && translations[lang()].noContent) || translations[config.fallback_lang].noContent)" />
 
                         <!-- SimpleResponses (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#SimpleResponses) -->
                         <RichBubble
                             v-if="component.simpleResponses"
-                            :text="component.simpleResponses.simpleResponses[0].displayText || component.simpleResponses.simpleResponses[0].textToSpeech"
+                            :text="component.simpleResponses.simpleResponses[0].displayText || component.simpleResponses.simpleResponses[0].textToSpeech || ((translations[lang()] && translations[lang()].noContent) || translations[config.fallback_lang].noContent)"
                         />
 
                         <!-- RbmText (https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#rbmtext) -->
                         <div v-if="component.rbmText">
-                            <RichBubble :text="component.rbmText.text" />
+                            <RichBubble :text="component.rbmText.text || ((translations[lang()] && translations[lang()].noContent) || translations[config.fallback_lang].noContent)" />
                             <div v-for="(suggestion, suggestion_id) in component.rbmText.rbmSuggestion" :key="suggestion_id">
                                 <RichCardButton
                                     v-if="suggestion.reply"
@@ -195,7 +195,7 @@
                             <!-- Simple response (https://developers.google.com/actions/assistant/responses#simple_response) -->
                             <RichBubble
                                 v-if="component.simpleResponse"
-                                :text="component.simpleResponse.displayText || component.simpleResponse.textToSpeech"
+                                :text="component.simpleResponse.displayText || component.simpleResponse.textToSpeech || ((translations[lang()] && translations[lang()].noContent) || translations[config.fallback_lang].noContent)"
                             />
 
                             <!-- Basic card (https://developers.google.com/actions/assistant/responses#basic_card) -->
@@ -546,14 +546,14 @@ export default {
                 /* Dialogflow Text/SimpleResponses */
                 for (const component in response.queryResult.fulfillmentMessages){
                     if (response.queryResult.fulfillmentMessages[component].text) text += `${response.queryResult.fulfillmentMessages[component].text.text[0]}. `
-                    if (response.queryResult.fulfillmentMessages[component].simpleResponses) text += `${response.queryResult.fulfillmentMessages[component].simpleResponses.simpleResponses[0].textToSpeech}. `
+                    if (response.queryResult.fulfillmentMessages[component].simpleResponses && response.queryResult.fulfillmentMessages[component].simpleResponses.simpleResponses[0].textToSpeech) text += `${response.queryResult.fulfillmentMessages[component].simpleResponses.simpleResponses[0].textToSpeech}. `
                     if (response.queryResult.fulfillmentMessages[component].rbmText) text += `${response.queryResult.fulfillmentMessages[component].rbmText.text}. `
                 }
 
                 /* Actions on Google Simple response */
                 if (response.queryResult.webhookPayload && response.queryResult.webhookPayload.google){
                     for (const component in response.queryResult.webhookPayload.google.richResponse.items){
-                        if (response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse) text += `${response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse.textToSpeech}. `
+                        if (response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse && response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse.textToSpeech) text += `${response.queryResult.webhookPayload.google.richResponse.items[component].simpleResponse.textToSpeech}. `
                     }
                 }
 
