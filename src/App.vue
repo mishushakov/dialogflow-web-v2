@@ -530,7 +530,12 @@ export default {
         handle(response){
             /* This function is used for speech output */
             if (response.outputAudio){
-                this.audio.src = `data:${this.config.audio_encoding};base64,${response.outputAudio}`
+                /* Detect MIME type (audio/wav is the default) */
+                let mime = 'audio/wav'
+                if (response.outputAudioConfig.audioEncoding == 'OUTPUT_AUDIO_ENCODING_MP3') mime = 'audio/mpeg'
+                if (response.outputAudioConfig.audioEncoding == 'OUTPUT_AUDIO_ENCODING_OGG_OPUS') mime = 'audio/ogg'
+
+                this.audio.src = `data:${mime};base64,${response.outputAudio}`
                 this.audio.onended = () => this.$refs.input.listen()
 
                 if (!this.muted) this.audio.play()
