@@ -13,7 +13,7 @@
                     :placeholder="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
                     :aria-label="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
                     @keypress.enter="submit({text: query})"
-                    @focus="microphone = false; should_listen = false">
+                    @focus="microphone = false; should_listen = false; $emit('typing')">
 
                 <!-- Send message button (arrow button) -->
                 <transition name="chat-field-animation" mode="out-in">

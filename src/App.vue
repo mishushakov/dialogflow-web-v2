@@ -303,7 +303,7 @@
         </section>
 
         <!-- ChatField is made for submitting queries and displaying suggestions -->
-        <ChatField ref="input" @submit="send" @listening="speaking">
+        <ChatField ref="input" @submit="send" @listening="stop_feedback" @typing="stop_feedback">
             <!-- RichSuggesion chips
                 https://developers.google.com/actions/assistant/responses#suggestion_chips
                 https://cloud.google.com/dialogflow/docs/reference/rest/v2beta1/projects.agent.intents#QuickReplies
@@ -447,6 +447,10 @@ export default {
                     window.scrollTo({top: message, behavior: 'smooth'})
                 }
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to the last message
+        },
+        /* If muted, stop playing feedback */
+        muted(muted){
+            if (muted) this.stop_feedback()
         }
     },
     created(){
@@ -530,11 +534,8 @@ export default {
         handle(response){
             /* This function is used for speech output */
             if (response.outputAudio){
-                /* Detect MIME type (audio/wav is the default) */
-                let mime = 'audio/wav'
-                if (response.outputAudioConfig.audioEncoding == 'OUTPUT_AUDIO_ENCODING_MP3') mime = 'audio/mpeg'
-                if (response.outputAudioConfig.audioEncoding == 'OUTPUT_AUDIO_ENCODING_OGG_OPUS') mime = 'audio/ogg'
-
+                /* Detect MIME type (or fallback to default) */
+                const mime = this.config.codecs[response.outputAudioConfig.audioEncoding] || this.config.codecs.OUTPUT_AUDIO_ENCODING_UNSPECIFIED
                 this.audio.src = `data:${mime};base64,${response.outputAudio}`
                 this.audio.onended = () => this.$refs.input.listen()
 
@@ -566,9 +567,10 @@ export default {
                 if (!this.muted) window.speechSynthesis.speak(speech) // <- if app is not muted, speak out the speech
             }
         },
-        /* Stop audio playback when user is speaking */
-        speaking(){
-            window.speechSynthesis.cancel() || this.audio.pause()
+        /* Stop audio speech/playback */
+        stop_feedback(){
+            if (window.speechSynthesis) window.speechSynthesis.cancel()
+            if (this.audio && !this.audio.paused) this.audio.pause()
         }
     }
 }
