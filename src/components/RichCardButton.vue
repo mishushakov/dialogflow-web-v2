@@ -9,6 +9,7 @@
 .rich-card-button
     text-decoration: none
     line-height: 24px
+    min-height: 24px
     color: var(--text)
     border: 1px solid var(--border)
     border-radius: 40px
