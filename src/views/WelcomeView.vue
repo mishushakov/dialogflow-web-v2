@@ -75,7 +75,7 @@ export default {
     filters: {
         /* This filter turns language code to the local language name using the langs dependency (example "en" -> "English") */
         toLang(code){
-            return langs.where('1', code).local
+            return langs.where('1', code.substring(0, 2)).local
         }
     },
     props: {
