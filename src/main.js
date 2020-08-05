@@ -29,4 +29,7 @@ Vue.prototype.lang = () => {
     return config.fallback_lang
 }
 
+/* (global) Debug mode */
+Vue.prototype.debug = () => process.env.NODE_ENV == 'development'
+
 new Vue({render: h => h(App)}).$mount('#app')
