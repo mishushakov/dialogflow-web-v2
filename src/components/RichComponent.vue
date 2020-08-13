@@ -5,7 +5,7 @@
 <style lang="sass" scoped>
 .rich-component
     padding-bottom: 8px
-    width: 70%
+    width: var(--component-width)
     word-break: break-word
     display: flex
 

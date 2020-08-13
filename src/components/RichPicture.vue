@@ -4,9 +4,8 @@
 
 <style lang="sass" scoped>
 .rich-picture
-    height: auto
+    height: 100%
     width: 100%
-    max-width: 100%
     border-radius: 12px
     box-shadow: var(--shadow)
     object-fit: cover

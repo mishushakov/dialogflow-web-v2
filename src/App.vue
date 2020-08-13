@@ -388,7 +388,7 @@ body
     background-color: var(--background)
 
 .chat
-    max-width: 500px
+    max-width: var(--container-width)
     margin: auto auto
     padding: 0 12px
     position: relative

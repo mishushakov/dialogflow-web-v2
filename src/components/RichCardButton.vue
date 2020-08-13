@@ -7,27 +7,24 @@
 
 <style lang="sass" scoped>
 .rich-card-button
+    display: flex
     text-decoration: none
     line-height: 24px
-    min-height: 24px
     color: var(--text)
     border: 1px solid var(--border)
     border-radius: 40px
-    display: block
     font-weight: 500
-    padding: 8px 16px
-    text-align: center
-    position: relative
+    padding: 8px 12px
     margin-top: 16px
     cursor: pointer
+    justify-content: space-between
 
     &[href]
         color: var(--accent)
 
-.rich-card-button-icon
-    left: 0
-    margin-left: 12px
-    position: absolute
+.rich-card-button-title
+    flex: 1
+    text-align: center
 </style>
 
 <script>
