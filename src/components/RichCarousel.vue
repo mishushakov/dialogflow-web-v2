@@ -17,6 +17,7 @@
         display: inline-block
         margin-right: 10px
         flex: 0 0 auto
+        width: var(--component-width)
 
     @media screen and (max-width: 720px)
         display: grid
@@ -28,6 +29,7 @@
         *
             display: block
             margin-right: 0
+            width: 100%
 </style>
 
 <script>

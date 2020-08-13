@@ -55,7 +55,7 @@
     background-color: var(--background)
 
 .chat-field-container
-    max-width: 500px
+    max-width: var(--container-width)
     margin: auto auto
     padding: 12px
 

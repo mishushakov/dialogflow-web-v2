@@ -1,6 +1,5 @@
 <template>
     <li class="rich-list-item" tabindex="0">
-        <img v-if="imageUri" class="rich-list-item-image" :src="imageUri" :alt="imageTitle">
         <a
             class="rich-list-item-content"
             target="_blank"
@@ -10,6 +9,7 @@
             <span class="rich-list-item-description">{{description}}</span>
             <span class="rich-list-item-footer">{{footer}}</span>
         </a>
+        <img v-if="imageUri" class="rich-list-item-image" :src="imageUri" :alt="imageTitle">
     </li>
 </template>
 
@@ -20,7 +20,8 @@
     padding-top: 16px
     padding-bottom: 16px
     border-bottom: 1px solid var(--border)
-    display: block
+    display: flex
+    align-items: flex-start
 
     &:last-child
         border-bottom: none
@@ -37,10 +38,9 @@
 
 .rich-list-item-content
     display: inline-block
-    vertical-align: top
     margin-top: 2.5px
-    max-width: 70%
     text-decoration: none
+    flex: 1
 
 .rich-list-item-title
     font-weight: 500

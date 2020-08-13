@@ -1,9 +1,11 @@
 <template>
     <div class="rich-table-card">
-        <img v-if="imageUri" class="rich-table-card-image" :src="imageUri" :alt="imageTitle">
-        <div class="rich-table-card-content">
-            <div v-if="title" class="rich-table-card-title">{{title}}</div>
-            <div v-if="subtitle" class="rich-table-card-subtitle">{{subtitle}}</div>
+        <div class="rich-table-card-head">
+            <div class="rich-table-info">
+                <div v-if="title" class="rich-table-card-title">{{title}}</div>
+                <div v-if="subtitle" class="rich-table-card-subtitle">{{subtitle}}</div>
+            </div>
+            <img v-if="imageUri" class="rich-table-card-image" :src="imageUri" :alt="imageTitle">
         </div>
         <div class="rich-table-card-scrollable">
             <table class="rich-table-card-table" cellspacing="0" cellpadding="0">
@@ -36,11 +38,13 @@
     line-height: 24px
     color: var(--text-subtitle)
 
-.rich-table-card-content
-    display: inline-block
-    vertical-align: top
+.rich-table-card-head
+    display: flex
     margin-top: 2.5px
-    max-width: 70%
+    align-items: flex-start
+
+.rich-table-info
+    flex: 1
 
 .rich-table-card-image
     border-radius: 12px
