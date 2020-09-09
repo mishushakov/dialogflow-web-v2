@@ -5,10 +5,10 @@
         <img v-else class="agent-icon" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" :alt="agent.displayName">
 
         <!-- Agent Title -->
-        <h1 class="agent-title">{{agent.displayName}}</h1>
+        <div class="agent-title">{{agent.displayName}}</div>
 
         <!-- Agent Description -->
-        <p class="agent-description">{{agent.description}}</p>
+        <div class="agent-description">{{agent.description}}</div>
 
         <!-- Language picker, if your Agent supports more than one language -->
         <div v-if="agent.supportedLanguageCodes && agent.supportedLanguageCodes.length > 0" class="language-picker">
@@ -26,34 +26,34 @@
 
 .welcome-view
     text-align: center
-    padding-top: 25px
+    display: flex
+    flex-direction: column
+    align-items: center
 
 .agent-icon
     width: 120px
     height: 120px
-    border-radius: 16px
     object-fit: cover
-    background-color: var(--image-background)
 
 .agent-title
-    font-weight: 500
     font-size: 24px
     margin-top: 30px
-    color: var(--text)
+    color: var(--text-title)
     line-height: 20px
 
 .agent-description
     font-size: 16px
     color: var(--text-secondary)
+    padding-top: 10px
+    padding-bottom: 20px
 
 .language-picker
     display: inline-flex
-    border: 1px solid var(--border)
+    border: var(--border)
     border-radius: 40px
     cursor: pointer
-    font-weight: 500
     margin-right: 2px
-    color: var(--text)
+    color: var(--text-primary)
     align-items: center
 
     select

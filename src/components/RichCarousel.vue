@@ -12,12 +12,14 @@
     -webkit-overflow-scrolling: touch
     padding: 0 0 20px 0
     margin: 0
+    scroll-snap-type: x mandatory
 
     *
         display: inline-block
         margin-right: 10px
         flex: 0 0 auto
         width: var(--component-width)
+        scroll-snap-align: center
 
     @media screen and (max-width: 720px)
         display: grid

@@ -18,17 +18,16 @@
     display: inline-block
     padding: 8px 12px
     border-radius: 40px
-    border: 1px solid var(--border)
-    color: var(--text)
+    border: var(--border)
+    color: var(--text-primary)
     cursor: pointer
-    margin-right: 5px
-    font-weight: 500
-    margin-bottom: 12px
+    margin-right: 6px
+    margin-bottom: 6px
 
     &[href]
         color: var(--accent)
         text-decoration: none
-        border: 1px solid var(--border)
+        border: var(--border)
 </style>
 
 <script>

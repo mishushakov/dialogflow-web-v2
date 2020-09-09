@@ -10,12 +10,10 @@
     display: flex
     text-decoration: none
     line-height: 24px
-    color: var(--text)
-    border: 1px solid var(--border)
+    color: var(--text-primary)
+    border: var(--border)
     border-radius: 40px
-    font-weight: 500
     padding: 8px 12px
-    margin-top: 16px
     cursor: pointer
     justify-content: space-between
 

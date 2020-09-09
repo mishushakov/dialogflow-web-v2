@@ -5,14 +5,14 @@
             <div v-if="title" class="rich-card-title">{{title}}</div>
             <div v-if="subtitle" class="rich-card-subtitle">{{subtitle}}</div>
             <div v-if="text" class="rich-card-text">{{text}}</div>
-            <slot />
+            <div :class="{'rich-card-actions': $slots.default}"><slot /></div>
         </div>
     </div>
 </template>
 
 <style lang="sass" scoped>
 .rich-card
-    background-color: var(--component-background)
+    background-color: var(--background-component)
     box-shadow: var(--shadow)
     border-radius: 12px
 
@@ -22,15 +22,14 @@
     object-fit: cover
     border-top-right-radius: 10px
     border-top-left-radius: 10px
-    background-color: var(--image-background)
+    background-color: var(--background-image)
 
 .rich-card-content
     padding: 16px
 
 .rich-card-title
-    font-weight: 500
     font-size: 20px
-    color: var(--text)
+    color: var(--text-title)
     line-height: 24px
     overflow: hidden
     text-overflow: ellipsis
@@ -45,6 +44,9 @@
     font-size: 14px
     color: var(--text-secondary)
     white-space: normal
+
+.rich-card-actions
+    padding-top: 16px
 </style>
 
 <script>

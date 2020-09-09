@@ -110,7 +110,7 @@ Using yarn
 
 You can make a custom theme for Dialogflow for Web v2, according to the specification:
 
-![Theme Dialogflow for Web v2](https://i.imgur.com/r782ZRO.png)
+![Theme Dialogflow for Web v2](https://i.imgur.com/nQ7tK3d.png)
 
 To apply the variables, open `src/style/theme.sass` and change them in the `\:root` selector
 

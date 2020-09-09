@@ -10,14 +10,13 @@
 .rich-list
     padding: 16px
     border-radius: 12px
-    background-color: var(--component-background)
+    background-color: var(--background-component)
     box-shadow: var(--shadow)
 
 .rich-list-title
-    font-weight: 500
     font-size: 20px
     line-height: 30px
-    color: var(--text)
+    color: var(--text-title)
 
 .rich-list-subtitle
     line-height: 24px
