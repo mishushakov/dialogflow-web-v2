@@ -19,7 +19,9 @@
     position: fixed
     width: 100%
     display: flex
-    z-index: 1
+    z-index: 2
+    top: 0
+    height: 60px
 
     @media screen and (max-width: 1000px)
         background-color: var(--background)
@@ -31,11 +33,9 @@
     flex: 1 0 0
 
 .top-head-icon
-    border-radius: 8px
     width: 30px
     height: 30px
     object-fit: cover
-    background-color: var(--image-background)
 
 .top-head-info
     display: inline-block
@@ -43,8 +43,7 @@
 
 .top-head-title
     font-size: 18px
-    font-weight: 500
-    color: var(--text)
+    color: var(--text-title)
     line-height: 15px
 
 .top-head-subtitle
@@ -52,22 +51,8 @@
     font-size: 14px
 
     a[href]
-        color: var(--text)
+        color: var(--text-primary)
         text-decoration: none
-
-.top-head-action
-    @include reset
-    display: flex
-    margin: 8.5px 0
-    padding: 8px
-    background-color: var(--element-background)
-    border-radius: 20px 0 0 20px
-    cursor: pointer
-    color: var(--text)
-    transition: padding .25s cubic-bezier(.4, 0, .2, 1)
-
-    &:hover
-        padding-right: 20px
 </style>
 
 <script>

@@ -15,14 +15,13 @@
 .rich-media
     padding: 16px
     border-radius: 12px
-    background-color: var(--component-background)
+    background-color: var(--background-component)
     box-shadow: var(--shadow)
 
 .rich-media-title
-    font-weight: 500
     font-size: 20px
     line-height: 30px
-    color: var(--text)
+    color: var(--text-title)
 
 .rich-media-subtitle
     line-height: 24px
@@ -43,7 +42,7 @@
     object-fit: cover
     margin-left: 16px
     float: right
-    background-color: var(--image-background)
+    background-color: var(--background-image)
 
 .rich-media-controls
     padding-top: 16px

@@ -2,7 +2,9 @@
     <div class="chat-field">
         <div class="chat-field-container">
             <!-- Here are the suggestions -->
-            <div class="chat-field-suggestions"><slot /></div>
+            <transition name="chat-field-suggestions-animation">
+                <div v-if="query.length == 0" class="chat-field-suggestions"><slot /></div>
+            </transition>
             <div class="chat-field-flexible">
                 <!-- Text input -->
                 <input
@@ -16,7 +18,7 @@
                     @focus="microphone = false; should_listen = false; $emit('typing')">
 
                 <!-- Send message button (arrow button) -->
-                <transition name="chat-field-animation" mode="out-in">
+                <transition name="chat-field-button-animation" mode="out-in">
                     <button
                         v-if="!microphone && query.length > 0 || !microphone_supported"
                         key="send"
@@ -53,6 +55,7 @@
     left: 0
     width: 100%
     background-color: var(--background)
+    z-index: 2
 
 .chat-field-container
     max-width: var(--container-width)
@@ -61,6 +64,8 @@
 
 .chat-field-flexible
     display: flex
+    border-radius: 40px
+    border: var(--border)
 
 .chat-field-suggestions
     overflow-x: scroll
@@ -73,38 +78,36 @@
 
 .chat-field-input
     font-size: 16px
-    font-weight: 500
     width: 100%
     box-sizing: border-box
     border: none
-    padding: 10px 12px
-    color: var(--text)
-    border-radius: 40px
-    flex: 1 0 0
-    background-color: var(--element-background)
-
-    &:focus
-        background-color: transparent
+    padding: 10px 0 10px 12px
+    color: var(--text-primary)
+    border-radius: 40px 0 0 40px
+    background-color: transparent
 
 .chat-field-action
     @include reset
-    padding: 8px
-    margin-left: 6px
-    border-radius: 50%
+    padding: 10px 12px
     cursor: pointer
-    background-color: var(--element-background)
-    color: var(--text)
+    color: var(--accent)
     font-size: 24px
     display: flex
 
     &.mic_active
-        background-color: #F44336
-        color: white
+        color: #F44336
 
-.chat-field-animation-enter-active, .chat-field-animation-leave-active
-    transition: all .15s cubic-bezier(.4, 0, .2, 1)
+.chat-field-suggestions-animation-enter-active, .chat-field-suggestions-animation-leave-active
+    transition: all .15s var(--animation-timing)
 
-.chat-field-animation-enter, .chat-field-animation-leave-to
+.chat-field-suggestions-animation-enter, .chat-field-suggestions-animation-leave-to
+    transform: translateY(10px)
+    opacity: 0
+
+.chat-field-button-animation-enter-active, .chat-field-button-animation-leave-active
+    transition: all .15s var(--animation-timing)
+
+.chat-field-button-animation-enter, .chat-field-button-animation-leave-to
     transform: scale(0)
     opacity: 0
 </style>
@@ -159,23 +162,21 @@ export default {
                 }
 
                 else if (window.MediaRecorder){
-                    if (window.MediaRecorder){
-                        navigator.mediaDevices.getUserMedia({audio: true})
-                        .then(stream => {
-                            this.recorder = new window.MediaRecorder(stream)
-                            this.recorder.addEventListener('dataavailable', recording => {
-                                const reader = new FileReader()
-                                reader.readAsDataURL(recording.data)
-                                reader.onloadend = () => {
-                                    this.submit({audio: reader.result.replace(/^data:.+;base64,/, '')})
-                                }
-                            })
-
-                            hark(this.recorder.stream).on('stopped_speaking', () => this.microphone = false) // <- Speech end detection
-                            this.recorder.start()
+                    navigator.mediaDevices.getUserMedia({audio: true})
+                    .then(stream => {
+                        this.recorder = new window.MediaRecorder(stream)
+                        this.recorder.addEventListener('dataavailable', recording => {
+                            const reader = new FileReader()
+                            reader.readAsDataURL(recording.data)
+                            reader.onloadend = () => {
+                                this.submit({audio: reader.result.replace(/^data:.+;base64,/, '')})
+                            }
                         })
-                        .catch(() => this.microphone = false)
-                    }
+
+                        hark(this.recorder.stream).on('stopped_speaking', () => this.microphone = false) // <- Speech end detection
+                        this.recorder.start()
+                    })
+                    .catch(() => this.microphone = false)
                 }
             }
 

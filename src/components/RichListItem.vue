@@ -19,7 +19,7 @@
     overflow: hidden
     padding-top: 16px
     padding-bottom: 16px
-    border-bottom: 1px solid var(--border)
+    border-bottom: var(--border)
     display: flex
     align-items: flex-start
 
@@ -34,7 +34,7 @@
     object-fit: cover
     margin-left: 16px
     float: right
-    background-color: var(--image-background)
+    background-color: var(--background-image)
 
 .rich-list-item-content
     display: inline-block
@@ -43,8 +43,7 @@
     flex: 1
 
 .rich-list-item-title
-    font-weight: 500
-    color: var(--text)
+    color: var(--text-title)
     line-height: 24px
 
 .rich-list-item-description

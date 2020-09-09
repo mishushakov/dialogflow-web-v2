@@ -9,7 +9,7 @@
     border-radius: 12px
     box-shadow: var(--shadow)
     object-fit: cover
-    background-color: var(--image-background)
+    background-color: var(--background-image)
 </style>
 
 <script>

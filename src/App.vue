@@ -3,17 +3,15 @@
         <!-- TopHead is the header with the information about the app -->
         <TopHead v-if="agent && messages.length > 0" :agent="agent">
             <!-- Audio toggle (on the top right corner), used to toggle the audio output, default mode is defined in the settings -->
-            <button
-                class="top-head-action"
+            <TopHeadAction
                 :title="muted ? (translations[lang()] && translations[lang()].unMuteTitle) || translations[config.fallback_lang].unMuteTitle : (translations[lang()] && translations[lang()].muteTitle) || translations[config.fallback_lang].muteTitle"
-                :aria-label="muted ? (translations[lang()] && translations[lang()].unMuteTitle) || translations[config.fallback_lang].unMuteTitle : (translations[lang()] && translations[lang()].muteTitle) || translations[config.fallback_lang].muteTitle"
-                @click="muted = !muted">
-                <i aria-hidden="true" class="material-icons">{{muted ? 'volume_off': 'volume_up'}}</i>
-            </button>
+                :icon="muted ? 'volume_off': 'volume_up'"
+                @click.native="muted = !muted"
+            />
         </TopHead>
         <section class="chat">
             <!-- Error component is for displaying errors -->
-            <ErrorMessage v-if="error" :error="error" />
+            <ErrorMessage v-if="error" :message="error" />
 
             <!-- Welcome component is for onboarding experience and language picker -->
             <WelcomeView v-if="agent && messages.length == 0" :agent="agent" />
@@ -390,10 +388,7 @@ body
 .chat
     max-width: var(--container-width)
     margin: auto auto
-    padding: 0 12px
-    position: relative
-    padding-top: 68px
-    padding-bottom: 125px
+    padding: 70px 12px 112px 12px
 </style>
 
 <script>
@@ -401,6 +396,7 @@ import WelcomeView from '@/views/WelcomeView.vue'
 
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import TopHead from '@/components/TopHead.vue'
+import TopHeadAction from '@/components/TopHeadAction.vue'
 import ChatField from '@/components/ChatField.vue'
 
 import RichComponent from '@/components/RichComponent.vue'
@@ -426,6 +422,7 @@ export default {
         WelcomeView,
         ErrorMessage,
         TopHead,
+        TopHeadAction,
         ChatField,
         RichComponent,
         RichBubble,
@@ -499,7 +496,7 @@ export default {
             setTimeout(() => {
                 const app = document.querySelector('#app') // <- We need to scroll down #app, to prevent the whole page jumping to bottom, when using in iframe
                 if (app.querySelector('#message')){
-                    const message = app.querySelectorAll('#message')[app.querySelectorAll('#message').length - 1].offsetTop - 68
+                    const message = app.querySelectorAll('#message')[app.querySelectorAll('#message').length - 1].offsetTop - 70
                     window.scrollTo({top: message, behavior: 'smooth'})
                 }
             }, 2) // <- wait for render (timeout) and then smoothly scroll #app down to the last message

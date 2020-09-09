@@ -1,10 +1,7 @@
 <template>
     <div class="error-message">
-        <!-- Error Icon -->
         <i class="material-icons error-message-icon" aria-hidden="true">error</i>
-
-        <!-- Error Description -->
-        <pre class="error-message-description">{{error}}</pre>
+        <div class="error-message-description">{{message}}</div>
     </div>
 </template>
 
@@ -13,24 +10,21 @@
     text-align: center
 
 .error-message-icon
-    font-size: 128px
-    color: var(--text)
+    font-size: 48px
+    color: var(--text-element)
     margin-bottom: 30px
 
 .error-message-description
     font-size: 16px
-    color: var(--text)
-    background-color: var(--element-background)
-    padding: 16px
-    border-radius: 16px
-    overflow: scroll
+    color: var(--text-element)
+    word-wrap: break-word
 </style>
 
 <script>
 export default {
     name: 'ErrorMessage',
     props: {
-        error: {
+        message: {
             type: String,
             default: null
         }
