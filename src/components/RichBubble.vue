@@ -1,5 +1,5 @@
 <template>
-    <div class="rich-bubble" tabindex="0" :class="{'me': me, 'loading': loading}">{{text}}</div>
+  <div class="rich-bubble" tabindex="0" :class="{'me': me, 'loading': loading}">{{text}}</div>
 </template>
 
 <style lang="sass" scoped>
@@ -10,7 +10,7 @@
     border: 1px solid var(--background-element)
     display: inline-block
     position: relative
-    background-color: var(--background)
+    background-color: var(--accent)
     min-width: 26px
     border-top-left-radius: 0
     word-wrap: break-word
@@ -56,19 +56,19 @@
 
 <script>
 export default {
-    name: 'RichBubble',
-    props: {
-        text: {
-            type: String,
-            required: false,
-            default: ''
-        },
-        me: {
-            type: Boolean
-        },
-        loading: {
-            type: Boolean
-        }
+  name: "RichBubble",
+  props: {
+    text: {
+      type: String,
+      required: false,
+      default: ""
+    },
+    me: {
+      type: Boolean
+    },
+    loading: {
+      type: Boolean
     }
-}
+  }
+};
 </script>

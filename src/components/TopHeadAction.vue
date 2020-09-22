@@ -1,17 +1,13 @@
 <template>
-    <button
-        class="top-head-action"
-        :title="title"
-        :aria-label="title">
-        <i aria-hidden="true" class="material-icons">{{icon}}</i>
-    </button>
+  <button class="top-head-action" :title="title" :aria-label="title">
+    <i aria-hidden="true" class="material-icons">{{icon}}</i>
+  </button>
 </template>
 
 <style lang="sass" scoped>
 @import '@/style/mixins'
 
 .top-head-action
-    @include reset
     display: flex
     margin: 8px 0
     padding: 10px 12px
@@ -19,7 +15,8 @@
     border: var(--border)
     border-right: none
     cursor: pointer
-    color: var(--text-primary)
+    background-color: transparent
+    color: #0093d9
     transition: padding .25s var(--animation-timing)
 
     &:hover
@@ -28,16 +25,16 @@
 
 <script>
 export default {
-    name: 'TopHeadAction',
-    props: {
-        title: {
-            type: String,
-            default: ''
-        },
-        icon: {
-            type: String,
-            default: ''
-        }
+  name: "TopHeadAction",
+  props: {
+    title: {
+      type: String,
+      default: ""
+    },
+    icon: {
+      type: String,
+      default: ""
     }
-}
+  }
+};
 </script>
