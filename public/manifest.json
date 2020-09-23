@@ -2,15 +2,16 @@
     "name": "appname",
     "short_name": "appname",
     "icons": [{
-        "src": "./img/icons/android-chrome-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-    },
-    {
-        "src": "./img/icons/android-chrome-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png"
-    }],
+            "src": "DrPresente.png",
+            "sizes": "16x16",
+            "type": "image/png"
+        },
+        {
+            "src": "DrPresente.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        }
+    ],
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#000000",

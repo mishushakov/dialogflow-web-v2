@@ -1,24 +1,23 @@
 <template>
-    <a
-        v-if="uri"
-        class="rich-suggestion"
-        target="_blank"
-        rel="noopener noreferrer"
-        :href="uri">
-        {{title}}
-    </a>
-    <button v-else class="rich-suggestion">{{title}}</button>
+  <a
+    v-if="uri"
+    class="rich-suggestion"
+    target="_blank"
+    rel="noopener noreferrer"
+    :href="uri"
+  >{{title}}</a>
+  <button v-else class="rich-suggestion">{{title}}</button>
 </template>
 
 <style lang="sass" scoped>
 @import '@/style/mixins'
 
 .rich-suggestion
-    @include reset
+    background: #ffffff
     display: inline-block
     padding: 8px 12px
     border-radius: 40px
-    border: var(--border)
+    border: 1px solid #fe6198
     color: var(--text-primary)
     cursor: pointer
     margin-right: 6px
@@ -32,16 +31,16 @@
 
 <script>
 export default {
-    name: 'RichSuggestion',
-    props: {
-        uri: {
-            type: String,
-            default: null
-        },
-        title: {
-            type: String,
-            default: null
-        }
+  name: "RichSuggestion",
+  props: {
+    uri: {
+      type: String,
+      default: null
+    },
+    title: {
+      type: String,
+      default: null
     }
-}
+  }
+};
 </script>

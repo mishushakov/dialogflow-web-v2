@@ -2,11 +2,11 @@
   <div class="chat-field">
     <div class="chat-field-container">
       <!-- Here are the suggestions -->
-      <!-- <transition name="chat-field-suggestions-animation">
+      <transition name="chat-field-suggestions-animation">
         <div v-if="query.length == 0" class="chat-field-suggestions">
           <slot />
         </div>
-      </transition>-->
+      </transition>
       <div class="chat-field-flexible">
         <!-- Text input -->
         <input
