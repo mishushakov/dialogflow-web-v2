@@ -435,7 +435,7 @@ body
     padding: 0
     font-family: var(--font)
     font-display: swap
-    background-image: var(--background-image)
+    background-color: #fedade
     background-repeat: no-repeat
     background-attachment: fixed
 

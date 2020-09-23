@@ -14,7 +14,7 @@
           class="chat-field-input"
           type="text"
           autofocus
-          :placeholder="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
+          placeholder="Mensagem"
           :aria-label="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
           @keypress.enter="submit({text: query})"
           @focus="microphone = false; should_listen = false; $emit('typing')"
@@ -30,7 +30,7 @@
             :aria-label="(translations[lang()] && translations[lang()].sendTitle) || translations[config.fallback_lang].sendTitle"
             @click="submit({text: query})"
           >
-            <i class="material-icons" aria-hidden="true">arrow_upward</i>
+            <i class="material-icons" aria-hidden="true">send</i>
           </button>
 
           <!-- Microphone Button -->
@@ -95,7 +95,7 @@
   padding: 10px 10px
   border-radius: 40px
   background-color: #ffffff
-  color: var(--background)
+  color: #fe6198
   font-size: 24px
   display: flex
 
