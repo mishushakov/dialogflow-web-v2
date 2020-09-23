@@ -1,7 +1,7 @@
 <template>
   <header class="top-head">
     <div class="top-head-container">
-      <img class="top-head-icon" src="../assets/img/DrPresente.png" :alt="agent.displayName" />
+      <img class="top-head-icon" src="../assets/img/DrPresente_v2.png" :alt="agent.displayName" />
       <div class="top-head-info">
         <div class="top-head-title">dr.presente</div>
         <div class="top-head-subtitle">Outubro Rosa - Previna-se</div>

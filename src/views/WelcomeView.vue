@@ -1,7 +1,7 @@
 <template>
   <div class="welcome-view">
     <!-- Agent Icon -->
-    <img class="agent-icon" src="../assets/img/DrPresente.png" :alt="drpresente" />
+    <img class="agent-icon" src="../assets/img/DrPresente_v2.png" :alt="drpresente" />
 
     <!-- Agent Title -->
     <div class="agent-title">Dr. Presente</div>
