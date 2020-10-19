@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: web
+  name: ushaflow-web
 spec:
   entryPoints:
     - http
@@ -10,12 +10,7 @@ spec:
   - match: (HostRegexp(`{subdomain:.+}.web.ushaflow.io`) || HostRegexp(`{subdomain:.+}.web.ushaflow.com`) || HostRegexp(`{subdomain:.+}.ui.dialogflow.cloud.ushakov.co`)) && Method(`GET`)
     kind: Rule
     services:
-    - name: web
-      port: 80
-  - match: HostRegexp(`{subdomain:.+}.web.ushaflow.io`) && Method(`POST`)
-    kind: Rule
-    services:
-    - name: ssr
+    - name: ushaflow-web
       port: 80
   tls:
-    secretName: web-cert
+    secretName: ushaflow-web-cert
