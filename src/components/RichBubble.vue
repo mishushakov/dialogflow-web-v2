@@ -15,6 +15,7 @@
     border-top-left-radius: 0
     word-wrap: break-word
     flex-grow: 0
+    white-space: pre-wrap
 
     &::before
         content: var(--bubble-left)
