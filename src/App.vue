@@ -412,6 +412,7 @@ import RichTableCard from '@/components/RichTableCard.vue'
 import RichSuggesion from '@/components/RichSuggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
+import Bowser from 'bowser'
 
 import { Client } from 'dialogflow-gateway'
 
@@ -441,7 +442,7 @@ export default {
             messages: [],
             language: '',
             session: '',
-            muted: this.config.muted,
+            muted: Bowser.parse(window.navigator.userAgent).browser.name == 'Safari' || this.config.muted,
             loading: false,
             error: null,
             client: new Client(this.config.endpoint),
