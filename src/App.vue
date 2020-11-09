@@ -412,7 +412,6 @@ import RichTableCard from '@/components/RichTableCard.vue'
 import RichSuggesion from '@/components/RichSuggestion.vue'
 
 import * as uuidv1 from 'uuid/v1'
-import Bowser from 'bowser'
 
 import { Client } from 'dialogflow-gateway'
 
@@ -442,7 +441,7 @@ export default {
             messages: [],
             language: '',
             session: '',
-            muted: Bowser.parse(window.navigator.userAgent).browser.name == 'Safari' || this.config.muted,
+            muted: true,
             loading: false,
             error: null,
             client: new Client(this.config.endpoint),
@@ -503,10 +502,14 @@ export default {
         },
         /* If muted, stop playing feedback */
         muted(muted){
+            this.audio.muted = muted
             if (muted) this.stop_feedback()
         }
     },
     created(){
+        /* Mute audio to comply with auto-play policies */
+        this.audio.muted = true
+
         /* If history is enabled, the messages are retrieved from sessionStorage */
         if (this.history() && sessionStorage.getItem('message_history') !== null){
             this.messages = JSON.parse(sessionStorage.getItem('message_history'))
