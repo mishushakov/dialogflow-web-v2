@@ -14,6 +14,7 @@
                     autofocus
                     :placeholder="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
                     :aria-label="(translations[lang()] && translations[lang()].inputTitle) || translations[config.fallback_lang].inputTitle"
+                    :disabled="disabled"
                     @keypress.enter="submit({text: query})"
                     @focus="microphone = false; should_listen = false; $emit('typing')">
 
@@ -25,6 +26,7 @@
                         class="chat-field-action"
                         :title="(translations[lang()] && translations[lang()].sendTitle) || translations[config.fallback_lang].sendTitle"
                         :aria-label="(translations[lang()] && translations[lang()].sendTitle) || translations[config.fallback_lang].sendTitle"
+                        :disabled="disabled"
                         @click="submit({text: query})">
                         <i class="material-icons" aria-hidden="true">arrow_upward</i>
                     </button>
@@ -37,6 +39,7 @@
                         :aria-label="(translations[lang()] && translations[lang()].microphoneTitle) || translations[config.fallback_lang].microphoneTitle"
                         :title="(translations[lang()] && translations[lang()].microphoneTitle) || translations[config.fallback_lang].microphoneTitle"
                         :class="{'mic_active': microphone}"
+                        :disabled="disabled"
                         @click="microphone = !microphone">
                         <i class="material-icons" aria-hidden="true">mic</i>
                     </button>
@@ -86,6 +89,9 @@
     border-radius: 40px 0 0 40px
     background-color: transparent
 
+    &:disabled
+        cursor: not-allowed
+
 .chat-field-action
     @include reset
     padding: 10px 12px
@@ -93,6 +99,9 @@
     color: var(--accent)
     font-size: 24px
     display: flex
+
+    &:disabled
+        cursor: not-allowed
 
     &.mic_active
         color: #F44336
@@ -126,7 +135,8 @@ export default {
             microphone: false,
             recognition: null,
             recorder: null,
-            should_listen: false
+            should_listen: false,
+            disabled: false
         }
     },
     computed: {

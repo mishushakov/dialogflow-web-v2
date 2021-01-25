@@ -335,6 +335,9 @@
                             </RichCarousel>
                         </RichComponent>
                     </section>
+
+                    <!-- Status Message -->
+                    <RichComponent><RichBubble v-if="message.queryResult.diagnosticInfo && message.queryResult.diagnosticInfo.end_conversation" :text="(translations[lang()] && translations[lang()].conversationEnd) || translations[config.fallback_lang].conversationEnd" /></RichComponent>
                 </div>
                 <div v-if="loading" id="message">
                     <!-- My message (Loading) -->
@@ -560,6 +563,8 @@ export default {
 
             /* Audio request */
             else if (submission.audio){
+                this.muted = false
+
                 request = {
                     session: this.session,
                     queryInput: {
@@ -589,6 +594,12 @@ export default {
             .then(() => this.loading = false)
         },
         handle(response){
+            /* Handle dialog end */
+            if (response.queryResult.diagnosticInfo && response.queryResult.diagnosticInfo.end_conversation){
+                this.$refs.input.disabled = true
+                this.$refs.input.microphone = false
+            }
+            
             /* Speech output */
             if (response.outputAudio){
                 /* Detect MIME type (or fallback to default) */
