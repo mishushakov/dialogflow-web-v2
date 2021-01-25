@@ -8,7 +8,8 @@
         "recognitionUnavailable": "Speech recognition is not available",
         "poweredBy": "Built with",
         "selectLanguageTitle": "Language",
-        "noContent": "No content"
+        "noContent": "No content",
+        "conversationEnd": "Conversation ended"
     },
     "ru": {
         "muteTitle": "Звук",
@@ -18,7 +19,8 @@
         "microphoneTitle": "Голосовой ввод",
         "poweredBy": "Работает на",
         "selectLanguageTitle": "Язык",
-        "noContent": "Без содержания"
+        "noContent": "Без содержания",
+        "conversationEnd": "Диалог окончен"
     },
     "de": {
         "muteTitle": "Stumm",
@@ -28,7 +30,8 @@
         "microphoneTitle": "Spracheingabe",
         "poweredBy": "Unterstützt von",
         "selectLanguageTitle": "Sprache",
-        "noContent": "Kein Inhalt"
+        "noContent": "Kein Inhalt",
+        "conversationEnd": "Gespräch beendet"
     },
     "fr": {
         "muteTitle": "Son",
@@ -38,6 +41,7 @@
         "microphoneTitle": "Entrée vocale",
         "poweredBy": "Alimenté par",
         "selectLanguageTitle": "Langue",
-        "noContent": "Pas de contenu"
+        "noContent": "Pas de contenu",
+        "conversationEnd": "Conversation terminée"
     }
 }

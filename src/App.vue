@@ -335,6 +335,9 @@
                             </RichCarousel>
                         </RichComponent>
                     </section>
+
+                    <!-- Status Message -->
+                    <RichComponent><RichBubble v-if="message.queryResult.diagnosticInfo && message.queryResult.diagnosticInfo.end_conversation" :text="(translations[lang()] && translations[lang()].conversationEnd) || translations[config.fallback_lang].conversationEnd" /></RichComponent>
                 </div>
                 <div v-if="loading" id="message">
                     <!-- My message (Loading) -->
@@ -442,7 +445,7 @@ export default {
             messages: [],
             language: '',
             session: '',
-            muted: this.config.muted,
+            muted: true,
             loading: false,
             error: null,
             client: new Client(this.config.endpoint),
@@ -506,10 +509,14 @@ export default {
         },
         /* If muted, stop playing feedback */
         muted(muted){
+            this.audio.muted = muted
             if (muted) this.stop_feedback()
         }
     },
     created(){
+        /* Mute audio to comply with auto-play policies */
+        this.audio.muted = true
+
         /* If history is enabled, the messages are retrieved from sessionStorage */
         if (this.history() && sessionStorage.getItem('message_history') !== null){
             this.messages = JSON.parse(sessionStorage.getItem('message_history'))
@@ -560,6 +567,8 @@ export default {
 
             /* Audio request */
             else if (submission.audio){
+                this.muted = false
+
                 request = {
                     session: this.session,
                     queryInput: {
@@ -589,6 +598,12 @@ export default {
             .then(() => this.loading = false)
         },
         handle(response){
+            /* Handle dialog end */
+            if (response.queryResult.diagnosticInfo && response.queryResult.diagnosticInfo.end_conversation){
+                this.$refs.input.disabled = true
+                this.$refs.input.microphone = false
+            }
+            
             /* Speech output */
             if (response.outputAudio){
                 /* Detect MIME type (or fallback to default) */
