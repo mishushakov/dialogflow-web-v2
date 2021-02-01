@@ -510,9 +510,6 @@ export default {
         }
     },
     created(){
-        /* Mute audio to comply with auto-play policies */
-        this.audio.muted = true
-
         /* If history is enabled, the messages are retrieved from sessionStorage */
         if (this.history() && sessionStorage.getItem('message_history') !== null){
             this.messages = JSON.parse(sessionStorage.getItem('message_history'))
@@ -598,8 +595,9 @@ export default {
             if (response.queryResult.diagnosticInfo && response.queryResult.diagnosticInfo.end_conversation){
                 this.$refs.input.disabled = true
                 this.$refs.input.microphone = false
+                this.$refs.input.should_listen = false
             }
-            
+
             /* Speech output */
             if (response.outputAudio){
                 /* Detect MIME type (or fallback to default) */
