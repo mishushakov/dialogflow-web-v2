@@ -1,22 +1,18 @@
-name: Build docker image
-on:
-  push:
-    branches:
-      - hosted
+name: Docker publish
+on: push
+env:
+  CONTAINER_IMAGE: ghcr.io/${{github.repository}}:${{github.sha}}
+  CONTAINER_IMAGE_LATEST: ghcr.io/${{github.repository}}:latest
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Setup env
-      run: |
-        echo "::set-env name=CONTAINER_IMAGE::docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${GITHUB_REPOSITORY##*/}:${{github.sha}}"
-        echo "::set-env name=CONTAINER_IMAGE_LATEST::docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${GITHUB_REPOSITORY##*/}:latest"
-    - name: Docker build
-      run: |
-        docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
-        docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
-    - name: Docker push
-      run: |
-        docker push $CONTAINER_IMAGE
-        docker push $CONTAINER_IMAGE_LATEST
+  publish:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@master
+      - name: Build
+        run: docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
+      - name: Login
+        run: docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} ghcr.io
+      - name: Publish
+        run: |
+          docker push $CONTAINER_IMAGE
+          docker push $CONTAINER_IMAGE_LATEST

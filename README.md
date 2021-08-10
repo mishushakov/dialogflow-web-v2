@@ -6,6 +6,8 @@
 
 This is a unofficial Web Integration for the Dialogflow V2
 
+> **Notice**: August 2021, i upgraded the web app to Vue 3, fixed security vulnerabilities and updated dependencies. The software comes for free, but my time is not. Consider supporting me on [PayPal](https://paypal.me/ushakovhq) or through a commercial agreement
+
 ## Features
 
 - Progressive Web App (100/100 Lighthouse score)
@@ -17,9 +19,9 @@ This is a unofficial Web Integration for the Dialogflow V2
 - Language independent
 - [Docker](./Dockerfile) and [Kubernetes](./k8s) support
 - Rich-component, Webhook and Actions on Google Support ([demo](https://mishushakov.github.io/dialogflow-web-v2/))
-- Floating Widget for embedding on websites ([repo and demo](https://github.com/mishushakov/df-btn))
-- Based on Vue, Webpack, Babel and PostCSS
-- Lightweight (build is <50KB gzipped)
+- Floating Widget for embedding on websites ([repo and demo](https://github.com/mishushakov/floating-chat))
+- Based on Vue **3**, Webpack, Babel and PostCSS
+- Lightweight (build is ~50KB gzipped)
 - Free and fully Documented
 - Made in Germany
 - Recommended by [Dialogflow](https://twitter.com/Dialogflow/status/923976390201847809) and [MadeWithVueJS](https://twitter.com/MadeWithVueJS/status/1130147606666063875)
@@ -134,15 +136,11 @@ Using yarn
 
 Run `git pull origin master` to integrate changes
 
-Additionally, keep packages up-to-date
+Additionally, keep vue packages up-to-date
 
-Using npm
-
-`npm i -g npm-check-updates && ncu -u && npm i`
-
-Using yarn
-
-`yarn upgrade`
+```
+vue upgrade
+```
 
 ## Frequently Asked Questions
 

@@ -1,47 +1,47 @@
 {
-    "en": {
-        "muteTitle": "Mute",
-        "unMuteTitle": "Unmute",
-        "inputTitle": "Message",
-        "sendTitle": "Send",
-        "microphoneTitle": "Voice Input",
-        "recognitionUnavailable": "Speech recognition is not available",
-        "poweredBy": "Built with",
-        "selectLanguageTitle": "Language",
-        "noContent": "No content",
-        "conversationEnd": "Conversation ended"
-    },
-    "ru": {
-        "muteTitle": "Звук",
-        "unMuteTitle": "Без звука",
-        "inputTitle": "Сообщение",
-        "sendTitle": "Отправить",
-        "microphoneTitle": "Голосовой ввод",
-        "poweredBy": "Работает на",
-        "selectLanguageTitle": "Язык",
-        "noContent": "Без содержания",
-        "conversationEnd": "Диалог окончен"
-    },
-    "de": {
-        "muteTitle": "Stumm",
-        "unMuteTitle": "Nicht stumm",
-        "inputTitle": "Nachricht",
-        "sendTitle": "Senden",
-        "microphoneTitle": "Spracheingabe",
-        "poweredBy": "Unterstützt von",
-        "selectLanguageTitle": "Sprache",
-        "noContent": "Kein Inhalt",
-        "conversationEnd": "Gespräch beendet"
-    },
-    "fr": {
-        "muteTitle": "Son",
-        "unMuteTitle": "Silent",
-        "inputTitle": "Message",
-        "sendTitle": "Envoyer",
-        "microphoneTitle": "Entrée vocale",
-        "poweredBy": "Alimenté par",
-        "selectLanguageTitle": "Langue",
-        "noContent": "Pas de contenu",
-        "conversationEnd": "Conversation terminée"
-    }
+  "en": {
+    "muteTitle": "Mute",
+    "unMuteTitle": "Unmute",
+    "inputTitle": "Message",
+    "sendTitle": "Send",
+    "microphoneTitle": "Voice Input",
+    "recognitionUnavailable": "Speech recognition is not available",
+    "poweredBy": "Built with",
+    "selectLanguageTitle": "Language",
+    "noContent": "No content",
+    "conversationEnd": "Conversation ended"
+  },
+  "ru": {
+    "muteTitle": "Звук",
+    "unMuteTitle": "Без звука",
+    "inputTitle": "Сообщение",
+    "sendTitle": "Отправить",
+    "microphoneTitle": "Голосовой ввод",
+    "poweredBy": "Работает на",
+    "selectLanguageTitle": "Язык",
+    "noContent": "Без содержания",
+    "conversationEnd": "Диалог окончен"
+  },
+  "de": {
+    "muteTitle": "Stumm",
+    "unMuteTitle": "Nicht stumm",
+    "inputTitle": "Nachricht",
+    "sendTitle": "Senden",
+    "microphoneTitle": "Spracheingabe",
+    "poweredBy": "Unterstützt von",
+    "selectLanguageTitle": "Sprache",
+    "noContent": "Kein Inhalt",
+    "conversationEnd": "Gespräch beendet"
+  },
+  "fr": {
+    "muteTitle": "Son",
+    "unMuteTitle": "Silent",
+    "inputTitle": "Message",
+    "sendTitle": "Envoyer",
+    "microphoneTitle": "Entrée vocale",
+    "poweredBy": "Alimenté par",
+    "selectLanguageTitle": "Langue",
+    "noContent": "Pas de contenu",
+    "conversationEnd": "Conversation terminée"
+  }
 }
