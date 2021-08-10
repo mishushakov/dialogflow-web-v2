@@ -8,24 +8,28 @@
   },
   "dependencies": {
     "audio-recorder-polyfill": "^0.4.1",
-    "core-js": "^3.8.3",
+    "core-js": "^3.16.1",
     "dialogflow-gateway": "0.1.0",
     "hark": "^1.2.3",
     "langs": "^2.0.0",
     "register-service-worker": "^1.7.2",
-    "vue": "^2.6.12"
+    "vue": "^3.1.0"
   },
   "devDependencies": {
-    "@mishushakov/eslint-config": "^1.0.7",
-    "@vue/cli-plugin-babel": "^4.5.11",
-    "@vue/cli-plugin-eslint": "^4.5.11",
-    "@vue/cli-plugin-pwa": "^4.5.11",
-    "@vue/cli-service": "^4.5.11",
+    "@vue/cli-plugin-babel": "^4.5.13",
+    "@vue/cli-plugin-eslint": "^4.5.13",
+    "@vue/cli-plugin-pwa": "^4.5.13",
+    "@vue/cli-service": "^4.5.13",
+    "@vue/compiler-sfc": "^3.1.5",
+    "@vue/eslint-config-standard": "^6.1.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.18.0",
-    "eslint-plugin-vue": "^7.5.0",
-    "sass": "^1.32.5",
-    "sass-loader": "^10.1.1",
-    "vue-template-compiler": "^2.6.12"
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "eslint-plugin-vue": "^7.15.1",
+    "sass": "^1.37.5",
+    "sass-loader": "^10.1.1"
   }
 }
