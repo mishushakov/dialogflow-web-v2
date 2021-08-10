@@ -147,6 +147,6 @@ vue upgrade
 - Q: I don't see any changes
 - A: Make sure you **cleaned the cache** and **rebuilt the app**. In Safari go to "Develop" > "Empty Caches". In Chrome: "Developer Tools" > "Application" > "Clear storage" > "Clear site data"
 
-## Inqueries
+## Inquiries
 
 [Contact the developer](https://mish.co/contact) or [open a issue](https://github.com/mishushakov/dialogflow-web-v2/issues/new)
